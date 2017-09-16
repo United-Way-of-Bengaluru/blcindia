@@ -21,12 +21,12 @@ class SchoolsData(viewsets.ModelViewSet):
     serializer_class = schoolSerializer
 
 
-# @api_view(['GET'])
-# @permission_classes((permissions.AllowAny,))
-# class SchoolsByCode(viewsets.ModelViewSet):
-#     def list(self, request, *args, **kwargs):
-#         print '-----------------------------------------'
-#         print self.kwargs['code']
-#         data = school.objects.filter(school_code=self.kwargs['code'])
-#         print data.query
-#         serializer_class = schoolSerializer
+@api_view(['GET'])
+@permission_classes((permissions.AllowAny,))
+class SchoolsByCode(viewsets.ModelViewSet):
+    def list(self, request, *args, **kwargs):
+        print '-----------------------------------------'
+        print self.kwargs['code']
+        data = school.objects.filter(school_code=self.kwargs['code'])
+        print data.query
+        serializer_class = schoolSerializer
