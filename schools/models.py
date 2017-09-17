@@ -2,7 +2,7 @@
 from __future__ import unicode_literals
 
 from django.contrib.gis.db import models
-from choices import ( YESNO, AREA, SCHOOL_CATEGORY, SCHOOL_MANAGEMENT , SCHOOL_TYPES, MEDIUM, MDM_STATUS, KITCHENSHED_STATUS,
+from choices import ( YESNO, AREA, SCHOOL_CATEGORY, SCHOOL_MANAGEMENT , SCHOOL_TYPES,DISTRICT_STATUS, MEDIUM, MDM_STATUS, KITCHENSHED_STATUS,
     BOUNDARY_WALL, BUILDING_STATUS, DRINKING_WATER, PAINT_TYPE_CHOICES, YESNO_TYPE_CHOICES, condition_TYPE_CHOICES)
 
 
@@ -26,10 +26,18 @@ class AcademicYear(models.Model):
         return "%s-%s" % (self.from_year, self.to_year)
 
 
+class District(models.Model):
+    name = models.CharField(max_length=100)
+    dise_slug = models.CharField(max_length=100, blank=True, null=True)
+    type = models.CharField(max_length=100, blank=True, null=True)
+    school_type = models.CharField(max_length=100, blank=True, null=True)
+    status= models.IntegerField(choices=DISTRICT_STATUS, default=2)
+
+
 class Boundary(models.Model):
     block = models.CharField(max_length=100)
-    district = models.CharField(max_length=100)
-
+    # district = models.CharField(max_length=100)
+    district = models.ForeignKey(District)
 
 class Address(models.Model):
     boundary_id = models.ForeignKey(Boundary, null=True)
@@ -57,7 +65,7 @@ class Address(models.Model):
         verbose_name_plural = 'Addresses'
 
 class school(models.Model):
-    school_name = models.CharField(max_length=200, blank=True)
+    name = models.CharField(max_length=200, blank=True)
     school_code = models.BigIntegerField(primary_key=True)
     address_id = models.OneToOneField('Address', blank=True, null=True)
     rural_urban = models.IntegerField(choices=AREA, null=True, blank=True)
@@ -178,4 +186,17 @@ class school(models.Model):
 
 
     #objects = models.GeoManager()
+
+    #To Do  - Will have to update this in model itself
+    @property
+    def num_boys(self):
+        return self.total_boys
+
+    @property
+    def num_girls(self):
+        return self.total_girls
+
+
+
+
 

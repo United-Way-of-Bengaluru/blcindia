@@ -1,8 +1,9 @@
 from django.conf.urls import url
 
-from schools.views import SchoolsData,SchoolsByCode
+from schools.views import SchoolsData
 
 urlpatterns = [
     url(r'^$', SchoolsData.as_view({'get': 'list'}), name='schoolData'),
-    #url(r'^code/(?P<code>[A-Za-z0-9]+)$', SchoolsByCode.as_view({'get': 'list'}), name='SchoolsByCode'),
+    # url(r'^code/(?P<pk>[A-Za-z0-9]+)$', SchoolsData.as_view({'get': 'retrieve'}), name='SchoolsByCode'),
+    url(r'^school/(?P<school_id>[A-Za-z0-9]+)$', SchoolsData.as_view({'get': 'retrieve'}), name='SchoolsByCode'),
     ]

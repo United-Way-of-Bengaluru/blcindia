@@ -19,10 +19,11 @@ from views import StaticPageView
 from django.views.generic.base import RedirectView
 from schools.views import AdvancedMapView
 
-
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^schools-api/', include('schools.urls')),
+
+    # url(r'^schools-api/', include('schools.urls')),
+    url(r'^api/v1/schools/', include('schools.urls')),
     # home page
     url(r'^$', StaticPageView.as_view(
         template_name='home.html',
