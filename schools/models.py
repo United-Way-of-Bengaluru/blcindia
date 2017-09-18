@@ -34,6 +34,7 @@ class District(models.Model):
     status= models.IntegerField(choices=DISTRICT_STATUS, default=2)
 
 
+
 class Boundary(models.Model):
     block = models.CharField(max_length=100)
     # district = models.CharField(max_length=100)
@@ -58,7 +59,7 @@ class Address(models.Model):
         ]))
 
     @property
-    def identifires(self):
+    def identifiers(self):
         return self.get_identifiers()
 
     class Meta:
