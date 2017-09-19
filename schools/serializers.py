@@ -15,6 +15,91 @@ class DistrictSerializer(serializers.ModelSerializer):
         model = District
         fields = '__all__'
 
+class SchoolSerializerAll(serializers.ModelSerializer):
+    address_full = serializers.SerializerMethodField()
+    geometry = serializers.SerializerMethodField()
+    boundary = serializers.SerializerMethodField()
+
+
+    def get_address_full(self, obj):
+        if obj.address_id:
+            return obj.address_id.full
+        else:
+            return {}
+
+    def get_geometry(self, obj):
+        if obj.address_id:
+            dict ={
+                "type": "Point",
+                "coordinates":str(obj.address_id.location)
+            }
+            return dict
+        else:
+            return {}
+
+    def get_boundary(self, obj):
+        if obj.address_id.boundary_id:
+            dict = {
+                'id':obj.address_id.boundary_id.district.id,
+                'name':obj.address_id.boundary_id.district.name,
+                'dise_slug':'null',
+                'type':'district',
+                'school_type': obj.address_id.boundary_id.district.school_type,
+                'status':obj.address_id.boundary_id.district.status
+            }
+            return dict
+            # dist =  obj.address_id.boundary_id.district
+            # district = DistrictSerializer.augment_field(dist)
+            # return district
+        else:
+            return {}
+
+    """
+        {
+        "type": "FeatureCollection",
+        "features": [
+        {
+            "geometry":
+            {
+                "type": "Point",
+                "coordinates": [77.56978, 12.98622]
+            },
+            "type": "Feature",
+            "properties":
+            {
+                "id": 29551,
+                "name": "HANUMANTHAPURA 1",
+                "boundary":
+                {
+                    "id": 8816,
+                    "name": "palace guttalli circle",
+                    "dise_slug": null,
+                    "type": "circle",
+                    "school_type": "preschool",
+                    "status": 2
+                },
+                # "admin1": "bangalore",
+                # "admin2": "bangalore state",
+                # "admin3": "palace guttalli circle",
+                "address_full": "1st Main Road, Vivekananda Colony, Hanumanthapura, Sriramapuram, Bangalore, Hanumanthapura, 560021",
+                "dise_info": "AN0037",
+                "type":
+                {
+                    "id": 2,
+                    "name": "PreSchool"
+                },
+                "meeting_reports": []
+            }
+        },
+        ]
+    """
+
+
+    class Meta:
+        model = school
+        fields = ('school_code','name','address_full','geometry','boundary')
+
+
 class SchoolSerializer(serializers.ModelSerializer):
     address_full = serializers.SerializerMethodField()
     landmark = serializers.SerializerMethodField()
@@ -45,15 +130,12 @@ class SchoolSerializer(serializers.ModelSerializer):
                 'school_type': obj.address_id.boundary_id.district.school_type,
                 'status':obj.address_id.boundary_id.district.status
             }
-
             return dict
             # dist =  obj.address_id.boundary_id.district
             # district = DistrictSerializer.augment_field(dist)
             # return district
         else:
             return {}
-
-
 
     """
         "id": 29569,

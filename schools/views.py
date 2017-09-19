@@ -9,7 +9,7 @@ from rest_framework.response import Response
 
 from blcindia.views import StaticPageView
 from schools.models import school
-from schools.serializers import SchoolSerializer
+from schools.serializers import SchoolSerializer, SchoolSerializerAll
 
 
 class AdvancedMapView(StaticPageView):
@@ -27,8 +27,14 @@ class SchoolsData(viewsets.ModelViewSet):
 
     def list(self, request):
         queryset = school.objects.all()
-        serializer = SchoolSerializer(queryset, many=True)
-        return Response(serializer.data)
+        serializer = SchoolSerializerAll(queryset, many=True)
+        dict ={
+            "type": "FeatureCollection",
+            "features": [
+                serializer.data
+            ]
+        }
+        return Response(dict)
 
     def retrieve(self, request, school_id=None):
         print 'retrieve fnctino called'
