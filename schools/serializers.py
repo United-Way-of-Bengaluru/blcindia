@@ -105,14 +105,11 @@ class SchoolSerializer(serializers.ModelSerializer):
     landmark = serializers.SerializerMethodField()
     district = serializers.SerializerMethodField()
 
-
     def get_address_full(self, obj):
         if obj.address_id:
             return obj.address_id.full
         else:
             return {}
-
-
 
     def get_landmark(self, obj):
         if obj.address_id:
@@ -169,3 +166,75 @@ class SchoolSerializer(serializers.ModelSerializer):
     class Meta:
         model = school
         fields = ('school_code','name','address_full','landmark','district','num_boys','num_girls')
+
+class SchoolSerializerDemographics(serializers.ModelSerializer):
+    """
+       response Data:
+       {
+            "id": 29569,
+            "name": "RAJAMIL HUTS",
+            # "sex": "co-ed",
+            # "moi": "kannada",
+            # "mgmt": "ed",
+            # "num_boys_dise": null,
+            # "num_girls_dise": null,
+            "num_boys": "23",
+            "num_girls": "15",
+            # "mt_profile":
+            # {
+            #     "tamil": 10,
+            #     "kannada": 28
+            # },
+            # "acyear": null
+        }
+    """
+
+
+    class Meta:
+        model = school
+        fields = ('school_code','name','num_boys','num_girls')
+
+class SchoolSerializerInfrastructure(serializers.ModelSerializer):
+    """
+       response Data:
+       {
+            "Toilet Facilities":
+            {
+                "Has Usable Toilets": false,
+                "Has Toilets": false,
+                "Has Shelters for Toilets": false
+            },
+            "Community Involvement":
+            {
+                "Has Functional Bal Vikas Samithis": false
+            },
+            "Basic Infrastructure":
+            {
+                "Has Spacious Classrooms and Play Isas": false,
+                "Has Walls Intact": true,
+                "Has Flooring Intact": true,
+                "Has Waste Baskets": false,
+                "Has Roofs Intact": true,
+                "Has Water Supply": false,
+                "Is in a Designated Building by DWCD": false
+            },
+            "Learning Environment":
+            {
+                "Uses Akshara Foundation Teaching Kits": false,
+                "Maintains Progress Records for Children": true,
+                "Has Blackboards for Teaching": true
+            },
+            "Nutrition and Hygiene":
+            {
+                "Has Drinking Water Facilities": false,
+                "Has Clean and Timely Meals": false,
+                "Has Handwash Facilities": false
+            }
+        }
+    """
+
+
+    class Meta:
+        model = school
+        # fields = ('school_code','name','num_boys','num_girls','toilet_available','toilet_functioning','shelter_in_toilets','need_walls_repair')
+        fields = '__all__'

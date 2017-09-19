@@ -9,7 +9,8 @@ from rest_framework.response import Response
 
 from blcindia.views import StaticPageView
 from schools.models import school
-from schools.serializers import SchoolSerializer, SchoolSerializerAll
+from schools.serializers import SchoolSerializer, SchoolSerializerAll, SchoolSerializerDemographics, \
+    SchoolSerializerInfrastructure
 
 
 class AdvancedMapView(StaticPageView):
@@ -39,6 +40,80 @@ class SchoolsData(viewsets.ModelViewSet):
     def retrieve(self, request, school_id=None):
         print 'retrieve fnctino called'
         queryset = school.objects.all()
-        user = get_object_or_404(queryset, pk=school_id)
-        serializer = SchoolSerializer(user)
+        schoolId = get_object_or_404(queryset, pk=school_id)
+        serializer = SchoolSerializer(schoolId)
         return Response(serializer.data)
+
+class SchoolsDataDemographics(viewsets.ModelViewSet):
+    queryset = school.objects.all()
+    def retrieve(self, request, school_id=None):
+        queryset = school.objects.all()
+        schoolId = get_object_or_404(queryset, pk=school_id)
+        serializer = SchoolSerializerDemographics(schoolId)
+        dict = {
+            "sex": "co-ed",
+            "moi": "kannada",
+            "mgmt": "ed",
+            "num_boys_dise": serializer.data['num_boys'],
+            "num_girls_dise": serializer.data['num_girls'],
+            "num_boys": serializer.data['num_boys'],
+            "num_girls": serializer.data['num_girls'],
+            "mt_profile":
+                {"tamil": 10, "kannada": 28},
+            "acyear": 'null',
+            "id":serializer.data['school_code'],
+            "name":serializer.data['name'],
+            }
+        return Response(dict)
+
+
+class SchoolsDataInfrastructure(viewsets.ModelViewSet):
+    queryset = school.objects.all()
+
+    def retrieve(self, request, school_id=None):
+        queryset = school.objects.all()
+        schoolId = get_object_or_404(queryset, pk=school_id)
+        serializer = SchoolSerializerInfrastructure(schoolId)
+        response = serializer.data
+        dict = {
+            "id": response['school_code'],
+            "name": response['name'],
+            "num_boys": response['total_boys'],
+            "num_girls": response['total_girls'],
+            "facilities":{
+                "Toilet Facilities":
+                    {
+                        "has_toilets": response['toilet_available'],
+                        "has_usable_toilets": response['toilet_functioning'],
+                        "has_shelters_for_toilets": response['shelter_in_toilets']
+                    },
+                "Community Involvement":
+                    {
+                        "Has Functional Bal Vikas Samithis": 0
+                    },
+                "Basic Infrastructure":
+                    {
+                        "has_spacious_classrooms and Play Isas": 0,
+                        "has_walls_intact": response['need_walls_repair'],
+                        "has_flooring_intact": response['need_flooring_in_building'],
+                        "has_waste_baskets": response['dustbin_available'],
+                        "has_roofs_intact": 1,
+
+                    },
+                "Learning Environment":
+                    {
+                        "Uses Akshara Foundation Teaching Kits": 1,
+                        "Maintains Progress Records for Children": 0,
+                        "Has Blackboards for Teaching": 1
+                    },
+                "Nutrition and Hygiene":
+                    {
+                        "has_drinking_water_facilities": response['drinking_water'],
+                        "has_clean_and_timely_meals": 0,
+                        "has_handwash_facilities": 0
+                    }
+            }
+
+            }
+        return Response(dict)
+

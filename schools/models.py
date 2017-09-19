@@ -22,6 +22,7 @@ class AcademicYear(models.Model):
     name = models.CharField(max_length=20, blank=True)
     to_year = models.IntegerField(null=True, blank=True)
     from_year = models.IntegerField(null=True, blank=True)
+
     def __unicode__(self):
         return "%s-%s" % (self.from_year, self.to_year)
 
@@ -33,12 +34,18 @@ class District(models.Model):
     school_type = models.CharField(max_length=100, blank=True, null=True)
     status= models.IntegerField(choices=DISTRICT_STATUS, default=2)
 
+    def __unicode__(self):
+        return str(self.name)
 
 
 class Boundary(models.Model):
     block = models.CharField(max_length=100)
     # district = models.CharField(max_length=100)
     district = models.ForeignKey(District)
+
+    def __unicode__(self):
+        return str(self.block)
+
 
 class Address(models.Model):
     boundary_id = models.ForeignKey(Boundary, null=True)
@@ -64,6 +71,7 @@ class Address(models.Model):
 
     class Meta:
         verbose_name_plural = 'Addresses'
+
 
 class school(models.Model):
     name = models.CharField(max_length=200, blank=True)
@@ -146,6 +154,7 @@ class school(models.Model):
     water_taps_in_kitchen  = models.IntegerField(choices=YESNO, null=True, blank=True)
     no_of_water_taps_in_kitchen = models.IntegerField(null=True, blank=True)
     water_taps_in_kitchen_required = models.IntegerField(null=True, blank=True)
+    shelter_in_toilets = models.IntegerField(choices=YESNO, null=True, blank=True)
     water_taps_in_toilets = models.IntegerField(choices=YESNO, null=True, blank=True)
     no_of_water_taps_in_toilets = models.IntegerField(null=True, blank=True)
     water_taps_in_kitchen_toilets = models.IntegerField(null=True, blank=True)
@@ -182,9 +191,8 @@ class school(models.Model):
     bal_vikas_samiti_formed =  models.IntegerField(choices=YESNO_TYPE_CHOICES, null=True, blank=True)
     bal_vikas_samiti_feedback =  models.CharField(max_length=200, blank=True)
     meetings_documented = models.IntegerField(choices=YESNO_TYPE_CHOICES, null=True, blank=True)
-    arrangements_for_the_children_with_specialneeds_feedback  = models.CharField(max_length=200, blank=True)
-    arrangements_for_the_children_with_specialneeds_requirements  = models.CharField(max_length=200, blank=True)
-
+    arrangements_for_the_children_with_specialneeds_feedback = models.CharField(max_length=200, blank=True)
+    arrangements_for_the_children_with_specialneeds_requirements = models.CharField(max_length=200, blank=True)
 
     #objects = models.GeoManager()
 
