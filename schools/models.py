@@ -55,7 +55,8 @@ class Address(models.Model):
     landmark = models.CharField(max_length=1000, blank=True)
     location = models.PointField(null=True, blank=True)
     instidentification = models.CharField(max_length=1000, blank=True)
-
+    objects = models.GeoManager()
+    
     def __unicode__(self):
         return self.full
 
@@ -70,6 +71,7 @@ class Address(models.Model):
         return self.get_identifiers()
 
     class Meta:
+        #abstract = True
         verbose_name_plural = 'Addresses'
 
 
