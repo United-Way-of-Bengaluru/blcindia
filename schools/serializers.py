@@ -18,7 +18,9 @@ class DistrictSerializer(serializers.ModelSerializer):
 class SchoolSerializerAll(serializers.ModelSerializer):
     address_full = serializers.SerializerMethodField()
     geometry = serializers.SerializerMethodField()
+    properties = serializers.SerializerMethodField()
     boundary = serializers.SerializerMethodField()
+    type = serializers.SerializerMethodField()
 
 
     def get_address_full(self, obj):
@@ -53,6 +55,17 @@ class SchoolSerializerAll(serializers.ModelSerializer):
             # return district
         else:
             return {}
+
+    def get_type(self, obj):
+        return "Feature"
+
+    def get_properties(self, obj):
+        dict = {
+            "name": obj.name,
+            "school_type": "preschool",
+            "type":"district"
+        }
+        return dict
 
     """
         {
@@ -97,7 +110,7 @@ class SchoolSerializerAll(serializers.ModelSerializer):
 
     class Meta:
         model = school
-        fields = ('school_code','name','address_full','geometry','boundary')
+        fields = ('school_code','name','address_full', 'properties', 'type', 'geometry','boundary')
 
 
 class SchoolSerializer(serializers.ModelSerializer):

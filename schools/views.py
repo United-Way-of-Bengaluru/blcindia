@@ -31,9 +31,7 @@ class SchoolsData(viewsets.ModelViewSet):
         serializer = SchoolSerializerAll(queryset, many=True)
         dict ={
             "type": "FeatureCollection",
-            "features": [
-                serializer.data
-            ]
+            "features": serializer.data
         }
         return Response(dict)
 
