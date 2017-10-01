@@ -53,7 +53,7 @@ class Address(models.Model):
     area = models.CharField(max_length=1000, blank=True)
     pincode = models.CharField(max_length=20, blank=True)
     landmark = models.CharField(max_length=1000, blank=True)
-    location = models.PointField(null=True, blank=True)
+    location = models.PointField(srid=4326)
     instidentification = models.CharField(max_length=1000, blank=True)
     objects = models.GeoManager()
     

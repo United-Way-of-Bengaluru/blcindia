@@ -23,7 +23,7 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
 
     # url(r'^schools-api/', include('schools.urls')),
-    url(r'^api/v1/schools/', include('schools.urls')),
+    url(r'^api/v1/', include('schools.urls')),
     # home page
     url(r'^$', StaticPageView.as_view(
         template_name='home.html',

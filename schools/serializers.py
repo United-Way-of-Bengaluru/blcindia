@@ -31,7 +31,7 @@ class SchoolSerializerAll(serializers.ModelSerializer):
         if obj.address_id:
             dict ={
                 "type": "Point",
-                "coordinates":str(obj.address_id.location)
+                "coordinates": [obj.address_id.location.x, obj.address_id.location.y]
             }
             return dict
         else:
