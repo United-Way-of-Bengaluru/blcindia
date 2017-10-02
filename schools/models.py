@@ -2,7 +2,7 @@
 from __future__ import unicode_literals
 
 from django.contrib.gis.db import models
-from choices import ( YESNO, AREA, SCHOOL_CATEGORY, SCHOOL_MANAGEMENT , SCHOOL_TYPES, MEDIUM, MDM_STATUS, KITCHENSHED_STATUS,
+from choices import ( YESNO, AREA, SCHOOL_CATEGORY, SCHOOL_MANAGEMENT , SCHOOL_TYPES,DISTRICT_STATUS, MEDIUM, MDM_STATUS, KITCHENSHED_STATUS,
     BOUNDARY_WALL, BUILDING_STATUS, DRINKING_WATER, PAINT_TYPE_CHOICES, YESNO_TYPE_CHOICES, condition_TYPE_CHOICES)
 
 
@@ -22,13 +22,29 @@ class AcademicYear(models.Model):
     name = models.CharField(max_length=20, blank=True)
     to_year = models.IntegerField(null=True, blank=True)
     from_year = models.IntegerField(null=True, blank=True)
+
     def __unicode__(self):
         return "%s-%s" % (self.from_year, self.to_year)
 
 
+class District(models.Model):
+    name = models.CharField(max_length=100)
+    dise_slug = models.CharField(max_length=100, blank=True, null=True)
+    type = models.CharField(max_length=100, blank=True, null=True)
+    school_type = models.CharField(max_length=100, blank=True, null=True)
+    status= models.IntegerField(choices=DISTRICT_STATUS, default=2)
+
+    def __unicode__(self):
+        return str(self.name)
+
+
 class Boundary(models.Model):
     block = models.CharField(max_length=100)
-    district = models.CharField(max_length=100)
+    # district = models.CharField(max_length=100)
+    district = models.ForeignKey(District)
+
+    def __unicode__(self):
+        return str(self.block)
 
 
 class Address(models.Model):
@@ -37,9 +53,10 @@ class Address(models.Model):
     area = models.CharField(max_length=1000, blank=True)
     pincode = models.CharField(max_length=20, blank=True)
     landmark = models.CharField(max_length=1000, blank=True)
-    location = models.PointField(null=True, blank=True)
+    location = models.PointField(srid=4326)
     instidentification = models.CharField(max_length=1000, blank=True)
-
+    objects = models.GeoManager()
+    
     def __unicode__(self):
         return self.full
 
@@ -50,16 +67,26 @@ class Address(models.Model):
         ]))
 
     @property
-    def identifires(self):
+    def identifiers(self):
         return self.get_identifiers()
 
     class Meta:
+        #abstract = True
         verbose_name_plural = 'Addresses'
 
+class type(models.Model):
+    """docstring for type"""
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=50, blank=True)
+   
+        
+
+
 class school(models.Model):
-    school_name = models.CharField(max_length=200, blank=True)
-    school_code = models.BigIntegerField(primary_key=True)
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=200, blank=True)
     address_id = models.OneToOneField('Address', blank=True, null=True)
+    type = models.ForeignKey('type', blank=True, null=True)
     rural_urban = models.IntegerField(choices=AREA, null=True, blank=True)
     building_status = models.IntegerField(choices=BUILDING_STATUS, null=True, blank=True)
     worker_name = models.CharField(max_length=50, blank=True)
@@ -137,6 +164,7 @@ class school(models.Model):
     water_taps_in_kitchen  = models.IntegerField(choices=YESNO, null=True, blank=True)
     no_of_water_taps_in_kitchen = models.IntegerField(null=True, blank=True)
     water_taps_in_kitchen_required = models.IntegerField(null=True, blank=True)
+    shelter_in_toilets = models.IntegerField(choices=YESNO, null=True, blank=True)
     water_taps_in_toilets = models.IntegerField(choices=YESNO, null=True, blank=True)
     no_of_water_taps_in_toilets = models.IntegerField(null=True, blank=True)
     water_taps_in_kitchen_toilets = models.IntegerField(null=True, blank=True)
@@ -173,9 +201,21 @@ class school(models.Model):
     bal_vikas_samiti_formed =  models.IntegerField(choices=YESNO_TYPE_CHOICES, null=True, blank=True)
     bal_vikas_samiti_feedback =  models.CharField(max_length=200, blank=True)
     meetings_documented = models.IntegerField(choices=YESNO_TYPE_CHOICES, null=True, blank=True)
-    arrangements_for_the_children_with_specialneeds_feedback  = models.CharField(max_length=200, blank=True)
-    arrangements_for_the_children_with_specialneeds_requirements  = models.CharField(max_length=200, blank=True)
-
+    arrangements_for_the_children_with_specialneeds_feedback = models.CharField(max_length=200, blank=True)
+    arrangements_for_the_children_with_specialneeds_requirements = models.CharField(max_length=200, blank=True)
 
     #objects = models.GeoManager()
+
+    #To Do  - Will have to update this in model itself
+    @property
+    def num_boys(self):
+        return self.total_boys
+
+    @property
+    def num_girls(self):
+        return self.total_girls
+
+
+
+
 

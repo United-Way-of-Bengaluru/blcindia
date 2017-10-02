@@ -12,6 +12,12 @@ AREA = (
     (2, 'Urban'),
 )
 
+DISTRICT_STATUS=(
+    (0, "Deactive"),
+    (1, "Pause"),
+    (2, "Active"),
+)
+
 SCHOOL_CATEGORY = (
     (1, "Primary only (1-5)"),
     (2, "Primary With Upper Primary(1-8)"),
