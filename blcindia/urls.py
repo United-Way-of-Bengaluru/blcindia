@@ -17,7 +17,7 @@ from django.conf.urls import url, include
 from django.contrib import admin
 from views import StaticPageView
 from django.views.generic.base import RedirectView
-from schools.views import AdvancedMapView
+from schools.views import AdvancedMapView, SchoolPageView
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -127,5 +127,8 @@ url(r'^status/$', StaticPageView.as_view(
         template_name='volunteer.html',
     ), name='volunteer'),
     url(r'text/volunteer/$', RedirectView.as_view(url='/volunteer/')),
+
+    url(r'^school/(?P<pk>[0-9]+)/$',
+    SchoolPageView.as_view(), name='school_page'),
 
 ]

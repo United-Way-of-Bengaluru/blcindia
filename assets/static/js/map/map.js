@@ -591,6 +591,7 @@
 
         function fetchBasicFacilities(data) {
             var $deferred = $.Deferred();
+            console.log("Line 594", data);
             if (data.type.id === 2) { //is a preschool
                 setTimeout(function() {
                     $deferred.resolve(data.basic_facilities);

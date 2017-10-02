@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-from models import school, Boundary, Address, District
+from models import school, Boundary, Address, District, type
 from mapwidgets.widgets import GooglePointFieldWidget
 from django.contrib import admin
 from django.contrib.gis.db import models
@@ -24,3 +24,4 @@ admin.site.register(Address,AddressAdmin)
 admin.site.register(school)
 admin.site.register(District,DistrictAdmin)
 admin.site.register(Boundary,BoundaryAdmin)
+admin.site.register(type)

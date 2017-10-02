@@ -3,7 +3,7 @@ from django.conf.urls import url
 from schools.views import SchoolsData, SchoolsDataDemographics, SchoolsDataInfrastructure
 
 urlpatterns = [
-    url(r'^schools//list$', SchoolsData.as_view({'get': 'list'}), name='schoolData'),
+    url(r'^schools/list$', SchoolsData.as_view({'get': 'list'}), name='schoolData'),
     url(r'^boundary/admin1s$', SchoolsData.as_view({'get': 'list'}), name='schoolBoundryData'),
     url(r'^boundary/admin2s$', SchoolsData.as_view({'get': 'list'}), name='schoolBoundryData'),
     url(r'^boundary/admin3s$', SchoolsData.as_view({'get': 'list'}), name='schoolBoundryData'),

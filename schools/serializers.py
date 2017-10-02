@@ -61,9 +61,13 @@ class SchoolSerializerAll(serializers.ModelSerializer):
 
     def get_properties(self, obj):
         dict = {
+            "id": obj.id,
             "name": obj.name,
             "school_type": "preschool",
-            "type":"district"
+            "type": {
+                    "id": 2,
+                    "name": "PreSchool"
+                }
         }
         return dict
 
@@ -110,13 +114,15 @@ class SchoolSerializerAll(serializers.ModelSerializer):
 
     class Meta:
         model = school
-        fields = ('school_code','name','address_full', 'properties', 'type', 'geometry','boundary')
+        fields = ('id','name','address_full', 'properties', 'type', 'geometry','boundary')
 
 
 class SchoolSerializer(serializers.ModelSerializer):
     address_full = serializers.SerializerMethodField()
     landmark = serializers.SerializerMethodField()
     district = serializers.SerializerMethodField()
+    type = serializers.SerializerMethodField()
+    basic_facilities = serializers.SerializerMethodField()
 
     def get_address_full(self, obj):
         if obj.address_id:
@@ -147,6 +153,21 @@ class SchoolSerializer(serializers.ModelSerializer):
         else:
             return {}
 
+    def get_type(self, obj):
+        dict  = {
+                    "id": 2,
+                    "name": "PreSchool"
+                }
+        return dict
+
+    def get_basic_facilities(self, obj):
+        dict = {
+            "playground": False, 
+            "library": False, 
+            "computer_lab": False
+        }
+        return dict
+
     """
         "id": 29569,
         "name": "RAJAMIL HUTS",
@@ -174,11 +195,9 @@ class SchoolSerializer(serializers.ModelSerializer):
         # "meeting_reports": []
         }
     """
-
-
     class Meta:
         model = school
-        fields = ('school_code','name','address_full','landmark','district','num_boys','num_girls')
+        fields = ('id','name','address_full','landmark','district', 'type', 'num_boys','num_girls', 'basic_facilities')
 
 class SchoolSerializerDemographics(serializers.ModelSerializer):
     """
@@ -205,7 +224,7 @@ class SchoolSerializerDemographics(serializers.ModelSerializer):
 
     class Meta:
         model = school
-        fields = ('school_code','name','num_boys','num_girls')
+        fields = ('id','name','num_boys','num_girls')
 
 class SchoolSerializerInfrastructure(serializers.ModelSerializer):
     """
@@ -249,5 +268,5 @@ class SchoolSerializerInfrastructure(serializers.ModelSerializer):
 
     class Meta:
         model = school
-        # fields = ('school_code','name','num_boys','num_girls','toilet_available','toilet_functioning','shelter_in_toilets','need_walls_repair')
+        # fields = ('id','name','num_boys','num_girls','toilet_available','toilet_functioning','shelter_in_toilets','need_walls_repair')
         fields = '__all__'
