@@ -85,7 +85,7 @@ class SchoolsDataDemographics(viewsets.ModelViewSet):
             "mt_profile":
                 {"tamil": 10, "kannada": 28},
             "acyear": 'null',
-            "id":serializer.data['school_code'],
+            "id":serializer.data['id'],
             "name":serializer.data['name'],
             }
         return Response(dict)
@@ -100,7 +100,7 @@ class SchoolsDataInfrastructure(viewsets.ModelViewSet):
         serializer = SchoolSerializerInfrastructure(schoolId)
         response = serializer.data
         dict = {
-            "id": response['school_code'],
+            "id": response['id'],
             "name": response['name'],
             "num_boys": response['total_boys'],
             "num_girls": response['total_girls'],

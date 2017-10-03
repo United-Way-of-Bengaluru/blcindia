@@ -78,6 +78,9 @@ class type(models.Model):
     """docstring for type"""
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=50, blank=True)
+
+    def __unicode__(self):
+        return self.name
    
         
 
@@ -85,7 +88,7 @@ class type(models.Model):
 class school(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=200, blank=True)
-    address_id = models.OneToOneField('Address', blank=True, null=True)
+    address = models.OneToOneField('Address', blank=True, null=True)
     type = models.ForeignKey('type', blank=True, null=True)
     rural_urban = models.IntegerField(choices=AREA, null=True, blank=True)
     building_status = models.IntegerField(choices=BUILDING_STATUS, null=True, blank=True)
@@ -166,14 +169,11 @@ class school(models.Model):
     water_taps_in_kitchen_required = models.IntegerField(null=True, blank=True)
     shelter_in_toilets = models.IntegerField(choices=YESNO, null=True, blank=True)
     water_taps_in_toilets = models.IntegerField(choices=YESNO, null=True, blank=True)
-    no_of_water_taps_in_toilets = models.IntegerField(null=True, blank=True)
-    water_taps_in_kitchen_toilets = models.IntegerField(null=True, blank=True)
+    no_of_water_taps_required_in_toilets = models.IntegerField(null=True, blank=True)
     water_storage_containers_in_kitchen = models.IntegerField(choices=YESNO, null=True, blank=True)
-    no_of_water_storage_containers_in_kitchen = models.IntegerField(null=True, blank=True)
-    water_storage_containers_in_kitchen_required = models.IntegerField(null=True, blank=True)
+    no_of_water_storage_containers_required_in_kitchen = models.IntegerField(null=True, blank=True)
     water_storage_containers_in_toilets = models.IntegerField(choices=YESNO, null=True, blank=True)
-    no_of_water_storage_containers_in_toilets = models.IntegerField(null=True, blank=True)
-    water_storage_containers_in_toilets_required = models.IntegerField(null=True, blank=True)
+    no_of_water_storage_containers_required_in_toilets = models.IntegerField(null=True, blank=True)
     toilet_available = models.IntegerField(choices=YESNO_TYPE_CHOICES, null=True, blank=True)
     toilet_functioning = models.IntegerField(choices=YESNO_TYPE_CHOICES, null=True, blank=True)
     toilet_boys = models.IntegerField(null=True, blank=True)
@@ -203,6 +203,9 @@ class school(models.Model):
     meetings_documented = models.IntegerField(choices=YESNO_TYPE_CHOICES, null=True, blank=True)
     arrangements_for_the_children_with_specialneeds_feedback = models.CharField(max_length=200, blank=True)
     arrangements_for_the_children_with_specialneeds_requirements = models.CharField(max_length=200, blank=True)
+
+    def __unicode__(self):
+        return self.name
 
     #objects = models.GeoManager()
 

@@ -24,33 +24,33 @@ class SchoolSerializerAll(serializers.ModelSerializer):
 
 
     def get_address_full(self, obj):
-        if obj.address_id:
-            return obj.address_id.full
+        if obj.address:
+            return obj.address.full
         else:
             return {}
 
     def get_geometry(self, obj):
-        if obj.address_id:
+        if obj.address:
             dict ={
                 "type": "Point",
-                "coordinates": [obj.address_id.location.x, obj.address_id.location.y]
+                "coordinates": [obj.address.location.x, obj.address.location.y]
             }
             return dict
         else:
             return {}
 
     def get_boundary(self, obj):
-        if obj.address_id.boundary_id:
+        if obj.address.boundary_id:
             dict = {
-                'id':obj.address_id.boundary_id.district.id,
-                'name':obj.address_id.boundary_id.district.name,
+                'id':obj.address.boundary_id.district.id,
+                'name':obj.address.boundary_id.district.name,
                 'dise_slug':'null',
                 'type':'district',
-                'school_type': obj.address_id.boundary_id.district.school_type,
-                'status':obj.address_id.boundary_id.district.status
+                'school_type': obj.address.boundary_id.district.school_type,
+                'status':obj.address.boundary_id.district.status
             }
             return dict
-            # dist =  obj.address_id.boundary_id.district
+            # dist =  obj.address.boundary_id.district
             # district = DistrictSerializer.augment_field(dist)
             # return district
         else:
@@ -125,29 +125,29 @@ class SchoolSerializer(serializers.ModelSerializer):
     basic_facilities = serializers.SerializerMethodField()
 
     def get_address_full(self, obj):
-        if obj.address_id:
-            return obj.address_id.full
+        if obj.address:
+            return obj.address.full
         else:
             return {}
 
     def get_landmark(self, obj):
-        if obj.address_id:
-            return obj.address_id.landmark
+        if obj.address:
+            return obj.address.landmark
         else:
             return {}
 
     def get_district(self, obj):
-        if obj.address_id.boundary_id:
+        if obj.address.boundary_id:
             dict = {
-                'id':obj.address_id.boundary_id.district.id,
-                'name':obj.address_id.boundary_id.district.name,
+                'id':obj.address.boundary_id.district.id,
+                'name':obj.address.boundary_id.district.name,
                 'dise_slug':'null',
                 'type':'district',
-                'school_type': obj.address_id.boundary_id.district.school_type,
-                'status':obj.address_id.boundary_id.district.status
+                'school_type': obj.address.boundary_id.district.school_type,
+                'status':obj.address.boundary_id.district.status
             }
             return dict
-            # dist =  obj.address_id.boundary_id.district
+            # dist =  obj.address.boundary_id.district
             # district = DistrictSerializer.augment_field(dist)
             # return district
         else:
