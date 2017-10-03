@@ -40,7 +40,7 @@ class  SchoolAdmin(admin.ModelAdmin):
             	'need_walls_repair', 'walls_repair_requirement_description', 'electricity_available', 'electric_bulbs', 'electric_bulbs_required', 'electric_fans_available', 'electric_fans_required',
             	'window_condition', 'need_window_repair', 'window_repair_description', 'door_condition', 'need_door_repair', 'door_repair_description', 'no_of_cooking_vessels', 'no_of_cooking_vessels_required',
             	'cooking_vessels_to_be_repaired', 'no_of_serving_vessels', 'no_of_serving_vessels_required', 'mats_available', 'no_of_mats', 'no_of_mats_required', 'mops_available', 'no_of_mops', 'no_of_mops_required',
-            	 'broom_available', 'no_of_broom', 'no_of_broom_required', 'dustbin_available', 'no_of_dustbin', 'no_of_dustbin_required'
+            	 'broom_available', 'no_of_broom', 'no_of_broom_required', 'dustbin_available', 'no_of_dustbin', 'no_of_dustbin_required',
             	'plant_pots_available', 'plant_pots', 'plant_pots_required', 'green_cover', 'green_cover_required', 'cleanliness', 'cleanliness_description',
             	 'pest_control_done_in_last_one_year', 'pest_control_required', 'drinking_water', 'drinking_water_filter', 'no_of_drinking_water_filter', 'drinking_water_filter_required'),
         })
