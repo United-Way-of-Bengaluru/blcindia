@@ -85,7 +85,7 @@ class type(models.Model):
 class school(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=200, blank=True)
-    address_id = models.OneToOneField('Address', blank=True, null=True)
+    address = models.OneToOneField('Address', blank=True, null=True)
     type = models.ForeignKey('type', blank=True, null=True)
     rural_urban = models.IntegerField(choices=AREA, null=True, blank=True)
     building_status = models.IntegerField(choices=BUILDING_STATUS, null=True, blank=True)
