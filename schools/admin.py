@@ -44,7 +44,7 @@ class  SchoolAdmin(admin.ModelAdmin):
             	'plant_pots_available', 'plant_pots', 'plant_pots_required', 'green_cover', 'green_cover_required', 'cleanliness', 'cleanliness_description',
             	 'pest_control_done_in_last_one_year', 'pest_control_required', 'drinking_water', 'drinking_water_filter', 'no_of_drinking_water_filter', 'drinking_water_filter_required',
             	 'water_taps_in_kitchen', 'no_of_water_taps_in_kitchen', 'water_taps_in_kitchen_required', 'shelter_in_toilets', 'water_taps_in_toilets', 'no_of_water_taps_required_in_toilets', 'water_storage_containers_in_kitchen', 'no_of_water_storage_containers_required_in_kitchen'
-            	 , 'water_storage_containers_in_kitchen_required', 'water_storage_containers_in_toilets', 'no_of_water_storage_containers_required_in_toilets', 'toilet_available', 
+            	 , 'water_storage_containers_in_toilets', 'no_of_water_storage_containers_required_in_toilets', 'toilet_available', 
             	 'toilet_functioning', 'toilet_boys', 'toilet_girls', 'toilet_doors_condition')
         }),
         ('Learning Environment', {
