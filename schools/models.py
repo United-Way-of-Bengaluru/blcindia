@@ -78,6 +78,9 @@ class type(models.Model):
     """docstring for type"""
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=50, blank=True)
+
+    def __unicode__(self):
+        return self.name
    
         
 
@@ -200,6 +203,9 @@ class school(models.Model):
     meetings_documented = models.IntegerField(choices=YESNO_TYPE_CHOICES, null=True, blank=True)
     arrangements_for_the_children_with_specialneeds_feedback = models.CharField(max_length=200, blank=True)
     arrangements_for_the_children_with_specialneeds_requirements = models.CharField(max_length=200, blank=True)
+
+    def __unicode__(self):
+        return self.name
 
     #objects = models.GeoManager()
 
