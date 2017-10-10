@@ -1,6 +1,6 @@
 from django.conf.urls import url
 
-from schools.views import SchoolsData, SchoolsDataDemographics, SchoolsDataInfrastructure
+from schools.views import SchoolsData, SchoolsDataDemographics, SchoolsDataInfrastructure, BoundarySummaryReport
 
 urlpatterns = [
     url(r'^schools/list$', SchoolsData.as_view({'get': 'list'}), name='schoolData'),
@@ -11,4 +11,6 @@ urlpatterns = [
     url(r'^schools/school/(?P<school_id>[A-Za-z0-9]+)$', SchoolsData.as_view({'get': 'retrieve'}), name='SchoolsByCode'),
     url(r'^schools/school/(?P<school_id>[A-Za-z0-9]+)/demographics$', SchoolsDataDemographics.as_view({'get': 'retrieve'}), name='SchoolsDemographics'),
     url(r'^schools/school/(?P<school_id>[A-Za-z0-9]+)/infrastructure$', SchoolsDataInfrastructure.as_view({'get': 'retrieve'}), name='SchoolsInfrastructure'),
-    ]
+
+    url(r'^reports/summary/boundary/$', BoundarySummaryReport.as_view(), name='BoundarySummaryReport'),
+   ]
