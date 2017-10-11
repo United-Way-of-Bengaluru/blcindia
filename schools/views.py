@@ -108,7 +108,6 @@ class SchoolsDataDemographics(viewsets.ModelViewSet):
             }
         return Response(dict)
 
-
 class SchoolsDataInfrastructure(viewsets.ModelViewSet):
     queryset = school.objects.all()
 
