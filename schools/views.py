@@ -130,7 +130,8 @@ class SchoolsDataInfrastructure(viewsets.ModelViewSet):
                     },
                 "Community Involvement":
                     {
-                        "Has Functional Bal Vikas Samithis": 0
+                        "Mothers committee formed": response['mothers_committee_formed'],
+                        "Bal vikas samiti formed": response['bal_vikas_samiti_formed'],
                     },
                 "Basic Infrastructure":
                     {
@@ -143,9 +144,12 @@ class SchoolsDataInfrastructure(viewsets.ModelViewSet):
                     },
                 "Learning Environment":
                     {
-                        "Uses Akshara Foundation Teaching Kits": 1,
-                        "Maintains Progress Records for Children": 0,
-                        "Has Blackboards for Teaching": 1
+                        "learning_and_playing_materials_available": response['learning_and_playing_materials_available'],
+                        "charts_available": response['charts_available'],
+                        "story_books_available": response['story_books_available'],
+                        "drawing_and_art_materials_available": response['drawing_and_art_materials_available'],
+                        "library_kits_available": response['library_kits_available'],
+                        "sports_material_available": response['sports_material_available'],
                     },
                 "Nutrition and Hygiene":
                     {
@@ -209,7 +213,7 @@ class BoundarySummaryReport(BLCINDIA_APIView):
 
         # Check if boundary id is valid
         try:
-            Address = Address.objects.get(boundary_id=boundary_id)
+            Address = Address.objects.filter(boundary_id=boundary_id).all()
         except Exception:
             raise APIError('Boundary not found', 404)
 
