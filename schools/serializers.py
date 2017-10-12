@@ -1,7 +1,7 @@
 from django.shortcuts import get_object_or_404
 from rest_framework import serializers
 
-from schools.models import school, Address, District
+from schools.models import school, Address, District, Demographics, BasicFacilities, CommunityEngagement
 
 
 # class AddressSerializer(serializers.ModelSerializer):
@@ -9,6 +9,15 @@ from schools.models import school, Address, District
 #         model = Address
 #         fields = ('landmark')
 
+
+def meeting_reports(self, obj):
+    community = CommunityEngagement.objects.filter(school=obj).values('no_of_meetings_conducted_in_last_three_months',
+                                                                      'meetings_documented_in_register',
+                                                                      'meetings_documented').first()
+    if community is not None:
+        return community
+    else:
+        return {}
 
 class DistrictSerializer(serializers.ModelSerializer):
     class Meta:
@@ -57,21 +66,11 @@ class SchoolSerializerAll(serializers.ModelSerializer):
         else:
             return {}
 
-
-
     def get_type(self, obj):
         return "Feature"
 
-    def meeting_report(self, obj):
-        if obj.communityengagement:
-            dict={
-                "no_of_meetings_conducted_in_last_three_months":str(obj.communityengagement.no_of_meetings_conducted_in_last_three_months),
-                "meetings_documented_in_register":obj.communityengagement.meetings_documented_in_register,
-                "meetings_documented":obj.communityengagement.meetings_documented
-            }
-            return dict
-        else:
-            return {}
+
+
 
     def get_properties(self, obj):
         dict = {
@@ -84,8 +83,8 @@ class SchoolSerializerAll(serializers.ModelSerializer):
                 "id": obj.type.id,
                 "name": obj.type.name
             },
-            # "meeting_reports":SchoolSerializerAll.meeting_report(self,obj)
-            "meeting_reports":""
+            "meeting_reports":meeting_reports(self,obj)
+            # "meeting_reports":""
 
         }
         return dict
@@ -137,16 +136,45 @@ class SchoolSerializerAll(serializers.ModelSerializer):
         fields = ('geometry','type','properties')
 
 
+
 class SchoolSerializer(serializers.ModelSerializer):
     address_full = serializers.SerializerMethodField()
+    identifiers = serializers.SerializerMethodField()
+    cat = serializers.SerializerMethodField()
     landmark = serializers.SerializerMethodField()
     district = serializers.SerializerMethodField()
     type = serializers.SerializerMethodField()
-    basic_facilities = serializers.SerializerMethodField()
+    # basic_facilities = serializers.SerializerMethodField()
+    num_boys = serializers.SerializerMethodField()
+    num_girls = serializers.SerializerMethodField()
+    meeting_reports = serializers.SerializerMethodField()
+
+    def get_num_boys(self, obj):
+        boys = Demographics.objects.filter(school=obj).values('total_boys').first()
+        if boys is not None:
+            return boys['total_boys']
+        else:
+            return ''
+
+    def get_num_girls(self, obj):
+        girls = Demographics.objects.filter(school=obj).values('total_girls').first()
+        if girls is not None:
+            return girls['total_girls']
+        else:
+            return ''
+
+    def get_meeting_reports(self, obj):
+        return meeting_reports(self,obj)
 
     def get_address_full(self, obj):
         if obj.address:
             return obj.address.full
+        else:
+            return {}
+
+    def get_identifiers(self, obj):
+        if obj.address.instidentification:
+            return obj.address.instidentification
         else:
             return {}
 
@@ -159,12 +187,12 @@ class SchoolSerializer(serializers.ModelSerializer):
     def get_district(self, obj):
         if obj.address.boundary_id:
             dict = {
-                # 'id':obj.address.boundary_id.district.id,
-                'name':obj.address.boundary_id.district.name,
+                'id':obj.address.boundary.district.id,
+                'name':obj.address.boundary.district.name,
                 'dise_slug':'null',
                 'type':'district',
-                'school_type': obj.address.boundary_id.district.school_type,
-                'status':obj.address.boundary_id.district.status
+                'school_type': obj.address.boundary.district.school_type,
+                'status':obj.address.boundary.district.status
             }
             return dict
             # dist =  obj.address.boundary_id.district
@@ -181,6 +209,7 @@ class SchoolSerializer(serializers.ModelSerializer):
         return dict
 
     def get_basic_facilities(self, obj):
+        basicfacilities = BasicFacilities.objects.filter(school=obj).first()
         dict = {
             "playground": False, 
             "library": False, 
@@ -188,16 +217,23 @@ class SchoolSerializer(serializers.ModelSerializer):
         }
         return dict
 
+    def get_cat(self,obj):
+        if obj.type:
+            return obj.type.name
+        else:
+            return ''
+
+
     """
         "id": 29569,
         "name": "RAJAMIL HUTS",
         # "mgmt": "ed",
-        # "cat": "Anganwadi",
+        "cat": "Anganwadi",
         # "moi": "kannada",
         # "sex": "co-ed",
         "address_full": "4th Main Road, Rajamill Huts, Vallivarpuram, Malleshwaram, Bangalore, Malleshwaram, 560003",
         "landmark": "Near K.C.General Hospital",
-        # "identifiers": "Light Orange Colour Building, Yellow Colour Door",
+        "identifiers": "Light Orange Colour Building, Yellow Colour Door",
         # "circle":{"id": 8816, "name": "palace guttalli circle", "dise_slug": null, "type": "circle", "school_type": "preschool", "status": 2}
         # "admin2": {"id": 8778, "name": "bangalore state", "dise_slug": null, "type": "project",
                    "school_type": "preschool", "status": 2}
@@ -215,9 +251,12 @@ class SchoolSerializer(serializers.ModelSerializer):
         # "meeting_reports": []
         }
     """
+
+
+
     class Meta:
         model = school
-        fields = ('id','name','address_full','landmark','district', 'type', 'num_boys','num_girls', 'basic_facilities')
+        fields = ('id','name','cat','address_full','landmark','identifiers','district','type', 'num_boys', 'num_girls','meeting_reports')
 
 class SchoolSerializerDemographics(serializers.ModelSerializer):
     """

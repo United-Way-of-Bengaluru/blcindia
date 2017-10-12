@@ -70,6 +70,8 @@ class Address(models.Model):
     def identifiers(self):
         return self.get_identifiers()
 
+
+
     # def schools(self):
     #     return School.objects.filter(
     #         Q(status=2)
@@ -106,8 +108,7 @@ class school(models.Model):
     # def demographics(self):
     #     return Demographics.objects.filter('school_id', self.id)
 
-    def communityengagement(self):
-        return CommunityEngagement.objects.filter('school',self.id)
+
 
     def __unicode__(self):
         return self.name
