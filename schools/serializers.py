@@ -23,7 +23,7 @@ class SchoolSerializerAll(serializers.ModelSerializer):
     type = serializers.SerializerMethodField()
 
 
-    def get_address_full(self, obj):
+    def address_full(self, obj):
         if obj.address:
             return obj.address.full
         else:
@@ -39,15 +39,16 @@ class SchoolSerializerAll(serializers.ModelSerializer):
         else:
             return {}
 
-    def get_boundary(self, obj):
-        if obj.address.boundary_id:
+    def boundary(self, obj):
+        if obj.address.boundary:
             dict = {
-                'id':obj.address.boundary_id.district.id,
-                'name':obj.address.boundary_id.district.name,
+                'id':obj.address.boundary.district.id,
+                'name':obj.address.boundary.district.name,
+                'block':obj.address.boundary.block,
                 'dise_slug':'null',
                 'type':'district',
-                'school_type': obj.address.boundary_id.district.school_type,
-                'status':obj.address.boundary_id.district.status
+                'school_type': obj.address.boundary.district.school_type,
+                'status':obj.address.boundary.district.status
             }
             return dict
             # dist =  obj.address.boundary_id.district
@@ -56,18 +57,36 @@ class SchoolSerializerAll(serializers.ModelSerializer):
         else:
             return {}
 
+
+
     def get_type(self, obj):
         return "Feature"
+
+    def meeting_report(self, obj):
+        if obj.communityengagement:
+            dict={
+                "no_of_meetings_conducted_in_last_three_months":str(obj.communityengagement.no_of_meetings_conducted_in_last_three_months),
+                "meetings_documented_in_register":obj.communityengagement.meetings_documented_in_register,
+                "meetings_documented":obj.communityengagement.meetings_documented
+            }
+            return dict
+        else:
+            return {}
 
     def get_properties(self, obj):
         dict = {
             "id": obj.id,
             "name": obj.name,
-            "school_type": "preschool",
+            "boundary":SchoolSerializerAll.boundary(self, obj),
+            "address_full":SchoolSerializerAll.address_full(self,obj),
+            "dise_info": "",
             "type": {
-                    "id": 2,
-                    "name": "PreSchool"
-                }
+                "id": obj.type.id,
+                "name": obj.type.name
+            },
+            # "meeting_reports":SchoolSerializerAll.meeting_report(self,obj)
+            "meeting_reports":""
+
         }
         return dict
 
@@ -114,7 +133,8 @@ class SchoolSerializerAll(serializers.ModelSerializer):
 
     class Meta:
         model = school
-        fields = ('id','name','address_full', 'properties', 'type', 'geometry','boundary')
+        # fields = ('id','name','address_full', 'properties', 'type', 'geometry','boundary')
+        fields = ('geometry','type','properties')
 
 
 class SchoolSerializer(serializers.ModelSerializer):
@@ -139,7 +159,7 @@ class SchoolSerializer(serializers.ModelSerializer):
     def get_district(self, obj):
         if obj.address.boundary_id:
             dict = {
-                'id':obj.address.boundary_id.district.id,
+                # 'id':obj.address.boundary_id.district.id,
                 'name':obj.address.boundary_id.district.name,
                 'dise_slug':'null',
                 'type':'district',

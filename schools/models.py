@@ -18,7 +18,7 @@ class StatusManager(models.Manager):
 
 
 class AcademicYear(models.Model):
-    id = models.IntegerField(primary_key=True)
+    # id = models.IntegerField(primary_key=True)
     name = models.CharField(max_length=20, blank=True)
     to_year = models.IntegerField(null=True, blank=True)
     from_year = models.IntegerField(null=True, blank=True)
@@ -70,10 +70,10 @@ class Address(models.Model):
     def identifiers(self):
         return self.get_identifiers()
 
-    def schools(self):
-        return School.objects.filter(
-            Q(status=2)
-        )
+    # def schools(self):
+    #     return School.objects.filter(
+    #         Q(status=2)
+    #     )
 
     class Meta:
         #abstract = True
@@ -81,7 +81,7 @@ class Address(models.Model):
 
 class type(models.Model):
     """docstring for type"""
-    id = models.AutoField(primary_key=True)
+    # id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=50, blank=True)
 
     def __unicode__(self):
@@ -103,8 +103,11 @@ class school(models.Model):
     cdpo_name = models.CharField(max_length=50, blank=True)
     cdpo_number = models.IntegerField(null=True, blank=True)
 
-    def demographics(self):
-        return Demographics.objects.filter('school_id', self.id)
+    # def demographics(self):
+    #     return Demographics.objects.filter('school_id', self.id)
+
+    def communityengagement(self):
+        return CommunityEngagement.objects.filter('school',self.id)
 
     def __unicode__(self):
         return self.name

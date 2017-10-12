@@ -63,7 +63,8 @@ class  SchoolAdmin(admin.ModelAdmin):
         # }),
     )
 
-		
+
+
 
 admin.site.register(Address,AddressAdmin)
 admin.site.register(school, SchoolAdmin)
