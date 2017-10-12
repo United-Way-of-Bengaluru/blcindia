@@ -259,6 +259,7 @@ class SchoolSerializer(serializers.ModelSerializer):
         fields = ('id','name','cat','address_full','landmark','identifiers','district','type', 'num_boys', 'num_girls','meeting_reports')
 
 class SchoolSerializerDemographics(serializers.ModelSerializer):
+
     """
        response Data:
        {
@@ -282,8 +283,8 @@ class SchoolSerializerDemographics(serializers.ModelSerializer):
 
 
     class Meta:
-        model = school
-        fields = ('id','name','num_boys','num_girls')
+        model = Demographics
+        fields = ('id','total_boys','total_girls')
 
 class SchoolSerializerInfrastructure(serializers.ModelSerializer):
     """
