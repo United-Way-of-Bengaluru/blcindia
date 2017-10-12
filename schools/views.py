@@ -10,7 +10,7 @@ from rest_framework.response import Response
 from rest_framework.exceptions import APIException
 
 from blcindia.views import StaticPageView
-from schools.models import school, Boundary,Address, AcademicYear
+from schools.models import school, Boundary,Address, AcademicYear, Demographics
 from schools.serializers import SchoolSerializer, SchoolSerializerAll, SchoolSerializerDemographics, \
     SchoolSerializerInfrastructure
 from django.core.urlresolvers import reverse
@@ -80,31 +80,45 @@ class SchoolsData(viewsets.ModelViewSet):
         return Response(dict)
 
     def retrieve(self, request, school_id=None):
-        print 'retrieve fnctino called'
         queryset = school.objects.all()
         schoolId = get_object_or_404(queryset, pk=school_id)
         serializer = SchoolSerializer(schoolId)
         return Response(serializer.data)
 
 class SchoolsDataDemographics(viewsets.ModelViewSet):
-    queryset = school.objects.all()
+    queryset = Demographics.objects.all()
     def retrieve(self, request, school_id=None):
-        queryset = school.objects.all()
-        schoolId = get_object_or_404(queryset, pk=school_id)
-        serializer = SchoolSerializerDemographics(schoolId)
+
+        # queryset = Demographics.objects.all()
+        # demographicsdata = get_object_or_404(queryset, pk=school_id)
+        # serializer = SchoolSerializerDemographics(school_id)
+
+
+        school_data = school.objects.filter(id=school_id).values('name').first()
+
+        demographicsdata = Demographics.objects.filter(school=school_id).values('total_boys','total_girls','id').first()
+
+        if school_data is not None:
+            school_name = school_data['name']
+        else:
+            school_name =''
+
+
         dict = {
-            "sex": "co-ed",
-            "moi": "kannada",
-            "mgmt": "ed",
-            "num_boys_dise": serializer.data['num_boys'],
-            "num_girls_dise": serializer.data['num_girls'],
-            "num_boys": serializer.data['num_boys'],
-            "num_girls": serializer.data['num_girls'],
-            "mt_profile":
-                {"tamil": 10, "kannada": 28},
-            "acyear": 'null',
-            "id":serializer.data['id'],
-            "name":serializer.data['name'],
+            # "sex": "co-ed",
+            # "moi": "kannada",
+            # "mgmt": "ed",
+            "id": demographicsdata['id'],
+            "name": school_name,
+            "num_boys_dise": demographicsdata['total_boys'],
+            "num_girls_dise": demographicsdata['total_girls'],
+            "num_boys": demographicsdata['total_boys'],
+            "num_girls": demographicsdata['total_girls'],
+            # "mt_profile":
+            #     {"tamil": 10, "kannada": 28},
+            # "acyear": '',
+
+
             }
         return Response(dict)
 

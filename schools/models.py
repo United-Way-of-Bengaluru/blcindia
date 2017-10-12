@@ -18,7 +18,7 @@ class StatusManager(models.Manager):
 
 
 class AcademicYear(models.Model):
-    id = models.IntegerField(primary_key=True)
+    # id = models.IntegerField(primary_key=True)
     name = models.CharField(max_length=20, blank=True)
     to_year = models.IntegerField(null=True, blank=True)
     from_year = models.IntegerField(null=True, blank=True)
@@ -48,7 +48,7 @@ class Boundary(models.Model):
 
 
 class Address(models.Model):
-    boundary_id = models.ForeignKey(Boundary, null=True)
+    boundary = models.ForeignKey(Boundary, null=True)
     address = models.CharField(max_length=1000, blank=True)
     area = models.CharField(max_length=1000, blank=True)
     pincode = models.CharField(max_length=20, blank=True)
@@ -70,10 +70,12 @@ class Address(models.Model):
     def identifiers(self):
         return self.get_identifiers()
 
-    def schools(self):
-        return School.objects.filter(
-            Q(status=2)
-        )
+
+
+    # def schools(self):
+    #     return School.objects.filter(
+    #         Q(status=2)
+    #     )
 
     class Meta:
         #abstract = True
@@ -81,7 +83,7 @@ class Address(models.Model):
 
 class type(models.Model):
     """docstring for type"""
-    id = models.AutoField(primary_key=True)
+    # id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=50, blank=True)
 
     def __unicode__(self):
@@ -102,15 +104,22 @@ class school(models.Model):
     supervisor_number = models.CharField(max_length=50, null=True, blank=True)
     cdpo_name = models.CharField(max_length=50, blank=True)
     cdpo_number = models.IntegerField(null=True, blank=True)
+
+    # def demographics(self):
+    #     return Demographics.objects.filter('school_id', self.id)
+
+
+
     def __unicode__(self):
         return self.name
 
 
 class Demographics(models.Model):
+    school= models.ForeignKey('school')
     male_teachers = models.IntegerField(null=True, blank=True)
     female_teachers = models.IntegerField(null=True, blank=True)
-    total_boys = models.IntegerField(blank=True, null=True)
-    total_girls = models.IntegerField(blank=True, null=True)
+    total_boys = models.IntegerField(blank=True, null=True, verbose_name='0-3 Yrs Childrens')
+    total_girls = models.IntegerField(blank=True, null=True, verbose_name='3-6 Yrs Childrens')
     household_covering_the_catchment_area = models.IntegerField(null=True, blank=True)
     total_population_under_center = models.IntegerField(null=True, blank=True)
     total_childrens_in_population = models.IntegerField(null=True, blank=True)
@@ -129,6 +138,7 @@ class Demographics(models.Model):
 
 
 class BasicFacilities(models.Model):
+    school = models.ForeignKey('school')
     electricity_available = models.IntegerField(choices=YESNO, null=True, blank=True)
     cleanliness = models.IntegerField(choices=YESNO_TYPE_CHOICES, null=True, blank=True)
     cleanliness_description = models.CharField(max_length=200, blank=True)
@@ -145,6 +155,7 @@ class BasicFacilities(models.Model):
 
 
 class LearningEnvironment(models.Model):
+    school = models.ForeignKey('school')
     learning_and_playing_materials_available = models.IntegerField(choices=YESNO_TYPE_CHOICES, null=True, blank=True)
     learning_and_playing_materials_required = models.IntegerField(choices=YESNO_TYPE_CHOICES, null=True, blank=True)
     charts_available = models.IntegerField(choices=YESNO_TYPE_CHOICES, null=True, blank=True)
@@ -161,6 +172,7 @@ class LearningEnvironment(models.Model):
 
 
 class SafeEnviroment(models.Model):
+    school = models.ForeignKey('school')
     shelves_in_kitchen = models.IntegerField(null=True, blank=True)
     shelves_required_in_kitchen = models.IntegerField(null=True, blank=True)
     shelves_in_store_room = models.IntegerField(null=True, blank=True)
@@ -222,7 +234,8 @@ class SafeEnviroment(models.Model):
     mural_art_required = models.IntegerField(choices=YESNO_TYPE_CHOICES, null=True, blank=True)
 
 
-class MotherEngagement(models.Model):
+class CommunityEngagement(models.Model):
+    school = models.ForeignKey('school')
     mothers_committee_formed = models.IntegerField(choices=YESNO_TYPE_CHOICES, null=True, blank=True)
     no_of_meetings_conducted_in_last_three_months = models.IntegerField(null=True, blank=True)
     meetings_documented_in_register = models.IntegerField(choices=YESNO_TYPE_CHOICES, null=True, blank=True)
