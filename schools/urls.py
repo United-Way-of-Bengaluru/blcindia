@@ -12,5 +12,5 @@ urlpatterns = [
     url(r'^schools/school/(?P<school_id>[A-Za-z0-9]+)/demographics$', SchoolsDataDemographics.as_view({'get': 'retrieve'}), name='SchoolsDemographics'),
     url(r'^schools/school/(?P<school_id>[A-Za-z0-9]+)/infrastructure$', SchoolsDataInfrastructure.as_view({'get': 'retrieve'}), name='SchoolsInfrastructure'),
 
-    url(r'^reports/summary/boundary/$', BoundarySummaryReport.as_view(), name='BoundarySummaryReport'),
+    url(r'^reports/summary/boundary/$', BoundarySummaryReport.as_view({'get': 'list'}), name='BoundarySummaryReport'),
    ]

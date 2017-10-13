@@ -81,6 +81,9 @@ class Address(models.Model):
         #abstract = True
         verbose_name_plural = 'Addresses'
 
+    def __unicode__(self):
+        return self.name
+
 class type(models.Model):
     """docstring for type"""
     # id = models.AutoField(primary_key=True)
