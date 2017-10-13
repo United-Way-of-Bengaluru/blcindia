@@ -115,7 +115,7 @@ class school(models.Model):
 
 
 class Demographics(models.Model):
-    school= models.ForeignKey('school')
+    school= models.OneToOneField('school')
     male_teachers = models.IntegerField(null=True, blank=True)
     female_teachers = models.IntegerField(null=True, blank=True)
     total_boys = models.IntegerField(blank=True, null=True, verbose_name='0-3 Yrs Childrens')
@@ -138,7 +138,7 @@ class Demographics(models.Model):
 
 
 class BasicFacilities(models.Model):
-    school = models.ForeignKey('school')
+    school = models.OneToOneField('school')
     electricity_available = models.IntegerField(choices=YESNO, null=True, blank=True)
     cleanliness = models.IntegerField(choices=YESNO_TYPE_CHOICES, null=True, blank=True)
     cleanliness_description = models.CharField(max_length=200, blank=True)
@@ -155,7 +155,7 @@ class BasicFacilities(models.Model):
 
 
 class LearningEnvironment(models.Model):
-    school = models.ForeignKey('school')
+    school = models.OneToOneField('school')
     learning_and_playing_materials_available = models.IntegerField(choices=YESNO_TYPE_CHOICES, null=True, blank=True)
     learning_and_playing_materials_required = models.IntegerField(choices=YESNO_TYPE_CHOICES, null=True, blank=True)
     charts_available = models.IntegerField(choices=YESNO_TYPE_CHOICES, null=True, blank=True)
@@ -172,7 +172,7 @@ class LearningEnvironment(models.Model):
 
 
 class SafeEnviroment(models.Model):
-    school = models.ForeignKey('school')
+    school = models.OneToOneField('school')
     shelves_in_kitchen = models.IntegerField(null=True, blank=True)
     shelves_required_in_kitchen = models.IntegerField(null=True, blank=True)
     shelves_in_store_room = models.IntegerField(null=True, blank=True)
@@ -235,7 +235,7 @@ class SafeEnviroment(models.Model):
 
 
 class CommunityEngagement(models.Model):
-    school = models.ForeignKey('school')
+    school = models.OneToOneField('school')
     mothers_committee_formed = models.IntegerField(choices=YESNO_TYPE_CHOICES, null=True, blank=True)
     no_of_meetings_conducted_in_last_three_months = models.IntegerField(null=True, blank=True)
     meetings_documented_in_register = models.IntegerField(choices=YESNO_TYPE_CHOICES, null=True, blank=True)
