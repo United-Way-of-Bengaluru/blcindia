@@ -70,13 +70,6 @@ class Address(models.Model):
     def identifiers(self):
         return self.get_identifiers()
 
-
-
-    # def schools(self):
-    #     return School.objects.filter(
-    #         Q(status=2)
-    #     )
-
     class Meta:
         #abstract = True
         verbose_name_plural = 'Addresses'

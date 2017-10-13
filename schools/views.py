@@ -10,12 +10,25 @@ from rest_framework.response import Response
 from rest_framework.exceptions import APIException
 
 from blcindia.views import StaticPageView
-from schools.models import school, Boundary,Address, AcademicYear, Demographics
+from schools.models import school, Boundary,Address, AcademicYear, Demographics, SafeEnviroment
 from schools.serializers import SchoolSerializer, SchoolSerializerAll, SchoolSerializerDemographics, \
-    SchoolSerializerInfrastructure
+    SchoolSerializerInfrastructure, BasicInfrastructureSerializer
 from django.core.urlresolvers import reverse
 
 
+from django.shortcuts import redirect
+
+def login_success(request):
+    """
+    Redirects users based on whether they are in the admins group
+    """
+    print 'function calleddddddddddddd'
+    print request.user.groups
+    if request.user.groups.filter(name="field_engineer").exists():
+        # user is an admin
+        return redirect("admin_list")
+    else:
+        return redirect("other_view")
 
 
 class AdvancedMapView(StaticPageView):
@@ -127,53 +140,57 @@ class SchoolsDataInfrastructure(viewsets.ModelViewSet):
 
     def retrieve(self, request, school_id=None):
         queryset = school.objects.all()
-        schoolId = get_object_or_404(queryset, pk=school_id)
-        serializer = SchoolSerializerInfrastructure(schoolId)
+        schoolId = get_object_or_404(queryset, school=school_id)
+
+        serializer = BasicInfrastructureSerializer(schoolId)
+        # return Response(serializer.data)
+
         response = serializer.data
-        dict = {
-            "id": response['id'],
-            "name": response['name'],
-            "num_boys": response['total_boys'],
-            "num_girls": response['total_girls'],
-            "facilities":{
-                "Toilet Facilities":
-                    {
-                        "has_toilets": response['toilet_available'],
-                        "has_usable_toilets": response['toilet_functioning'],
-                        "has_shelters_for_toilets": response['shelter_in_toilets']
-                    },
-                "Community Involvement":
-                    {
-                        "Mothers committee formed": response['mothers_committee_formed'],
-                        "Bal vikas samiti formed": response['bal_vikas_samiti_formed'],
-                    },
-                "Basic Infrastructure":
-                    {
-                        "has_spacious_classrooms and Play Isas": 0,
-                        "has_walls_intact": response['need_walls_repair'],
-                        "has_flooring_intact": response['need_flooring_in_building'],
-                        "has_waste_baskets": response['dustbin_available'],
-                        "has_roofs_intact": 1,
-
-                    },
-                "Learning Environment":
-                    {
-                        "learning_and_playing_materials_available": response['learning_and_playing_materials_available'],
-                        "charts_available": response['charts_available'],
-                        "story_books_available": response['story_books_available'],
-                        "drawing_and_art_materials_available": response['drawing_and_art_materials_available'],
-                        "library_kits_available": response['library_kits_available'],
-                        "sports_material_available": response['sports_material_available'],
-                    },
-                "Nutrition and Hygiene":
-                    {
-                        "has_drinking_water_facilities": response['drinking_water'],
-                        "has_clean_and_timely_meals": 0,
-                        "has_handwash_facilities": 0
-                    }
-            }
-
-            }
+        print 'response',response
+        # dict = {
+        #     "id": response['id'],
+        #     "name": response['name'],
+        #     "num_boys": response['total_boys'],
+        #     "num_girls": response['total_girls'],
+        #     "facilities":{
+        #         "Toilet Facilities":
+        #             {
+        #                 "has_toilets": response['toilet_available'],
+        #                 "has_usable_toilets": response['toilet_functioning'],
+        #                 "has_shelters_for_toilets": response['shelter_in_toilets']
+        #             },
+        #         "Community Involvement":
+        #             {
+        #                 "Mothers committee formed": response['mothers_committee_formed'],
+        #                 "Bal vikas samiti formed": response['bal_vikas_samiti_formed'],
+        #             },
+        #         "Basic Infrastructure":
+        #             {
+        #                 "has_spacious_classrooms and Play Isas": 0,
+        #                 "has_walls_intact": response['need_walls_repair'],
+        #                 "has_flooring_intact": response['need_flooring_in_building'],
+        #                 "has_waste_baskets": response['dustbin_available'],
+        #                 "has_roofs_intact": 1,
+        #
+        #             },
+        #         "Learning Environment":
+        #             {
+        #                 "learning_and_playing_materials_available": response['learning_and_playing_materials_available'],
+        #                 "charts_available": response['charts_available'],
+        #                 "story_books_available": response['story_books_available'],
+        #                 "drawing_and_art_materials_available": response['drawing_and_art_materials_available'],
+        #                 "library_kits_available": response['library_kits_available'],
+        #                 "sports_material_available": response['sports_material_available'],
+        #             },
+        #         "Nutrition and Hygiene":
+        #             {
+        #                 "has_drinking_water_facilities": response['drinking_water'],
+        #                 "has_clean_and_timely_meals": 0,
+        #                 "has_handwash_facilities": 0
+        #             }
+        #     }
+        #
+        #     }
         return Response(dict)
 
 class BLCINDIA_APIView(APIView):
@@ -255,3 +272,5 @@ class BoundarySummaryReport(BLCINDIA_APIView):
         id = self.request.GET.get("id")
         self.get_boundary_data(id)
         return Response(self.reportInfo)
+
+
