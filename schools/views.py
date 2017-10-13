@@ -185,14 +185,12 @@ class BoundarySummaryReport(viewsets.ModelViewSet):
     """
     serializer_class = SchoolSerializer
     queryset = school.objects.all()
-
+    
     def list(self, request):
         queryset = school.objects.all()
         serializer = SchoolSerializerAll(queryset, many=True)
-
         self.reportInfo ={}
         year = 2017
-
         self.reportInfo["academic_year"] = year
         self.reportInfo["gender"] = {"boys": 0,
                                      "girls": 0}
@@ -205,8 +203,4 @@ class BoundarySummaryReport(viewsets.ModelViewSet):
                 self.reportInfo["gender"]["boys"] += int(item["num_boys"])
                 self.reportInfo["gender"]["girls"] += int(item["num_girls"])
                 self.reportInfo["student_count"] += (int(item["num_boys"]) + int(item["num_girls"]))
-
-        # self.reportInfo["student_count"]
-
-
         return Response(self.reportInfo)
