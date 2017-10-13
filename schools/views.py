@@ -201,8 +201,8 @@ class BoundarySummaryReport(viewsets.ModelViewSet):
         self.reportInfo['report_info'] = {'name': 'Report'}
         for item in serializer.data:
             self.reportInfo["school_count"] += 1
-            self.reportInfo["gender"]["boys"] += item["num_boys"]
-            self.reportInfo["gender"]["girls"] += item["num_girls"]
+            self.reportInfo["gender"]["boys"] += int(item["num_boys"])
+            self.reportInfo["gender"]["girls"] += int(item["num_girls"])
             self.reportInfo["student_count"] += (int(item["num_boys"]) + int(item["num_girls"]))
 
         # self.reportInfo["student_count"]
