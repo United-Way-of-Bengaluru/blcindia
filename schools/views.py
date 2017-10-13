@@ -203,7 +203,7 @@ class BoundarySummaryReport(viewsets.ModelViewSet):
             self.reportInfo["school_count"] += 1
             self.reportInfo["gender"]["boys"] += item["num_boys"]
             self.reportInfo["gender"]["girls"] += item["num_girls"]
-            self.reportInfo["student_count"] += (item["num_boys"] + item["num_girls"])
+            self.reportInfo["student_count"] += (int(item["num_boys"]) + int(item["num_girls"]))
 
         # self.reportInfo["student_count"]
 
