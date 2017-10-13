@@ -200,6 +200,7 @@ class BoundarySummaryReport(viewsets.ModelViewSet):
         self.reportInfo["school_count"] = 0
         self.reportInfo['report_info'] = {'name': 'Report'}
         for item in serializer.data:
+	    print item
             self.reportInfo["school_count"] += 1
             if item["num_boys"] != None:
                 self.reportInfo["gender"]["boys"] += int(item["num_boys"])
