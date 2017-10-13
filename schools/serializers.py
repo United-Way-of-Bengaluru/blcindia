@@ -73,14 +73,14 @@ class SchoolSerializerAll(serializers.ModelSerializer):
         if boys is not None:
             return boys['total_boys']
         else:
-            return ''
+            return None
 
     def get_num_girls(self, obj):
         girls = Demographics.objects.filter(school=obj).values('total_girls').first()
         if girls is not None:
             return girls['total_girls']
         else:
-            return ''
+            return None
 
     def get_type(self, obj):
         return "Feature"
@@ -170,14 +170,14 @@ class SchoolSerializer(serializers.ModelSerializer):
         if boys is not None:
             return boys['total_boys']
         else:
-            return ''
+            return None
 
     def get_num_girls(self, obj):
         girls = Demographics.objects.filter(school=obj).values('total_girls').first()
         if girls is not None:
             return girls['total_girls']
         else:
-            return ''
+            return None
 
     def get_meeting_reports(self, obj):
         return meeting_reports(self,obj)
