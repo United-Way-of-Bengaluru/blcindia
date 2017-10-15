@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-from models import school, Boundary, Address, District, type, Demographics, BasicFacilities, LearningEnvironment, SafeEnviroment, CommunityEngagement
+from models import school, Boundary, Address, District, Type, Demographics, BasicFacilities, LearningEnvironment, SafeEnviroment, CommunityEngagement, \
+    SchoolImages
 from mapwidgets.widgets import GooglePointFieldWidget
 from django.contrib import admin
 from django.contrib.gis.db import models
@@ -91,11 +92,13 @@ class SchoolAdmin(admin.ModelAdmin):
 
 
 
-
+class SchoolImagesAdmin(admin.ModelAdmin):
+    list_display = ('school','school_image')
 # admin.site.register(Offer, OfferAdmin)
 
 admin.site.register(Address,AddressAdmin)
 admin.site.register(school, SchoolAdmin)
+admin.site.register(SchoolImages,SchoolImagesAdmin)
 # admin.site.register(Demographics)
 # admin.site.register(BasicFacilities)
 # admin.site.register(LearningEnvironment)
@@ -104,4 +107,4 @@ admin.site.register(school, SchoolAdmin)
 
 admin.site.register(District,DistrictAdmin)
 admin.site.register(Boundary,BoundaryAdmin)
-admin.site.register(type)
+admin.site.register(Type)
