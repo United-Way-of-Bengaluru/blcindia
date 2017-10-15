@@ -17,5 +17,5 @@ urlpatterns = [
     url(r'^reports/summary/boundary/$', BoundarySummaryReport.as_view(), name='BoundarySummaryReport'),
 
     # url(r'^admin/login/$', login_success, name='login_success'),
-# url(r'^account/$', account_redirect, name='account-redirect'),
+    # url(r'^account/$', account_redirect, name='account-redirect'),
    ]

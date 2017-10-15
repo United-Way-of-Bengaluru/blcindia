@@ -30,6 +30,8 @@ class SchoolSerializerAll(serializers.ModelSerializer):
     properties = serializers.SerializerMethodField()
     boundary = serializers.SerializerMethodField()
     type = serializers.SerializerMethodField()
+    num_boys = serializers.SerializerMethodField()
+    num_girls = serializers.SerializerMethodField()
 
 
     def address_full(self, obj):
@@ -65,6 +67,20 @@ class SchoolSerializerAll(serializers.ModelSerializer):
             # return district
         else:
             return {}
+
+    def get_num_boys(self, obj):
+        boys = Demographics.objects.filter(school=obj).values('total_boys').first()
+        if boys is not None:
+            return boys['total_boys']
+        else:
+            return None
+
+    def get_num_girls(self, obj):
+        girls = Demographics.objects.filter(school=obj).values('total_girls').first()
+        if girls is not None:
+            return girls['total_girls']
+        else:
+            return None
 
     def get_type(self, obj):
         return "Feature"
@@ -133,7 +149,7 @@ class SchoolSerializerAll(serializers.ModelSerializer):
     class Meta:
         model = school
         # fields = ('id','name','address_full', 'properties', 'type', 'geometry','boundary')
-        fields = ('geometry','type','properties')
+        fields = ('geometry','type','properties', 'num_boys', 'num_girls')
 
 
 
@@ -154,14 +170,14 @@ class SchoolSerializer(serializers.ModelSerializer):
         if boys is not None:
             return boys['total_boys']
         else:
-            return ''
+            return None
 
     def get_num_girls(self, obj):
         girls = Demographics.objects.filter(school=obj).values('total_girls').first()
         if girls is not None:
             return girls['total_girls']
         else:
-            return ''
+            return None
 
     def get_meeting_reports(self, obj):
         return meeting_reports(self,obj)
