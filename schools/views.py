@@ -191,7 +191,7 @@ class SchoolsDataInfrastructure(viewsets.ModelViewSet):
         #     }
         #
         #     }
-        return Response(dict)
+        return Response(response)
 
 class BLCINDIA_APIView(APIView):
     pass
