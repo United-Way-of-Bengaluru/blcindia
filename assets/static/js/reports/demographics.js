@@ -29,8 +29,9 @@
         url = "reports/summary/"+repType+"/?id="+id;
         var $xhr = klp.api.do(url);
         $xhr.done(function(data) {
+            console.log(data)
             klpData = data;
-            acadYear = data["academic_year"].replace(/20/g, '');
+            acadYear = data["academic_year"];
             createSummaryData();
             getDetailsData(id, lang);
             getComparisonData(id, lang);

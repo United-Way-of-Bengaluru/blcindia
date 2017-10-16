@@ -201,81 +201,28 @@ class SchoolsDataInfrastructure(viewsets.ModelViewSet):
 class BLCINDIA_APIView(APIView):
     pass
 
-class BoundarySummaryReport(BLCINDIA_APIView):
-    '''
-        Returns report summary
-    '''
-    reportInfo = {"report_info": {}}
-    parentInfo = {}
-
-    # filling the counts in the data structure to be returned
-    def get_counts(self, boundaryData, active_schools, academic_year):
+class BoundarySummaryReport(viewsets.ModelViewSet):
+    """
+    A viewset for viewing and editing user instances.
+    """
+    serializer_class = SchoolSerializer
+    queryset = school.objects.all()
+    
+    def list(self, request):
+        queryset = school.objects.all()
+        serializer = SchoolSerializerAll(queryset, many=True)
+        self.reportInfo ={}
+        year = 2017
+        self.reportInfo["academic_year"] = year
         self.reportInfo["gender"] = {"boys": 0,
                                      "girls": 0}
         self.reportInfo["student_count"] = 0
-        self.reportInfo["school_count"] = boundaryData["num_schools"]
-        for data in boundaryData["cat"]:
-            if data["cat"] in ['Lower Primary', 'Upper Primary', 'Model Primary']:
-                self.reportInfo["gender"]["boys"] += data["num_boys"]
-                self.reportInfo["gender"]["girls"] += data["num_girls"]
-                self.reportInfo["student_count"] += data["num_boys"] + data["num_girls"]
-        self.reportInfo["teacher_count"] =\
-            self.get_teachercount(active_schools, academic_year)
-
-        if self.reportInfo["teacher_count"] == 0:
-            self.reportInfo["ptr"] = "NA"
-        else:
-            self.reportInfo["ptr"] = round(
-                self.reportInfo["student_count"] /
-                float(self.reportInfo["teacher_count"]), 2)
-
-        if self.parentInfo["schoolcount"] == 0:
-            self.reportInfo["school_perc"] = 100
-        else:
-            self.reportInfo["school_perc"] = round(
-                self.reportInfo["school_count"] *
-                100 / float(self.parentInfo["schoolcount"]), 2)
-
-    def get_boundary_data(self, boundary_id):
-        #settings.DEFAULT_ACADEMIC_YEAR
-        # Get the academic year
-        year = self.request.GET.get('year', '2017')
-        # try:
-        #     academic_year = AcademicYear.objects.get(name=year)
-        # except AcademicYear.DoesNotExist:
-        #     raise APIError('Academic year is not valid.\
-        #             It should be in the form of 2011-2012.', 404)
-        self.reportInfo["academic_year"] = year
-
-        # Check if boundary id is valid
-        try:
-            Address = Address.objects.filter(boundary_id=boundary_id).all()
-        except Exception:
-            raise APIError('Boundary not found', 404)
-
-        # Get list of schools associated with that boundary
-        active_schools = Address.schools()
-
-        # Get aggregate data for schools in that boundary for the current
-        # academic year
-        boundaryData = self.get_aggregations(active_schools, academic_year)
-        boundaryData = self.check_values(boundaryData)
-
-        # get information about the parent
-        self.parentInfo = self.get_parent_info(boundary)
-
-        # get the summary data
-        self.get_boundary_summary_data(boundary, self.reportInfo)
-
-        # get the counts of students/gender/teacher/school
-        self.get_counts(boundaryData, active_schools, academic_year)
-
-    def get(self, request):
-        if not self.request.GET.get('id'):
-            raise ParseError("Mandatory parameter id not passed")
-
-        id = self.request.GET.get("id")
-        self.get_boundary_data(id)
+        self.reportInfo["school_count"] = 0
+        self.reportInfo['report_info'] = {'name': 'Report'}
+        for item in serializer.data:
+            self.reportInfo["school_count"] += 1
+            if item["num_boys"] != None:
+                self.reportInfo["gender"]["boys"] += int(item["num_boys"])
+                self.reportInfo["gender"]["girls"] += int(item["num_girls"])
+                self.reportInfo["student_count"] += (int(item["num_boys"]) + int(item["num_girls"]))
         return Response(self.reportInfo)
-
-
