@@ -325,7 +325,7 @@ class BasicInfrastructureSerializer(serializers.ModelSerializer):
     class Meta:
         model = school
         #fields = ('basic_facilities','safe_environment','community')
-        fields = ('get_basic_facilities')
+        fields = '__all__'
 
 
 class SchoolSerializerInfrastructure(serializers.ModelSerializer):
