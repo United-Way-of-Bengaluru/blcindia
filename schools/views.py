@@ -142,7 +142,7 @@ class SchoolsDataInfrastructure(viewsets.ModelViewSet):
         queryset = school.objects.all()
         schoolId = get_object_or_404(queryset, pk=school_id)
 
-        serializer = SchoolSerializerInfrastructure(schoolId)
+        serializer = BasicInfrastructureSerializer(schoolId)
         # return Response(serializer.data)
 
         response = serializer.data
