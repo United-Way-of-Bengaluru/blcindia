@@ -141,7 +141,7 @@ class SchoolsDataInfrastructure(viewsets.ModelViewSet):
     def retrieve(self, request, school_id=None):
         queryset = school.objects.all()
         schoolId = get_object_or_404(queryset, pk=school_id)
-        schoolId.get_basic_facilities()
+
         serializer = SchoolSerializerInfrastructure(schoolId)
         # return Response(serializer.data)
 
