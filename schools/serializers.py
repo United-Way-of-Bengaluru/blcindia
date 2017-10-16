@@ -328,12 +328,6 @@ class BasicInfrastructureSerializer(serializers.ModelSerializer):
 
 
 class SchoolSerializerInfrastructure(serializers.ModelSerializer):
-    safe_environment = serializers.SerializerMethodField()
-
-    def get_safe_environment(self, obj):
-        SafeEnviromentData = obj.getSafeEnviroment()
-        print SafeEnviromentData
-        return SafeEnviromentData
     """
        response Data:
        {
@@ -376,4 +370,5 @@ class SchoolSerializerInfrastructure(serializers.ModelSerializer):
     class Meta:
         model = school
         # fields = ('id','name','num_boys','num_girls','toilet_available','toilet_functioning','shelter_in_toilets','need_walls_repair')
-        fields = '__all__'
+        fields = ('id', 'name', 'safeenviroment')
+        #fields = '__all__'
