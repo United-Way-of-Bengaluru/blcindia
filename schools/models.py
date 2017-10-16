@@ -108,8 +108,8 @@ class school(models.Model):
     # def demographics(self):
     #     return Demographics.objects.filter('school_id', self.id)
 
-    def basic_facilities(self):
-        return BasicFacilities.objects.filter('school_id', self.id)
+    # def basic_facilities(self):
+    #     return BasicFacilities.objects.filter('school_id', self.id)
 
     def __unicode__(self):
         return self.name
