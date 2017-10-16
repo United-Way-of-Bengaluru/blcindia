@@ -150,7 +150,7 @@ class SchoolsDataInfrastructure(viewsets.ModelViewSet):
         return Response(serializer.data)
 
         response = serializer.data
-        print 'response',response
+
         dict = {
             "id": response['id'],
         #     "name": response['name'],
