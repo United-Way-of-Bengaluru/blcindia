@@ -319,7 +319,7 @@ class CommunityEngagementSerializer(serializers.ModelSerializer):
 
 
 class BasicInfrastructureSerializer(serializers.ModelSerializer):
-    get_basic_facilities = serializers.Field()
+    #get_basic_facilities = serializers.Field()
     #safe_environment = serializers.Field()
     #community = serializers.Field()
     class Meta:
