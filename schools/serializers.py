@@ -328,6 +328,12 @@ class BasicInfrastructureSerializer(serializers.ModelSerializer):
 
 
 class SchoolSerializerInfrastructure(serializers.ModelSerializer):
+    safe_environment = serializers.SerializerMethodField()
+
+    def get_safe_environment(self, obj):
+        SafeEnviromentData = obj.getSafeEnviroment()
+        print SafeEnviromentData
+        return SafeEnviromentData
     """
        response Data:
        {
