@@ -81,7 +81,7 @@ class Address(models.Model):
     def __unicode__(self):
         return self.name
 
-class type(models.Model):
+class Type(models.Model):
     """docstring for type"""
     # id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=50, blank=True)
