@@ -14,16 +14,20 @@ Including another URLconf
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
 from django.conf.urls import url, include
+from django.conf.urls.static import static
 from django.contrib import admin
+
+from blcindia import settings
 from views import StaticPageView
 from django.views.generic.base import RedirectView
-from schools.views import AdvancedMapView, SchoolPageView
+from schools.views import AdvancedMapView, SchoolPageView, login_success
 
 urlpatterns = [
+    url(r'^admin/login_success$', login_success, name='login_success'),
     url(r'^admin/', admin.site.urls),
-
     # url(r'^schools-api/', include('schools.urls')),
     url(r'^api/v1/', include('schools.urls')),
+
     # home page
     url(r'^$', StaticPageView.as_view(
         template_name='home.html',
@@ -131,4 +135,6 @@ url(r'^status/$', StaticPageView.as_view(
     url(r'^school/(?P<pk>[0-9]+)/$',
     SchoolPageView.as_view(), name='school_page'),
 
-]
+    url(r'^fieldstaff/', include('fieldStaff.urls')),
+    # url(r'^api/v1/', include('schools.urls')),
+]+static(settings.MEDIA_URL,document_root = settings.MEDIA_ROOT)

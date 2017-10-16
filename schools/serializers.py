@@ -1,7 +1,7 @@
 from django.shortcuts import get_object_or_404
 from rest_framework import serializers
 
-from schools.models import school, Address, District, Demographics, BasicFacilities, CommunityEngagement
+from schools.models import school, Address, District, Demographics, BasicFacilities, CommunityEngagement, SafeEnviroment
 
 
 # class AddressSerializer(serializers.ModelSerializer):
@@ -301,6 +301,31 @@ class SchoolSerializerDemographics(serializers.ModelSerializer):
     class Meta:
         model = Demographics
         fields = ('id','total_boys','total_girls')
+
+class BasicFacilitiesSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = BasicFacilities
+        fields = '__all__'
+
+class SafeEnviromentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SafeEnviroment
+        fields = '__all__'
+
+class CommunityEngagementSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CommunityEngagement
+        fields = '__all__'
+
+
+class BasicInfrastructureSerializer(serializers.ModelSerializer):
+    basic_facilities = BasicFacilitiesSerializer()
+    safe_environment = SafeEnviromentSerializer()
+    community = CommunityEngagementSerializer()
+    class Meta:
+        model = school
+        fields = ('basic_facilities','safe_environment','community')
+
 
 class SchoolSerializerInfrastructure(serializers.ModelSerializer):
     """

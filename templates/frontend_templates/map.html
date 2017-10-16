@@ -69,7 +69,7 @@
   <div class="map-pin-details">
     <span class="icon-number">{% if type.id==1 %} S {% else %} P {% endif %}</span>
     <h3 class="map-heading-main">{{ name }}</h3>
-    <ul class="map-location-labels">  
+    <ul class="map-location-labels">
       <li class="map-label-each">
         <div class="map-label-title">District</div>
         <div class="map-label-name">{{ admin1.name|capitalize }}</div>
@@ -94,7 +94,7 @@
             {% endif %}
           </div>
           <div class="uppercase font-light font-larger">3-6 Years</div>
-        </div> 
+        </div>
       </div>
       <div class="gender-item gender-item-girl">
         <div class="icon-boy k-icon"></div>
@@ -131,7 +131,7 @@
     {% if has_volunteer_activities %}
     <div class="center-text">
       <a class="button js-trigger-volunteer-map" href="/school/{{ id }}/#?tab=volunteer">Volunteer here</a>
-    </div> 
+    </div>
     <div class="base-spacing"></div>
     {% endif %}
     <div class="center-text">
@@ -177,7 +177,7 @@
         <input type="hidden" class="filter-dropdown" id="select-school" />
       </div>
     </div> <!-- /filter-school-block -->
-    
+
     <div class="base-spacing"></div>
     <div class="center-text">
     <a href="" class="button hide" id="download">Download CSV</a>
@@ -190,29 +190,30 @@
   <div class="map-pin-details">
     <span class="icon-number">
       {% if school_type == "primaryschool" %}
-        {% if type == "district" %} 
-          D 
-        {% elif type == "block" %} 
+        {% if type == "district" %}
+          D
+        {% elif type == "block" %}
           B
         {% else %}
           C
         {% endif %}
       {% else %}
-        {% if type == "district" %} 
+        {% if type == "district" %}
           D
-        {% elif type == "project" %} 
+        {% elif type == "project" %}
           P
         {% else %}
           C
         {% endif %}
       {% endif %}
+
     </span>
     <h3 class="map-heading-main">{{ name }}</h3>
     <div class="map-label-name">{{ parentType|capitalize }}</div>
     <div class="heading-tiny-uppercase">{{ parentName|capitalize }}</div>
     {% if num_schools %}
       {% if school_type == "primaryschool" %}
-        <div class="heading-tiny-uppercase center-text">Schools</div>      
+        <div class="heading-tiny-uppercase center-text">Schools</div>
       {% else %}
         <div class="heading-tiny-uppercase center-text">Preschools</div>
       {% endif %}
@@ -234,7 +235,7 @@
             {% endif %}
           </div>
           <div class="uppercase font-light font-large">0-3 Years</div>
-        </div> 
+        </div>
       </div>
       <div class="gender-item gender-item-girl">
         <div class="icon-girl k-icon"></div>
@@ -259,7 +260,7 @@
     </div>
     {% endif %}
 
-    
+
     <div class="center-text">
       <!--a class="button button-map-compare js-trigger-compare" href="">Compare to</a-->
       <a class="button Xjs-trigger-info" href="/boundary/{{ id }}/">More Info</a>

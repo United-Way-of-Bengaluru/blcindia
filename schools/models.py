@@ -1,7 +1,11 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+from django.contrib.auth.models import User
 from django.contrib.gis.db import models
+from django.utils.safestring import mark_safe
+
+from blcindia.settings import MEDIA_URL
 from choices import ( YESNO, AREA, SCHOOL_CATEGORY, SCHOOL_MANAGEMENT , SCHOOL_TYPES,DISTRICT_STATUS, MEDIUM, MDM_STATUS, KITCHENSHED_STATUS,
     BOUNDARY_WALL, BUILDING_STATUS, DRINKING_WATER, PAINT_TYPE_CHOICES, YESNO_TYPE_CHOICES, condition_TYPE_CHOICES)
 
@@ -70,13 +74,6 @@ class Address(models.Model):
     def identifiers(self):
         return self.get_identifiers()
 
-
-
-    # def schools(self):
-    #     return School.objects.filter(
-    #         Q(status=2)
-    #     )
-
     class Meta:
         #abstract = True
         verbose_name_plural = 'Addresses'
@@ -96,7 +93,7 @@ class type(models.Model):
 class school(models.Model):
     name = models.CharField(max_length=200, blank=True)
     address = models.OneToOneField('Address', blank=True, null=True)
-    type = models.ForeignKey('type', blank=True, null=True)
+    type = models.ForeignKey('Type', blank=True, null=True)
     rural_urban = models.IntegerField(choices=AREA, null=True, blank=True)
     building_status = models.IntegerField(choices=BUILDING_STATUS, null=True, blank=True)
     worker_name = models.CharField(max_length=50, blank=True)
@@ -110,7 +107,6 @@ class school(models.Model):
 
     # def demographics(self):
     #     return Demographics.objects.filter('school_id', self.id)
-
 
 
     def __unicode__(self):
@@ -253,6 +249,26 @@ class CommunityEngagement(models.Model):
 
 
 
+class SchoolImages(models.Model):
+    school = models.ForeignKey(school)
+    image = models.FileField(upload_to='schoolImages')
+
+    def school_image(self):
+        if self.image:
+            return mark_safe('<img src=' + MEDIA_URL + '%s width="50" height="50" />' % (self.image))
+            image.short_description = 'Image'
+            image.allow_tags = True
+        else:
+            return 'No Image'
 
 
+# from django.contrib.auth.models import User
+# User._meta.get_field('email')._unique = True
 
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
+    about = models.TextField(blank=True)
+    address = models.TextField(blank=True)
+    profile_pic = models.FileField(upload_to='profile_pic', blank=True, null=True)
+    mobile = models.CharField(max_length=12, null=True, blank=True)
+    company = models.CharField(max_length=100,null=True, blank=True)
