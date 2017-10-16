@@ -160,7 +160,7 @@ class SchoolSerializer(serializers.ModelSerializer):
     landmark = serializers.SerializerMethodField()
     district = serializers.SerializerMethodField()
     type = serializers.SerializerMethodField()
-    # basic_facilities = serializers.SerializerMethodField()
+    basic_facilities = serializers.SerializerMethodField()
     num_boys = serializers.SerializerMethodField()
     num_girls = serializers.SerializerMethodField()
     meeting_reports = serializers.SerializerMethodField()
@@ -272,7 +272,7 @@ class SchoolSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = school
-        fields = ('id','name','cat','address_full','landmark','identifiers','district','type', 'num_boys', 'num_girls','meeting_reports')
+        fields = ('id','name','cat','address_full','landmark','identifiers','district','type', 'num_boys', 'num_girls', 'basic_facilities', 'meeting_reports')
 
 class SchoolSerializerDemographics(serializers.ModelSerializer):
 
