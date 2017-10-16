@@ -108,10 +108,10 @@ class school(models.Model):
     # def demographics(self):
     #     return Demographics.objects.filter('school_id', self.id)
 
-    def basic_facilities(self):
+    def get_basic_facilities(self):
          return BasicFacilities.objects.filter('school_id', self.id)
 
-    def safe_environment(self):
+    def get_safe_environment(self):
         return SafeEnviroment.objects.filter('school_id', self.id)
 
     def community(self):

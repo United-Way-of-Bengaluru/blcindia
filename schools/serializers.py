@@ -319,12 +319,13 @@ class CommunityEngagementSerializer(serializers.ModelSerializer):
 
 
 class BasicInfrastructureSerializer(serializers.ModelSerializer):
-    basic_facilities = serializers.Field()
-    safe_environment = serializers.Field()
-    community = serializers.Field()
+    get_basic_facilities = serializers.Field()
+    #safe_environment = serializers.Field()
+    #community = serializers.Field()
     class Meta:
         model = school
-        fields = ('basic_facilities','safe_environment','community')
+        #fields = ('basic_facilities','safe_environment','community')
+        fields = ('get_basic_facilities')
 
 
 class SchoolSerializerInfrastructure(serializers.ModelSerializer):
