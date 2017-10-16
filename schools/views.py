@@ -140,7 +140,7 @@ class SchoolsDataInfrastructure(viewsets.ModelViewSet):
 
     def retrieve(self, request, school_id=None):
         queryset = school.objects.all()
-        schoolId = get_object_or_404(queryset, school=school_id)
+        schoolId = get_object_or_404(queryset, pk=school_id)
 
         serializer = BasicInfrastructureSerializer(schoolId)
         # return Response(serializer.data)
@@ -191,7 +191,7 @@ class SchoolsDataInfrastructure(viewsets.ModelViewSet):
         #     }
         #
         #     }
-        return Response(dict)
+        return Response(response)
 
 class BLCINDIA_APIView(APIView):
     pass
