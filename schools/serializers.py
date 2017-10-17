@@ -340,6 +340,8 @@ class BasicInfrastructureSerializer(serializers.ModelSerializer):
     num_boys = serializers.SerializerMethodField()
     num_girls = serializers.SerializerMethodField()
     basic_facilities = serializers.SerializerMethodField()
+
+    # safe = serializers.PrimaryKeyRelatedField(queryset=SafeEnvironment.objects.all(), required=False, allow_null=True)
     # safeEnvironment = safe_environemnt(self, obj)
     # safe_environment = SafeEnvironmentSerializer()
     # community = CommunityEngagementSerializer()
