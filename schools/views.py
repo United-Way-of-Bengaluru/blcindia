@@ -4,15 +4,16 @@ from django.shortcuts import get_object_or_404
 from django.views.generic.base import TemplateView
 
 from django.views.generic.detail import DetailView
+from rest_framework import generics
 from rest_framework import viewsets
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.exceptions import APIException
 
 from blcindia.views import StaticPageView
-from schools.models import school, Boundary,Address, AcademicYear, Demographics, SafeEnviroment
+from schools.models import school, Boundary,Address, AcademicYear, Demographics, SafeEnvironment, BasicFacilities
 from schools.serializers import SchoolSerializer, SchoolSerializerAll, SchoolSerializerDemographics, \
-    SchoolSerializerInfrastructure, BasicInfrastructureSerializer
+    SchoolSerializerInfrastructure, BasicFacilitiesSerializer, BasicInfrastructureSerializer
 from django.core.urlresolvers import reverse
 
 
@@ -135,6 +136,9 @@ class SchoolsDataDemographics(viewsets.ModelViewSet):
             }
         return Response(dict)
 
+
+
+
 class SchoolsDataInfrastructure(viewsets.ModelViewSet):
     queryset = school.objects.all()
 
@@ -142,11 +146,13 @@ class SchoolsDataInfrastructure(viewsets.ModelViewSet):
         queryset = school.objects.all()
         schoolId = get_object_or_404(queryset, pk=school_id)
 
-        serializer = SchoolSerializerInfrastructure(schoolId)
-        # return Response(serializer.data)
 
-        response = serializer.data
-        print 'response',response
+        serializer = BasicInfrastructureSerializer(schoolId)
+        return Response(serializer.data)
+
+
+        # response = serializer.data
+
         # dict = {
         #     "id": response['id'],
         #     "name": response['name'],
@@ -190,8 +196,11 @@ class SchoolsDataInfrastructure(viewsets.ModelViewSet):
         #             }
         #     }
         #
-        #     }
-        return Response(response)
+
+        #      }
+        # # return Response(dict)
+        # return Response(dict)
+
 
 class BLCINDIA_APIView(APIView):
     pass
