@@ -4,15 +4,16 @@ from django.shortcuts import get_object_or_404
 from django.views.generic.base import TemplateView
 
 from django.views.generic.detail import DetailView
+from rest_framework import generics
 from rest_framework import viewsets
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.exceptions import APIException
 
 from blcindia.views import StaticPageView
-from schools.models import school, Boundary,Address, AcademicYear, Demographics, SafeEnviroment
+from schools.models import school, Boundary,Address, AcademicYear, Demographics, SafeEnvironment, BasicFacilities
 from schools.serializers import SchoolSerializer, SchoolSerializerAll, SchoolSerializerDemographics, \
-    SchoolSerializerInfrastructure, BasicInfrastructureSerializer
+    SchoolSerializerInfrastructure, BasicFacilitiesSerializer, BasicInfrastructureSerializer
 from django.core.urlresolvers import reverse
 
 
@@ -135,20 +136,23 @@ class SchoolsDataDemographics(viewsets.ModelViewSet):
             }
         return Response(dict)
 
+
+
+
 class SchoolsDataInfrastructure(viewsets.ModelViewSet):
     queryset = school.objects.all()
 
     def retrieve(self, request, school_id=None):
         queryset = school.objects.all()
-        schoolId = get_object_or_404(queryset, school=school_id)
+        schoolId = get_object_or_404(queryset, pk=school_id)
 
         serializer = BasicInfrastructureSerializer(schoolId)
-        # return Response(serializer.data)
+        return Response(serializer.data)
 
         response = serializer.data
-        print 'response',response
-        # dict = {
-        #     "id": response['id'],
+
+        dict = {
+            "id": response['id'],
         #     "name": response['name'],
         #     "num_boys": response['total_boys'],
         #     "num_girls": response['total_girls'],
@@ -190,7 +194,8 @@ class SchoolsDataInfrastructure(viewsets.ModelViewSet):
         #             }
         #     }
         #
-        #     }
+             }
+        # return Response(dict)
         return Response(dict)
 
 class BLCINDIA_APIView(APIView):

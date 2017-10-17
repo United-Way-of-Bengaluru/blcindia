@@ -81,7 +81,7 @@ class Address(models.Model):
     def __unicode__(self):
         return self.name
 
-class type(models.Model):
+class Type(models.Model):
     """docstring for type"""
     # id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=50, blank=True)
@@ -170,7 +170,7 @@ class LearningEnvironment(models.Model):
     others_requirements = models.CharField(max_length=100, blank=True)
 
 
-class SafeEnviroment(models.Model):
+class SafeEnvironment(models.Model):
     school = models.OneToOneField('school')
     shelves_in_kitchen = models.IntegerField(null=True, blank=True)
     shelves_required_in_kitchen = models.IntegerField(null=True, blank=True)
