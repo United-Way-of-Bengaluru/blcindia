@@ -78,8 +78,8 @@ class Address(models.Model):
         #abstract = True
         verbose_name_plural = 'Addresses'
 
-    def __unicode__(self):
-        return self.name
+   #def __unicode__(self):
+  #     return self.name
 
 class Type(models.Model):
     """docstring for type"""
@@ -179,7 +179,7 @@ class LearningEnvironment(models.Model):
     others_requirements = models.CharField(max_length=100, blank=True)
 
 
-class SafeEnviroment(models.Model):
+class SafeEnvironment(models.Model):
     school = models.OneToOneField('school')
     shelves_in_kitchen = models.IntegerField(null=True, blank=True)
     shelves_required_in_kitchen = models.IntegerField(null=True, blank=True)

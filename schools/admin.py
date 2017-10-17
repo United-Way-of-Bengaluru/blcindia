@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-from models import school, Boundary, Address, District, Type, Demographics, BasicFacilities, LearningEnvironment, SafeEnviroment, CommunityEngagement, \
+from models import school, Boundary, Address, District, Type, Demographics, BasicFacilities, LearningEnvironment, SafeEnvironment, CommunityEngagement, \
     SchoolImages
 from mapwidgets.widgets import GooglePointFieldWidget
 from django.contrib import admin
@@ -32,8 +32,8 @@ class LearningEnvironmentInline(admin.TabularInline):
     model = LearningEnvironment
     can_delete = False
 
-class SafeEnviromentInline(admin.TabularInline):
-    model = SafeEnviroment
+class SafeEnvironmentInline(admin.TabularInline):
+    model = SafeEnvironment
     can_delete = False
 
 class CommunityEngagementInline(admin.TabularInline):
@@ -88,7 +88,7 @@ class CommunityEngagementInline(admin.TabularInline):
 #     #
 #
 class SchoolAdmin(admin.ModelAdmin):
-    inlines = (DemographicsInline,BasicFacilitiesInline,LearningEnvironmentInline,SafeEnviromentInline,CommunityEngagementInline)
+    inlines = (DemographicsInline,BasicFacilitiesInline,LearningEnvironmentInline,SafeEnvironmentInline,CommunityEngagementInline)
 
 
 

@@ -1,7 +1,9 @@
 from django.shortcuts import get_object_or_404
+from rest_framework import generics
 from rest_framework import serializers
 
-from schools.models import school, Address, District, Demographics, BasicFacilities, CommunityEngagement, SafeEnviroment
+from schools.models import school, Address, District, Demographics, BasicFacilities, CommunityEngagement, SafeEnvironment, \
+    LearningEnvironment
 
 
 # class AddressSerializer(serializers.ModelSerializer):
@@ -318,9 +320,11 @@ class BasicFacilitiesSerializer(serializers.ModelSerializer):
         model = BasicFacilities
         fields = '__all__'
 
-class SafeEnviromentSerializer(serializers.ModelSerializer):
+
+
+class SafeEnvironmentSerializer(serializers.ModelSerializer):
     class Meta:
-        model = SafeEnviroment
+        model = SafeEnvironment
         fields = '__all__'
 
 class CommunityEngagementSerializer(serializers.ModelSerializer):
@@ -329,13 +333,98 @@ class CommunityEngagementSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+
+def basic_facilities(self, obj):
+    facilities = BasicFacilities.objects.filter(school=obj).values('no_of_meetings_conducted_in_last_three_months',
+                                                                      'meetings_documented_in_register',
+                                                                      'meetings_documented').first()
+    if facilities is not None:
+        return facilities
+    else:
+        return {}
+
+def safe_environemnt(self,obj):
+    safeEnvironment = SafeEnvironment.objects.filter(school=obj).values('need_walls_repair',)
+
 class BasicInfrastructureSerializer(serializers.ModelSerializer):
-    basic_facilities = BasicFacilitiesSerializer()
-    safe_environment = SafeEnviromentSerializer()
-    community = CommunityEngagementSerializer()
+    # activity = serializers.PrimaryKeyRelatedField()
+    num_boys = serializers.SerializerMethodField()
+    num_girls = serializers.SerializerMethodField()
+    basic_facilities = serializers.SerializerMethodField()
+
+    # safe = serializers.PrimaryKeyRelatedField(queryset=SafeEnvironment.objects.all(), required=False, allow_null=True)
+    # safeEnvironment = safe_environemnt(self, obj)
+    # safe_environment = SafeEnvironmentSerializer()
+    # community = CommunityEngagementSerializer()
+
+    num_boys = serializers.SerializerMethodField()
+    num_girls = serializers.SerializerMethodField()
+    toilet_data = serializers.SerializerMethodField()
+    community_involvement = serializers.SerializerMethodField()
+    basic_infrastructure = serializers.SerializerMethodField()
+    learning_environment = serializers.SerializerMethodField()
+    nutrition_and_hygiene = serializers.SerializerMethodField()
+
+
+    def get_num_boys(self, obj):
+        boys = Demographics.objects.filter(school=obj).values('total_boys').first()
+        if boys is not None:
+            return boys['total_boys']
+        else:
+            return ''
+
+    def get_num_girls(self, obj):
+        girls = Demographics.objects.filter(school=obj).values('total_girls').first()
+        if girls is not None:
+            return girls['total_girls']
+        else:
+            return ''
+
+    def get_basic_facilities(self, obj):
+        basic = BasicFacilities.objects.filter(school=obj).values('electricity_available').first()
+        if basic is not None:
+            return basic['electricity_available']
+        else:
+            return ''
+
+    def get_toilet_data(self, obj):
+        toilet = SafeEnvironment.objects.filter(school=obj).values('toilet_available','toilet_functioning','shelter_in_toilets').first()
+        if toilet is not None:
+            return toilet
+        else:
+            return ''
+
+    def get_basic_infrastructure(self, obj):
+            communityInvolvement = SafeEnvironment.objects.filter(school=obj).values('need_walls_repair','need_flooring_in_building','dustbin_available','need_ceiling_repair').first()
+            if communityInvolvement is not None:
+                return communityInvolvement
+            else:
+                return ''
+    def get_community_involvement(self, obj):
+        communityInvolvement = CommunityEngagement.objects.filter(school=obj).values('mothers_committee_formed','bal_vikas_samiti_formed').first()
+        if communityInvolvement is not None:
+            return communityInvolvement
+        else:
+            return ''
+
+    def get_learning_environment(self, obj):
+        learningEnvironment = LearningEnvironment.objects.filter(school=obj).values('learning_and_playing_materials_available','charts_available','story_books_available','drawing_and_art_materials_available','library_kits_available','sports_material_available').first()
+        if learningEnvironment is not None:
+            return learningEnvironment
+        else:
+            return ''
+
+    def get_nutrition_and_hygiene(self, obj):
+        nutritionHygiene = BasicFacilities.objects.filter(school=obj).values('drinking_water').first()
+        if nutritionHygiene is not None:
+            return nutritionHygiene
+        else:
+            return ''
+
     class Meta:
         model = school
-        fields = ('basic_facilities','safe_environment','community')
+        fields = ('name','num_boys','num_girls','basic_facilities','toilet_data','community_involvement','basic_infrastructure','learning_environment','nutrition_and_hygiene')
+
 
 
 class SchoolSerializerInfrastructure(serializers.ModelSerializer):
