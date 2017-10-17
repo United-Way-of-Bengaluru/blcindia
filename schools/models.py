@@ -108,6 +108,14 @@ class school(models.Model):
     # def demographics(self):
     #     return Demographics.objects.filter('school_id', self.id)
 
+    def get_basic_facilities(self):
+         return BasicFacilities.objects.filter('school_id', self.id)
+
+    def get_safe_environment(self):
+        return SafeEnviroment.objects.filter('school_id', self.id)
+
+    def community(self):
+        return CommunityEngagement.objects.filter('school_id', self.id)
 
     def __unicode__(self):
         return self.name
