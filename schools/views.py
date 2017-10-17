@@ -146,13 +146,15 @@ class SchoolsDataInfrastructure(viewsets.ModelViewSet):
         queryset = school.objects.all()
         schoolId = get_object_or_404(queryset, pk=school_id)
 
+
         serializer = BasicInfrastructureSerializer(schoolId)
         return Response(serializer.data)
 
-        response = serializer.data
 
-        dict = {
-            "id": response['id'],
+        # response = serializer.data
+
+        # dict = {
+        #     "id": response['id'],
         #     "name": response['name'],
         #     "num_boys": response['total_boys'],
         #     "num_girls": response['total_girls'],
@@ -194,9 +196,11 @@ class SchoolsDataInfrastructure(viewsets.ModelViewSet):
         #             }
         #     }
         #
-             }
+
+        #      }
+        # # return Response(dict)
         # return Response(dict)
-        return Response(dict)
+
 
 class BLCINDIA_APIView(APIView):
     pass
