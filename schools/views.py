@@ -96,6 +96,11 @@ class SchoolsData(viewsets.ModelViewSet):
         queryset = school.objects.all()
         schoolId = get_object_or_404(queryset, pk=school_id)
         serializer = SchoolSerializer(schoolId)
+        dict ={
+            "type": "Feature",
+            "properties": serializer.data,
+            #"geometry": serializer.data.geometry
+        }
         return Response(serializer.data)
 
 class SchoolsDataDemographics(viewsets.ModelViewSet):

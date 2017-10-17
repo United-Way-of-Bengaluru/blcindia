@@ -164,6 +164,7 @@ class SchoolSerializer(serializers.ModelSerializer):
     num_boys = serializers.SerializerMethodField()
     num_girls = serializers.SerializerMethodField()
     meeting_reports = serializers.SerializerMethodField()
+    geometry = serializers.SerializerMethodField()
 
     def get_num_boys(self, obj):
         boys = Demographics.objects.filter(school=obj).values('total_boys').first()
@@ -171,6 +172,16 @@ class SchoolSerializer(serializers.ModelSerializer):
             return boys['total_boys']
         else:
             return None
+
+     def get_geometry(self, obj):
+        if obj.address:
+            dict ={
+                "type": "Point",
+                "coordinates": [obj.address.location.x, obj.address.location.y]
+            }
+            return dict
+        else:
+            return {}
 
     def get_num_girls(self, obj):
         girls = Demographics.objects.filter(school=obj).values('total_girls').first()
