@@ -3,7 +3,7 @@ from rest_framework import generics
 from rest_framework import serializers
 
 from schools.models import school, Address, District, Demographics, BasicFacilities, CommunityEngagement, SafeEnvironment, \
-    LearningEnvironment
+    LearningEnvironment, SchoolImages
 
 
 # class AddressSerializer(serializers.ModelSerializer):
@@ -353,6 +353,7 @@ class BasicInfrastructureSerializer(serializers.ModelSerializer):
     basic_infrastructure = serializers.SerializerMethodField()
     learning_environment = serializers.SerializerMethodField()
     nutrition_and_hygiene = serializers.SerializerMethodField()
+    school_images = serializers.SerializerMethodField()
 
 
     def get_num_boys(self, obj):
@@ -410,9 +411,16 @@ class BasicInfrastructureSerializer(serializers.ModelSerializer):
         else:
             return ''
 
+    def get_school_images(self, obj):
+            schoolImages = SchoolImages.objects.filter(school=obj).values('image').first()
+            if schoolImages is not None:
+                return schoolImages
+            else:
+                return ''
+
     class Meta:
         model = school
-        fields = ('name','num_boys','num_girls','basic_facilities','toilet_data','community_involvement','basic_infrastructure','learning_environment','nutrition_and_hygiene')
+        fields = ('name','num_boys','num_girls','basic_facilities','toilet_data','community_involvement','basic_infrastructure','learning_environment','nutrition_and_hygiene','school_images')
 
 
 
