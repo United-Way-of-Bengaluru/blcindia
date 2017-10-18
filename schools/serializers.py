@@ -359,8 +359,8 @@ class BasicInfrastructureSerializer(serializers.ModelSerializer):
 	num_boys = serializers.SerializerMethodField()
 	num_girls = serializers.SerializerMethodField()
 	facilities = serializers.SerializerMethodField()
-  school_images = serializers.SerializerMethodField()
-	# toilet_data = serializers.SerializerMethodField()
+	school_images = serializers.SerializerMethodField()
+    # toilet_data = serializers.SerializerMethodField()
 	# community_involvement = serializers.SerializerMethodField()
 	# basic_infrastructure = serializers.SerializerMethodField()
 	# learning_environment = serializers.SerializerMethodField()
@@ -439,12 +439,12 @@ class BasicInfrastructureSerializer(serializers.ModelSerializer):
 		}
 		return dict
 
-  def get_school_images(self, obj):
-    schoolImages = SchoolImages.objects.filter(school=obj).values('image').first()
-    if schoolImages is not None:
-      return schoolImages
-    else:
-      return ''
+	def get_school_images(self, obj):
+		schoolImages = SchoolImages.objects.filter(school=obj).values('image').first()
+		if schoolImages is not None:
+			return schoolImages
+		else:
+			return ''
     
 	class Meta:
 		model = school
