@@ -3,7 +3,7 @@ from rest_framework import generics
 from rest_framework import serializers
 
 from schools.models import school, Address, District, Demographics, BasicFacilities, CommunityEngagement, SafeEnvironment, \
-	LearningEnvironment
+    LearningEnvironment, SchoolImages
 
 
 # class AddressSerializer(serializers.ModelSerializer):
@@ -359,6 +359,7 @@ class BasicInfrastructureSerializer(serializers.ModelSerializer):
 	num_boys = serializers.SerializerMethodField()
 	num_girls = serializers.SerializerMethodField()
 	facilities = serializers.SerializerMethodField()
+  school_images = serializers.SerializerMethodField()
 	# toilet_data = serializers.SerializerMethodField()
 	# community_involvement = serializers.SerializerMethodField()
 	# basic_infrastructure = serializers.SerializerMethodField()
@@ -429,7 +430,6 @@ class BasicInfrastructureSerializer(serializers.ModelSerializer):
 		learningEnvironment = LearningEnvironment.objects.filter(school=obj).values('learning_and_playing_materials_available','charts_available','story_books_available','drawing_and_art_materials_available','library_kits_available','sports_material_available').first()
 		nutritionHygiene = BasicFacilities.objects.filter(school=obj).values('drinking_water').first()
 		
-
 		dict = {
 		'Basic Infrastructure': basicInfrastructure,
 		'Community Involvement': communityInvolvement,
@@ -439,9 +439,16 @@ class BasicInfrastructureSerializer(serializers.ModelSerializer):
 		}
 		return dict
 
+  def get_school_images(self, obj):
+    schoolImages = SchoolImages.objects.filter(school=obj).values('image').first()
+    if schoolImages is not None:
+      return schoolImages
+    else:
+      return ''
+    
 	class Meta:
 		model = school
-		fields = ('name','num_boys','num_girls','basic_facilities', 'facilities')
+		fields = ('name','num_boys','num_girls','basic_facilities', 'facilities', 'school_images')
 
 
 
