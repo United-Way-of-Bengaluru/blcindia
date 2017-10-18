@@ -97,7 +97,17 @@ class SchoolsData(viewsets.ModelViewSet):
         queryset = school.objects.all()
         schoolId = get_object_or_404(queryset, pk=school_id)
         serializer = SchoolSerializer(schoolId)
-        return Response(serializer.data)
+
+        #get_geom = self.request.GET.get('geometry', 'no')
+        if 'geometry' in self.request.GET:
+            dict ={
+                "type": "Feature",
+                "properties": serializer.data,
+                #"geometry": serializer.data.geometry
+            }
+            return Response(dict)
+        else:
+            return Response(serializer.data)
 
 class SchoolsDataDemographics(viewsets.ModelViewSet):
     queryset = Demographics.objects.all()
@@ -224,6 +234,7 @@ class BoundarySummaryReport(viewsets.ModelViewSet):
         self.reportInfo["school_count"] = 0
         self.reportInfo['report_info'] = {'name': 'Report'}
         for item in serializer.data:
+	    print item
             self.reportInfo["school_count"] += 1
             if item["num_boys"] != None:
                 self.reportInfo["gender"]["boys"] += int(item["num_boys"])

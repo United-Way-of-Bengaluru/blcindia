@@ -78,8 +78,8 @@ class Address(models.Model):
         #abstract = True
         verbose_name_plural = 'Addresses'
 
-    def __unicode__(self):
-        return self.name
+   #def __unicode__(self):
+  #     return self.name
 
 class Type(models.Model):
     """docstring for type"""
@@ -109,7 +109,8 @@ class school(models.Model):
     #     return Demographics.objects.filter('school_id', self.id)
 
     def get_basic_facilities(self):
-         return BasicFacilities.objects.filter('school_id', self.id)
+        return "Hi"
+         #return BasicFacilities.objects.filter('school_id', self.id)
 
     def get_safe_environment(self):
         return SafeEnviroment.objects.filter('school_id', self.id)
