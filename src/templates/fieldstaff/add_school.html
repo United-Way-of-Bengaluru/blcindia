@@ -1,318 +1,201 @@
 {% extends 'fieldstaff/base.html' %}
 {%  load static %}
+{% load crispy_forms_tags %}
 {% block content %}
 
 
-                <div class="ui-content-body">
+    <div class="ui-content-body">
 
-                    <div class="ui-container">
+        <div class="ui-container">
 
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="panel">
-                                    <header class="panel-heading">
-                                        Add School
-                                        <span class="tools pull-right">
-                                            <a class="collapse-box fa fa-chevron-down" href="javascript:;"></a>
-                                            <a class="close-box fa fa-times" href="javascript:;"></a>
-                                        </span>
-                                    </header>
-                                    <div class="panel-body">
+            <div class="row">
+                <div class="col-md-9">
+                    <div class="panel">
+                        <header class="panel-heading">
+                            Add School
+                            <span class="tools pull-right">
+                                <a class="collapse-box fa fa-chevron-down" href="javascript:;"></a>
+                                <a class="close-box fa fa-times" href="javascript:;"></a>
+                            </span>
+                        </header>
+                        <div class="panel-body">
 
-                                        <form class="form-horizontal form-variance" name="addSchool" method="POST">
-
-
-
-                                            <div class="form-group ">
-                                                    <label for="name" class="control-label col-lg-3">Name</label>
-                                                    <div class="col-lg-6">
-                                                        <input class="form-control" id="name" name="name" type="text" aria-required="true" aria-invalid="true">
-{#                                                        <label id="name-error" class="error" for="name">Please enter school name</label>#}
-                                                    </div>
-                                                </div>
-
-                                            <div class="form-group">
-                                                <label class="col-sm-3 control-label">Address</label>
-                                                <div class="col-sm-6">
-                                                    <input class="form-control" placeholder="address" type="text" name="address">
-                                                </div>
-                                            </div>
-
-                                            <div class="form-group">
-                                                <label class="col-sm-3 control-label">Type</label>
-                                                <div class="col-sm-6">
-                                                     <select class="form-control" name="type">
-                                                         {% for stype in school_type %}
-                                                        <option value="{{ stype.id }}">{{ stype.name }}</option>
-                                                         {% endfor %}
-                                                    </select>
-                                                </div>
-                                            </div>
-
-                                            <div class="form-group">
-                                                <label class="col-sm-3 control-label">Rural Urban</label>
-                                                <div class="col-sm-6">
-                                                    <select class="form-control" name="rural_urban">
-                                                        <option value="1">Rural</option>
-                                                        <option value="2">Urban</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-
-                                            <div class="form-group">
-                                                <label class="col-sm-3 control-label">Building Status</label>
-                                                <div class="col-sm-6">
-                                                    <input class="form-control" placeholder="Building Status" type="text" name="building_status">
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="col-sm-3 control-label">Worker Name</label>
-                                                <div class="col-sm-6">
-                                                    <input class="form-control" placeholder="Worker Name" type="text" name="worker_name">
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="col-sm-3 control-label">Worker Number</label>
-                                                <div class="col-sm-6">
-                                                    <input class="form-control" placeholder="Worker Number" type="text" name="worker_number">
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="col-sm-3 control-label">Helper Name</label>
-                                                <div class="col-sm-6">
-                                                    <input class="form-control" placeholder="Helper Name" type="text" name="helper_name">
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="col-sm-3 control-label">Helper Number</label>
-                                                <div class="col-sm-6">
-                                                    <input class="form-control" placeholder="Helper Number" type="text" name="helper_number">
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="col-sm-3 control-label">Supervisor Name</label>
-                                                <div class="col-sm-6">
-                                                    <input class="form-control" placeholder="Supervisor Name" type="text" name="supervisor_name">
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="col-sm-3 control-label">Supervisor Number</label>
-                                                <div class="col-sm-6">
-                                                    <input class="form-control" placeholder="Supervisor Number" type="text" name="supervisor_number">
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="col-sm-3 control-label">CDPO Name</label>
-                                                <div class="col-sm-6">
-                                                    <input class="form-control" placeholder="CDPO Name" type="text" name="cdpo_name">
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="col-sm-3 control-label">CDPO Number</label>
-                                                <div class="col-sm-6">
-                                                    <input class="form-control" placeholder="CDPO Number" type="text" name="cdpo_number">
-                                                </div>
-                                            </div>
+                           <form method="post">
+    {% crispy school_form %}
+      </form>
+    </div>
 
 
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
+        <!--right side widget start-->
+        <div class="ui-aside-right " ui-aside-right>
 
+            <!--customer start-->
+            <div class="aside-widget">
+                <h5>Online Customer</h5>
+                <ul class="contact-list">
+                    <li class="online">
+                        <div class="media">
+                            <a href="#" class="pull-left media-thumb">
+                                <img alt="" src="imgs/a0.jpg" class="media-object">
+                                <span class="online"></span>
+                            </a>
+                            <div class="media-body">
+                                <strong>John Doe</strong>
+                                <small>General Manager at TB</small>
+                            </div>
+                        </div><!-- media -->
+                    </li>
+                    <li class="online">
+                        <div class="media">
+                            <a href="#" class="pull-left media-thumb">
+                                <img alt="" src="imgs/a1.jpg" class="media-object">
+                                <span class="offline"></span>
+                            </a>
+                            <div class="media-body">
+                                <strong>Jonathan Smith</strong>
+                                <small>Lead Designer</small>
+                            </div>
+                        </div><!-- media -->
+                    </li>
 
+                    <li class="online">
+                        <div class="media">
+                            <a href="#" class="pull-left media-thumb">
+                                <img alt="" src="imgs/a2.jpg" class="media-object">
+                                <span class="busy"></span>
+                            </a>
+                            <div class="media-body">
+                                <strong>Margarita Rose</strong>
+                                <small>Human Resource Manager</small>
+                            </div>
+                        </div><!-- media -->
+                    </li>
+                    <li class="online">
+                        <div class="media">
+                            <a href="#" class="pull-left media-thumb">
+                                <img alt="" src="imgs/a0.jpg" class="media-object">
+                                <span class="away"></span>
+                            </a>
+                            <div class="media-body">
+                                <strong>Mr. Kameron De</strong>
+                                <small>Marketing Officer</small>
+                            </div>
+                        </div><!-- media -->
+                    </li>
+                    <li class="online">
+                        <div class="media">
+                            <a href="#" class="pull-left media-thumb">
+                                <img alt="" src="imgs/a2.jpg" class="media-object">
+                                <span class="offline"></span>
+                            </a>
+                            <div class="media-body">
+                                <strong>Mr. Mosa</strong>
+                                <small>Development Manager</small>
+                            </div>
+                        </div><!-- media -->
+                    </li>
+                </ul>
+            </div>
+            <!--customer end-->
 
-                                            <div class="form-group">
-                                                <label class="col-sm-3 control-label col-lg-3"></label>
-                                                <div class="col-lg-6">
-                                                    <div class="input-group mb-10">
-                                                        <div class="input-group-btn">
-                                                            <button tabindex="-1" class="btn btn-info" type="button">Action</button>
-                                                            <button tabindex="-1" data-toggle="dropdown" class="btn btn-info dropdown-toggle" type="button">
-                                                                <span class="caret"></span>
-                                                            </button>
-                                                            <ul role="menu" class="dropdown-menu">
-                                                                <li><a href="#">Save</a></li>
-                                                                <li><a href="#">Submit</a></li>
-                                                            </ul>
-                                                        </div>
-                                                        <input class="form-control" type="text">
-                                                    </div>
+            <!--stock start-->
+            <div class="aside-widget">
+                <h5>Recent Stocks</h5>
+                <table class="table">
+                    <tbody>
+                    <tr>
+                        <td>DOWJ</td>
+                        <td>19,764.00</td>
+                        <td><small class="label label-success">+ 0.08%</small></td>
+                    </tr>
+                    <tr>
+                        <td>AAPL</td>
+                        <td>116.90</td>
+                        <td><small class="label label-danger">- 0.29%</small></td>
+                    </tr>
+                    <tr>
+                        <td>SBUX</td>
+                        <td>50.33</td>
+                        <td><small class="label label-warning">+ 0.23%</small></td>
+                    </tr>
+                    <tr>
+                        <td>NKE</td>
+                        <td>164.00</td>
+                        <td><small class="label label-success">+ 0.08%</small></td>
+                    </tr>
+                    <tr>
+                        <td>YHOO</td>
+                        <td>764.00</td>
+                        <td><small class="label label-danger">- 0.91%</small></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!--stock end-->
 
-
-
-
-                                                </div>
-                                            </div>
-
-                                        </form>
-                                    </div>
+            <!--task start-->
+            <div class="aside-widget">
+                <h5>Task Pending</h5>
+                <ul class="list-unstyled">
+                    <li>
+                        <a href="#">
+                            <div class="task-info">
+                                Wp Development (66%)
+                            </div>
+                            <div class="progress progress-striped">
+                                <div style="width: 66%" aria-valuemax="100" aria-valuemin="0" aria-valuenow="66" role="progressbar" class="progress-bar progress-bar-warning">
                                 </div>
                             </div>
-                        </div>
-                    </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <div class="task-info">
+                                Dashboard Design (80%)
+                            </div>
+                            <div class="progress progress-striped">
+                                <div style="width: 80%" aria-valuemax="100" aria-valuemin="0" aria-valuenow="80" role="progressbar" class="progress-bar progress-bar-success ">
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <div class="task-info">
+                                Marketing (40%)
+                            </div>
+                            <div class="progress progress-striped">
+                                <div style="width: 40%" aria-valuemax="100" aria-valuemin="0" aria-valuenow="40" role="progressbar" class="progress-bar progress-bar-info">
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <div class="task-info">
+                                Mobile App Development (33%)
+                            </div>
+                            <div class="progress progress-striped">
+                                <div style="width: 33%" aria-valuemax="100" aria-valuemin="0" aria-valuenow="80" role="progressbar" class="progress-bar progress-bar-danger">
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="text-center">
+                        <a href="#" class="btn btn-sm btn-info btn-block">See All Pending Tasks</a>
+                    </li>
+                </ul>
+            </div>
+            <!--task end-->
 
-                    <!--right side widget start-->
-                    <div class="ui-aside-right " ui-aside-right>
+        </div>
+        <!--right side widget end-->
 
-                        <!--customer start-->
-                        <div class="aside-widget">
-                            <h5>Online Customer</h5>
-                            <ul class="contact-list">
-                                <li class="online">
-                                    <div class="media">
-                                        <a href="#" class="pull-left media-thumb">
-                                            <img alt="" src="imgs/a0.jpg" class="media-object">
-                                            <span class="online"></span>
-                                        </a>
-                                        <div class="media-body">
-                                            <strong>John Doe</strong>
-                                            <small>General Manager at TB</small>
-                                        </div>
-                                    </div><!-- media -->
-                                </li>
-                                <li class="online">
-                                    <div class="media">
-                                        <a href="#" class="pull-left media-thumb">
-                                            <img alt="" src="imgs/a1.jpg" class="media-object">
-                                            <span class="offline"></span>
-                                        </a>
-                                        <div class="media-body">
-                                            <strong>Jonathan Smith</strong>
-                                            <small>Lead Designer</small>
-                                        </div>
-                                    </div><!-- media -->
-                                </li>
-
-                                <li class="online">
-                                    <div class="media">
-                                        <a href="#" class="pull-left media-thumb">
-                                            <img alt="" src="imgs/a2.jpg" class="media-object">
-                                            <span class="busy"></span>
-                                        </a>
-                                        <div class="media-body">
-                                            <strong>Margarita Rose</strong>
-                                            <small>Human Resource Manager</small>
-                                        </div>
-                                    </div><!-- media -->
-                                </li>
-                                <li class="online">
-                                    <div class="media">
-                                        <a href="#" class="pull-left media-thumb">
-                                            <img alt="" src="imgs/a0.jpg" class="media-object">
-                                            <span class="away"></span>
-                                        </a>
-                                        <div class="media-body">
-                                            <strong>Mr. Kameron De</strong>
-                                            <small>Marketing Officer</small>
-                                        </div>
-                                    </div><!-- media -->
-                                </li>
-                                <li class="online">
-                                    <div class="media">
-                                        <a href="#" class="pull-left media-thumb">
-                                            <img alt="" src="imgs/a2.jpg" class="media-object">
-                                            <span class="offline"></span>
-                                        </a>
-                                        <div class="media-body">
-                                            <strong>Mr. Mosa</strong>
-                                            <small>Development Manager</small>
-                                        </div>
-                                    </div><!-- media -->
-                                </li>
-                            </ul>
-                        </div>
-                        <!--customer end-->
-
-                        <!--stock start-->
-                        <div class="aside-widget">
-                            <h5>Recent Stocks</h5>
-                            <table class="table">
-                                <tbody>
-                                <tr>
-                                    <td>DOWJ</td>
-                                    <td>19,764.00</td>
-                                    <td><small class="label label-success">+ 0.08%</small></td>
-                                </tr>
-                                <tr>
-                                    <td>AAPL</td>
-                                    <td>116.90</td>
-                                    <td><small class="label label-danger">- 0.29%</small></td>
-                                </tr>
-                                <tr>
-                                    <td>SBUX</td>
-                                    <td>50.33</td>
-                                    <td><small class="label label-warning">+ 0.23%</small></td>
-                                </tr>
-                                <tr>
-                                    <td>NKE</td>
-                                    <td>164.00</td>
-                                    <td><small class="label label-success">+ 0.08%</small></td>
-                                </tr>
-                                <tr>
-                                    <td>YHOO</td>
-                                    <td>764.00</td>
-                                    <td><small class="label label-danger">- 0.91%</small></td>
-                                </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <!--stock end-->
-
-                        <!--task start-->
-                        <div class="aside-widget">
-                            <h5>Task Pending</h5>
-                            <ul class="list-unstyled">
-                                <li>
-                                    <a href="#">
-                                        <div class="task-info">
-                                            Wp Development (66%)
-                                        </div>
-                                        <div class="progress progress-striped">
-                                            <div style="width: 66%" aria-valuemax="100" aria-valuemin="0" aria-valuenow="66" role="progressbar" class="progress-bar progress-bar-warning">
-                                            </div>
-                                        </div>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <div class="task-info">
-                                            Dashboard Design (80%)
-                                        </div>
-                                        <div class="progress progress-striped">
-                                            <div style="width: 80%" aria-valuemax="100" aria-valuemin="0" aria-valuenow="80" role="progressbar" class="progress-bar progress-bar-success ">
-                                            </div>
-                                        </div>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <div class="task-info">
-                                            Marketing (40%)
-                                        </div>
-                                        <div class="progress progress-striped">
-                                            <div style="width: 40%" aria-valuemax="100" aria-valuemin="0" aria-valuenow="40" role="progressbar" class="progress-bar progress-bar-info">
-                                            </div>
-                                        </div>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <div class="task-info">
-                                            Mobile App Development (33%)
-                                        </div>
-                                        <div class="progress progress-striped">
-                                            <div style="width: 33%" aria-valuemax="100" aria-valuemin="0" aria-valuenow="80" role="progressbar" class="progress-bar progress-bar-danger">
-                                            </div>
-                                        </div>
-                                    </a>
-                                </li>
-                                <li class="text-center">
-                                    <a href="#" class="btn btn-sm btn-info btn-block">See All Pending Tasks</a>
-                                </li>
-                            </ul>
-                        </div>
-                        <!--task end-->
-
-                    </div>
-                    <!--right side widget end-->
-
-                </div>
+    </div>
 {% endblock %}

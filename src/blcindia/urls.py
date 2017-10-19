@@ -9,6 +9,7 @@ from aanganwadi.views import AdvancedMapView, SchoolPageView, login_success
 
 import profiles.urls
 import accounts.urls
+import fieldStaff.urls
 from . import views
 
 urlpatterns = [
@@ -17,7 +18,7 @@ urlpatterns = [
     url(r'^users/', include(profiles.urls, namespace='profiles')),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^accounts/', include(accounts.urls, namespace='accounts')),
-    url(r'^fieldstaff/', include('fieldStaff.urls')),
+    url(r'^fieldstaff/', include(fieldStaff.urls, namespace='fieldstaff')),
 
     url(r'^admin/login_success$', login_success, name='login_success'),
     # url(r'^schools-api/', include('schools.urls')),
