@@ -104,8 +104,8 @@ class school(models.Model):
     cdpo_name = models.CharField(max_length=50, blank=True)
     cdpo_number = models.IntegerField(null=True, blank=True)
 
-    # def demographics(self):
-    #     return Demographics.objects.filter('school_id', self.id)
+    def demographics(self):
+        return Demographics.objects.filter('school_id', self.id)
 
     def get_basic_facilities(self):
         return "Hi"

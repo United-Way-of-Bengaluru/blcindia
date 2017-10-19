@@ -16,11 +16,11 @@ urlpatterns = [
     #url(r'^$', views.HomePage.as_view(), name='home'),
     url(r'^about/$', views.AboutPage.as_view(), name='about'),
     url(r'^users/', include(profiles.urls, namespace='profiles')),
-    url(r'^admin/', include(admin.site.urls)),
+    url(r'^superuser/', include(admin.site.urls)),
     url(r'^accounts/', include(accounts.urls, namespace='accounts')),
     url(r'^fieldstaff/', include(fieldStaff.urls, namespace='fieldstaff')),
 
-    url(r'^admin/login_success$', login_success, name='login_success'),
+    url(r'^superuser/login_success$', login_success, name='login_success'),
     # url(r'^schools-api/', include('schools.urls')),
     url(r'^api/v1/', include('aanganwadi.urls')),
     url(r'^accounts/', include('accounts.urls')),

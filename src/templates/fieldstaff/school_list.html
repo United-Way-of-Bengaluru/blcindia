@@ -44,7 +44,11 @@
 
                                             {% for school in object_list %}
                                             <tr>
-                                                <td>{{ school.name }}</td>
+                                                <td>
+                                                    <a href="{% url 'fieldstaff:periodicUpdate_school' school.pk %}" class="schoolName">
+                                                        {{ school.name }}
+                                                    </a>
+                                                </td>
                                                 <td>{{ school.address }}</td>
                                                 <td>{{ school.type }}</td>
                                                 <td>{{ school.rural_urban }}</td>
