@@ -81,6 +81,7 @@ INSTALLED_APPS = (
 
     'profiles',
     'accounts',
+    'fieldStaff',
     'compressor',
 
 )

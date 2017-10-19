@@ -17,6 +17,7 @@ urlpatterns = [
     url(r'^users/', include(profiles.urls, namespace='profiles')),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^accounts/', include(accounts.urls, namespace='accounts')),
+    url(r'^fieldstaff/', include('fieldStaff.urls')),
 
     url(r'^admin/login_success$', login_success, name='login_success'),
     # url(r'^schools-api/', include('schools.urls')),
