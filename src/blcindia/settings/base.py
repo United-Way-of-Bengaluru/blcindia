@@ -77,11 +77,11 @@ INSTALLED_APPS = (
     'crispy_forms',
     'easy_thumbnails',
 
-    'aanganwadi',
-    'profiles',
     'accounts',
+    'profiles',
     'fieldStaff',
-
+    'aanganwadi',
+    
     'compressor',
     'mapwidgets',
 
