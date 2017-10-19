@@ -29,7 +29,7 @@ class schoolForm(forms.ModelForm):
             Field('supervisor_number'),
             Field('cdpo_name'),
             Field('cdpo_number'),
-            Submit('add', 'Add School', css_class="btn-success"),
+            Submit('save', 'Save School', css_class="btn-success"),
             )
 
     class Meta:
