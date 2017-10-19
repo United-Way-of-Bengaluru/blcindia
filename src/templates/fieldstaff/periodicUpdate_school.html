@@ -9,25 +9,126 @@
         <div class="ui-container">
 
             <div class="row">
-                <div class="col-md-9">
+                
+                <!-- School Info Block -->
+                <div class="col-md-4 pull-right">
                     <div class="panel">
                         <header class="panel-heading">
-                            School Details
+                            School Info
                             <span class="tools pull-right">
                                 <a class="collapse-box fa fa-chevron-down" href="javascript:;"></a>
                                 <a class="close-box fa fa-times" href="javascript:;"></a>
                             </span>
                         </header>
                         <div class="panel-body">
-
                            <form method="post">
-    {% crispy school_form %}
-      </form>
-    </div>
-
-
+                                {% crispy school_form %}
+                            </form>
                         </div>
                     </div>
+                </div>
+                <!-- End School Info Block -->
+
+                <!-- School Demographics Block -->
+                <div class="col-md-8">
+                    <div class="panel">
+                        <header class="panel-heading">
+                            Demographics
+                            <span class="tools pull-right">
+                                <a class="collapse-box fa fa-chevron-down" href="javascript:;"></a>
+                                <a class="close-box fa fa-times" href="javascript:;"></a>
+                            </span>
+                        </header>
+                        <div class="panel-body">
+                           <form method="post">
+                                {% crispy demographics_form %}
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <!-- End School Info Block -->
+
+
+                <!-- School Demographics Block -->
+                <div class="col-md-8">
+                    <div class="panel">
+                        <header class="panel-heading">
+                            Basic Facilities
+                            <span class="tools pull-right">
+                                <a class="collapse-box fa fa-chevron-up" href="javascript:;"></a>
+                                <a class="close-box fa fa-times" href="javascript:;"></a>
+                            </span>
+                        </header>
+                        <div class="panel-body" style="display: none;">
+                           <form method="post">
+                                {% crispy basic_facilities_form %}
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <!-- End School Info Block -->
+
+
+                <!-- School Demographics Block -->
+                <div class="col-md-8">
+                    <div class="panel">
+                        <header class="panel-heading">
+                            Learning Environment
+                            <span class="tools pull-right">
+                                <a class="collapse-box fa fa-chevron-up" href="javascript:;"></a>
+                                <a class="close-box fa fa-times" href="javascript:;"></a>
+                            </span>
+                        </header>
+                        <div class="panel-body" style="display: none;">
+                           <form method="post">
+                                {% crispy learning_environment_form %}
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <!-- End School Info Block -->
+
+
+
+                <!-- School Demographics Block -->
+                <div class="col-md-8">
+                    <div class="panel">
+                        <header class="panel-heading">
+                            Safe Environment
+                            <span class="tools pull-right">
+                                <a class="collapse-box fa fa-chevron-up" href="javascript:;"></a>
+                                <a class="close-box fa fa-times" href="javascript:;"></a>
+                            </span>
+                        </header>
+                        <div class="panel-body" style="display: none;">
+                           <form method="post">
+                                {% crispy safe_environment_form %}
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <!-- End School Info Block -->
+
+                <!-- School Demographics Block -->
+                <div class="col-md-8">
+                    <div class="panel">
+                        <header class="panel-heading">
+                            Community Engagement
+                            <span class="tools pull-right">
+                                <a class="collapse-box fa fa-chevron-up" href="javascript:;"></a>
+                                <a class="close-box fa fa-times" href="javascript:;"></a>
+                            </span>
+                        </header>
+                        <div class="panel-body" style="display: none;">
+                           <form method="post">
+                                {% crispy community_engagement_form %}
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <!-- End School Info Block -->
+
+
                 </div>
             </div>
         </div>

@@ -44,7 +44,11 @@
 
                                             {% for school in object_list %}
                                             <tr>
-                                                <td>{{ school.name }}</td>
+                                                <td>
+                                                    <a href="{% url 'fieldstaff:periodicUpdate_school' school.pk %}" class="schoolName">
+                                                        {{ school.name }}
+                                                    </a>
+                                                </td>
                                                 <td>{{ school.address }}</td>
                                                 <td>{{ school.type }}</td>
                                                 <td>{{ school.rural_urban }}</td>
@@ -58,10 +62,8 @@
                                                 <td>{{ school.cdpo_name }}</td>
                                                 <td>{{ school.cdpo_number }}</td>
 
-                                                <td>
-                                                status
-                                                </td>
-{#                                                <td><a href="{% url 'school-detail' school.pk %}" class="appointment btn btn-sm btn-info btn-block">Detail</a> </td>#}
+                                                <td> </td>
+                                               <td><a href="{% url 'fieldstaff:edit_school' school.pk %}" class="appointment btn btn-sm btn-info btn-block">Edit</a> </tdadd_school
 
                                             </tr>
                                             {% endfor %}

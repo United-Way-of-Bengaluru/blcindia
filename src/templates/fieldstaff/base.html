@@ -7,6 +7,19 @@
             {% include 'fieldstaff/sidebar.html' %}
             <!--main content start-->
             <div id="content" class="ui-content ui-content-aside-overlay">
+
+                {% block messages %}
+                  {% if messages %}
+                    {% for message in messages %}
+                      <div class="alert alert-{{ message.tags }}">  <!-- singular -->
+                        <a class="close" data-dismiss="alert">×</a>
+                        {{ message|safe }}
+                      </div>
+                    {% endfor %}
+                  {% endif %}
+                {% endblock %}
+
+    
                 {% block content %}
                     <!-- Content goes here -->
                 {% endblock %}

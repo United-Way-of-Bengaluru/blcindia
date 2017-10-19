@@ -266,12 +266,7 @@ Layout
     border-left: 1px solid rgba(0, 0, 0, 0.1);
     -webkit-transition: width .3s, margin-right .3s;
     transition: width .3s, margin-right .3s; }
-  .ui-footer {
-    position: absolute;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    margin-left: 0px;
+  .ui-footer {    
     padding-left: 10px;
     background-color: #ffffff;
     height: 50px;
@@ -367,7 +362,8 @@ Layout
     .ui-aside-right {
       top: 50px; }
     .ui-footer {
-      margin-left: 240px; }
+      //margin-left: 240px; 
+    }
 
   .ui-aside-compact .ui-header .navbar-header {
     width: 50px; }

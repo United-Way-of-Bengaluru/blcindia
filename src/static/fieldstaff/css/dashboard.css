@@ -2,3 +2,17 @@
 .ui-header--blue {
     background-color: #43b1b0 !important;
 }
+
+
+.inputParentClass
+ {
+  width: 18%;
+  float: left;
+  margin-right: 1%
+}
+
+input[type='submit']
+{
+	margin-top: 10px;
+    width: 100%;
+}
