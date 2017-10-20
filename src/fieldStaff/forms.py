@@ -5,6 +5,7 @@ from crispy_forms.layout import Layout, Div, Submit, HTML, Button, Row, Field
 from crispy_forms.bootstrap import AppendedText, PrependedText, FormActions, FieldWithButtons, StrictButton
 from django.contrib.auth import get_user_model
 from aanganwadi.models import school, Demographics, BasicFacilities, LearningEnvironment, SafeEnvironment, CommunityEngagement, Address
+from mapwidgets.widgets import GooglePointFieldWidget
 
 User = get_user_model()
 
@@ -241,3 +242,6 @@ class AddressForm(forms.ModelForm):
     class Meta:
         model = Address
         fields = ['boundary', 'address', 'area', 'pincode', 'landmark', 'location', 'instidentification']
+        widgets = {
+            'location': GooglePointFieldWidget
+        }

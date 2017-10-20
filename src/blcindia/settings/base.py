@@ -112,6 +112,17 @@ WSGI_APPLICATION = 'blcindia.wsgi.application'
 # }
 
 
+MAP_WIDGETS = {
+    "GooglePointFieldWidget": (
+        ("zoom", 15),
+        ("mapCenterLocationName", "Bangalore"),
+        # ("GooglePlaceAutocompleteOptions", {'componentRestrictions': {'country': 'India'}}),
+        ("markerFitZoom", 12),
+    ),
+    "GOOGLE_MAP_API_KEY": "AIzaSyAsNjaVb3vQnwwBUCJFmmkR62jHrdO_oZs"
+}
+
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.contrib.gis.db.backends.postgis',
