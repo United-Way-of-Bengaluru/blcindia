@@ -7,7 +7,7 @@ from django.contrib import admin
 from django.contrib.auth import views as auth_views
 from django.views.decorators.csrf import csrf_exempt
 
-from fieldStaff.views import SchoolListView, SchoolDetailView, SchoolCreateView, SchoolperiodicUpdate_View
+from fieldStaff.views import SchoolListView, SchoolDetailView, SchoolCreateView, SchoolperiodicUpdate_View, AddNewAddress
 
 urlpatterns = [
     url(r'^$', SchoolListView.as_view(), name='school_list'),
@@ -16,6 +16,7 @@ urlpatterns = [
     url(r'^periodicUpdate_school/(?P<pk>\d+)/$', SchoolperiodicUpdate_View.as_view(), name='periodicUpdate_school'),
     url(r'^school_detail/(?P<pk>\d+)/$', SchoolDetailView.as_view(), name='school-detail'),
     # url(r'^school_update/(?P<pk>\d+)/$', SchoolUpdateView.as_view(), name='school_update'),
+    url(r'^address/$', AddNewAddress.as_view({'post': 'add'}), name='AddNewAddress'),
 
     # url(r'^appointment_detail/(?P<id>[0-9]+)/$', AppointmentFollowupListView.as_view(), name='appointment_detail'),
     # url(r'^dashboard/$', appointment_list.as_view(), name='dashboard'),

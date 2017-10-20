@@ -66,8 +66,8 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = (
     'django.contrib.auth',
-    'django_admin_bootstrapped',
     'django.contrib.admin',
+    'django_admin_bootstrapped',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
@@ -76,6 +76,7 @@ INSTALLED_APPS = (
     'authtools',
     'crispy_forms',
     'easy_thumbnails',
+    'django.contrib.gis',
 
     'accounts',
     'profiles',

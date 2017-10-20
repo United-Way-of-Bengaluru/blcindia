@@ -2,9 +2,9 @@ from __future__ import unicode_literals
 from django import forms
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Div, Submit, HTML, Button, Row, Field
-from crispy_forms.bootstrap import AppendedText, PrependedText, FormActions
+from crispy_forms.bootstrap import AppendedText, PrependedText, FormActions, FieldWithButtons, StrictButton
 from django.contrib.auth import get_user_model
-from aanganwadi.models import school, Demographics, BasicFacilities, LearningEnvironment, SafeEnvironment, CommunityEngagement
+from aanganwadi.models import school, Demographics, BasicFacilities, LearningEnvironment, SafeEnvironment, CommunityEngagement, Address
 
 User = get_user_model()
 
@@ -17,7 +17,7 @@ class schoolForm(forms.ModelForm):
         self.helper.form_tag = False
         self.helper.layout = Layout(
             Field('name', wrapper_class="schoolParentClass"),
-            Field('address', wrapper_class="schoolParentClass"),
+            FieldWithButtons('address', StrictButton("Add New Address", css_class="btn btn-success", css_id="add_new_address_btn"), wrapper_class="schoolParentClass"),
             Field('type', wrapper_class="schoolParentClass"),
             Field('rural_urban', wrapper_class="schoolParentClass"),
             Field('building_status', wrapper_class="schoolParentClass"),
@@ -222,3 +222,22 @@ class CommunityEngagementForm(forms.ModelForm):
          'arrangements_for_the_children_with_specialneeds_requirements', 'pregnant_mothers_in_population', 'lactating_mothers_in_population']
 
         
+class AddressForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(AddressForm, self).__init__()
+        self.helper = FormHelper()
+        self.helper.form_tag = False
+        self.helper.layout = Layout(
+            Field('boundary', wrapper_class="inputAddressClass"),
+            Field('address', wrapper_class="inputAddressClass"),
+            Field('area', wrapper_class="inputAddressClass"),
+            Field('pincode', wrapper_class="inputAddressClass"),
+            Field('landmark', wrapper_class="inputAddressClass"),
+            Field('location', wrapper_class="inputAddressClass"),
+            Field('instidentification', wrapper_class="inputAddressClass"),
+            Submit('save_address', 'Save', css_class="btn-success"),
+            )
+
+    class Meta:
+        model = Address
+        fields = ['boundary', 'address', 'area', 'pincode', 'landmark', 'location', 'instidentification']
