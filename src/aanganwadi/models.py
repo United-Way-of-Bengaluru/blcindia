@@ -120,6 +120,9 @@ class school(models.Model):
     def __unicode__(self):
         return self.name
 
+    class Meta:
+        verbose_name= 'Aanganwadi'
+
 
 class Demographics(models.Model):
     school= models.ForeignKey('school')
