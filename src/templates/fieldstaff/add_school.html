@@ -44,13 +44,13 @@
         <h4 class="modal-title">Add New Address</h4>
       </div>
       <div class="modal-body">
-        <form method="post" action="{% url 'fieldstaff:AddNewAddress' %}">
+        <form method="post" id="addNewAddressForm" onsubmit="return addNewAddress();">
             {% crispy address_form %}
         </form>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
+        <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
       </div>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
@@ -67,5 +67,22 @@
             $('#AddressModal').modal('show');
             console.log("hello World");
         })
-    })
+    });
+
+    function addNewAddress(){
+     console.log("addNewAddressForm");
+     var data = $("#addNewAddressForm").serialize();
+     console.log(data);
+
+     $.ajax({
+      url: "{% url 'fieldstaff:AddNewAddress' %}",
+      cache: false,
+      success: function(html){
+        $("#results").append(html);
+      }
+    });
+
+
+     return false;
+    }
 {% endblock %}

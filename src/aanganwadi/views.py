@@ -40,7 +40,7 @@ class AdvancedMapView(StaticPageView):
 
 class SchoolPageView(DetailView):
     model = school
-    template_name = 'school.html'
+    template_name = 'front/school.html'
 
     def get_context_data(self, **kwargs):
         # Call the base implementation first to get a context
