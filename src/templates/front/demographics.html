@@ -1,17 +1,14 @@
 {% extends "front/base_static.html" %}
 
 {% load static %}
-{% load compress %}
 {% block css_extra %}
 {% endblock %}
 
 {% block endbody %}
-  {% compress js %}
       <script type="text/javascript" src="{% static 'front/js/lib/moment.js' %}"></script>
       <script type="text/javascript" src="{% static 'front/js/reports/demographics.js' %}"></script> 
       <script type="text/javascript" src="{% static 'front/js/reports/utils.js' %}"></script> 
       <script type="text/javascript" src="{% static 'front/js/reports/common.js' %}"></script> 
-  {% endcompress %}
 {% endblock %}
 {% block content %}
   <div class="container"><!--outer-->
