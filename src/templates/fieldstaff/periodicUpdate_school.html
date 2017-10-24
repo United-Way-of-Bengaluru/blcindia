@@ -53,23 +53,51 @@
                                 </form>
                               </div>
                               <div class="tab-pane fade" id="pills-basic_facilities" role="tabpanel" aria-labelledby="pills-basic_facilities-tab">
-                                  <form method="post">
-                                    {% crispy basic_facilities_form %}
+                                  
+
+
+
+
+
+
+
+<form method="post" id="basicfacilitiesform" onsubmit="return false">
+
+{% crispy basic_facilities_form %}
+<div class="clearfix"></div>
+<button type="button" class="btn btn-success" onclick="save_basicfacilities()" id="save_basicfacilitiesbtn">Save</button>
+
                                 </form>
+
+
+
+
+
+
+                                {% include "fieldstaff/forms/basic_facilities.html" %}
+
+
+
+
+
+
+
+
+
                               </div>
                               <div class="tab-pane fade" id="pills-learning_environment" role="tabpanel" aria-labelledby="pills-learning_environment-tab">
                                   <form method="post">
-                                    {% crispy learning_environment_form %}
+                                    {# crispy learning_environment_form #}
                                 </form>
                               </div>
                               <div class="tab-pane fade" id="pills-safe_environment" role="tabpanel" aria-labelledby="pills-safe_environment-tab">
                                   <form method="post">
-                                    {% crispy safe_environment_form %}
+                                    {# crispy safe_environment_form #}
                                 </form>
                               </div>
                               <div class="tab-pane fade" id="pills-community_engagement" role="tabpanel" aria-labelledby="pills-community_engagement-tab">
                                   <form method="post">
-                                    {% crispy community_engagement_form %}
+                                    {# crispy community_engagement_form #}
                                 </form>
                               </div>
                             </div>
@@ -88,6 +116,8 @@
             </div>
         </div>
 
+
        
     </div>
 {% endblock %}
+

@@ -76,16 +76,17 @@ class BasicFacilitiesForm(forms.ModelForm):
             Field('pest_control_required', wrapper_class="inputParentClass"),
             Field('drinking_water', wrapper_class="inputParentClass"),
             Field('drinking_water_filter', wrapper_class="inputParentClass"),
+            Field('drinking_water_filter_available', wrapper_class="inputParentClass"),
+            Field('drinking_water_filter_required', wrapper_class="inputParentClass"),
             Field('electric_bulbs', wrapper_class="inputParentClass"),
             Field('electric_bulbs_required', wrapper_class="inputParentClass"),
             Field('electric_fans_available', wrapper_class="inputParentClass"),
-            Field('electric_fans_required', wrapper_class="inputParentClass"),
-            Submit('save_basic_facilities', 'Save', css_class="btn-success"),
+            Field('electric_fans_required', wrapper_class="inputParentClass")
             )
 
     class Meta:
         model = BasicFacilities
-        fields = ['school', 'electricity_available', 'cleanliness', 'cleanliness_description', 'pest_control_done_in_last_one_year', 'pest_control_required', 'drinking_water', 'drinking_water_filter', 'electric_bulbs', 'electric_bulbs_required', 'electric_fans_available', 'electric_fans_required']
+        fields = ['school', 'electricity_available', 'cleanliness', 'cleanliness_description', 'pest_control_done_in_last_one_year', 'pest_control_required', 'drinking_water', 'drinking_water_filter', 'drinking_water_filter_available', 'drinking_water_filter_required', 'electric_bulbs', 'electric_bulbs_required', 'electric_fans_available', 'electric_fans_required']
 
 
 class LearningEnvironmentForm(forms.ModelForm):

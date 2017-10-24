@@ -156,7 +156,7 @@ class BasicFacilities(models.Model):
     pest_control_required = models.IntegerField(choices=YESNO_TYPE_CHOICES, null=True, blank=True)
     drinking_water = models.IntegerField(choices=DRINKING_WATER, null=True, blank=True)
     drinking_water_filter = models.IntegerField(choices=YESNO, null=True, blank=True)
-    no_of_drinking_water_filter = models.IntegerField(null=True, blank=True)
+    drinking_water_filter_available = models.IntegerField(null=True, blank=True)
     drinking_water_filter_required = models.IntegerField(null=True, blank=True)
     electric_bulbs = models.IntegerField(null=True, blank=True)
     electric_bulbs_required = models.IntegerField(null=True, blank=True)

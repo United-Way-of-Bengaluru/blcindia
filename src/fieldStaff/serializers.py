@@ -21,6 +21,8 @@ def meeting_reports(self, obj):
 	else:
 		return {}
 
+
+
 class DistrictSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = District

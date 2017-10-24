@@ -11,6 +11,8 @@ TEMPLATES[0]['OPTIONS'].update({'debug': True})
 if "celery" in sys.argv[0]:
     DEBUG = False
 
+CRISPY_FAIL_SILENTLY = not DEBUG
+
 # Django Debug Toolbar
 INSTALLED_APPS += (
     'debug_toolbar',)
