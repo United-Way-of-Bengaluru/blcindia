@@ -75,7 +75,7 @@
                                     
                                   <form method="post" id="learningEnvironment_form" onsubmit="return false">
 
-                                      {# crispy learning_environment_form #}
+                                      {% crispy learning_environment_form %}
                                     <div class="clearfix"></div>
                                     <button type="button" class="btn btn-success" onclick="save_learningEnvironment()" id="save_learningEnvironmentbtn">Save</button>
                                   </form>
@@ -84,7 +84,7 @@
                               <div class="tab-pane fade" id="pills-safe_environment" role="tabpanel" aria-labelledby="pills-safe_environment-tab">
                                   <form method="post" id="safe_environment_form" onsubmit="return false">
 
-                                      {# crispy safe_environment_form #}
+                                      {% crispy safe_environment_form %}
                                     <div class="clearfix"></div>
                                     <button type="button" class="btn btn-success" onclick="save_safe_environment()" id="save_safe_environmentbtn">Save</button>
                                   </form>
@@ -94,7 +94,7 @@
                               <div class="tab-pane fade" id="pills-community_engagement" role="tabpanel" aria-labelledby="pills-community_engagement-tab">
                                  <form method="post" id="community_engagement_form" onsubmit="return false">
 
-                                      {# crispy community_engagement_form #}
+                                      {% crispy community_engagement_form %}
                                     <div class="clearfix"></div>
                                     <button type="button" class="btn btn-success" onclick="save_community_engagement()" id="save_community_engagementbtn">Save</button>
                                   </form>
