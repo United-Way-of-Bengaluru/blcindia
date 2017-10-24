@@ -105,28 +105,28 @@ class SchoolperiodicUpdate_View(TemplateView):
 
 			try:
 				BasicFacilitiesData = BasicFacilities.objects.get(school=schoolData)
-				kwargs["basic_facilities_form"] = forms.BasicFacilitiesForm(instance=demographicsData)
+				kwargs["basic_facilities_form"] = forms.BasicFacilitiesForm(instance=BasicFacilitiesData)
 			except BasicFacilities.DoesNotExist:
 				print "BasicFacilities not found"
 				kwargs["basic_facilities_form"] = forms.BasicFacilitiesForm()
 
 			try:
 				LearningEnvironmentData = LearningEnvironment.objects.get(school=schoolData)
-				kwargs["learning_environment_form"] = forms.LearningEnvironmentForm(instance=demographicsData)
+				kwargs["learning_environment_form"] = forms.LearningEnvironmentForm(instance=LearningEnvironmentData)
 			except LearningEnvironment.DoesNotExist:
 				print "LearningEnvironment not found"
 				kwargs["learning_environment_form"] = forms.LearningEnvironmentForm()
 
 			try:
 				SafeEnvironmentData = SafeEnvironment.objects.get(school=schoolData)
-				kwargs["safe_environment_form"] = forms.SafeEnvironmentForm(instance=demographicsData)
+				kwargs["safe_environment_form"] = forms.SafeEnvironmentForm(instance=SafeEnvironmentData)
 			except SafeEnvironment.DoesNotExist:
 				print "SafeEnvironment not found"
 				kwargs["safe_environment_form"] = forms.SafeEnvironmentForm()
 
 			try:
 				CommunityEngagementData = CommunityEngagement.objects.get(school=schoolData)
-				kwargs["community_engagement_form"] = forms.CommunityEngagementForm(instance=demographicsData)
+				kwargs["community_engagement_form"] = forms.CommunityEngagementForm(instance=CommunityEngagementData)
 			except CommunityEngagement.DoesNotExist:
 				print "CommunityEngagement not found"
 				kwargs["community_engagement_form"] = forms.CommunityEngagementForm()
@@ -213,6 +213,157 @@ class SchoolperiodicUpdate_View(TemplateView):
 
 			demographics_form.save()
 			messages.success(request, "Demographics details saved!")
+			return redirect("fieldstaff:school_list")
+
+
+
+		if 'save_basic_facilities' in request.POST:
+			print 'save_basic_facilities'
+
+			if "pk" in kwargs:
+				pk = kwargs.get('pk')
+				schoolData = school.objects.get(pk=pk)
+				school_form = forms.schoolForm(instance=schoolData)
+				try:
+					BasicFacilitiesData = BasicFacilities.objects.get(school=schoolData)
+					basicfacilities_form = forms.BasicFacilitiesForm(request.POST, instance=BasicFacilitiesData)
+				except BasicFacilities.DoesNotExist:
+					basicfacilities_form = forms.BasicFacilitiesForm(request.POST) 
+
+
+				try:
+					demographicsData = Demographics.objects.get(school=schoolData)
+					demographics_form = forms.demographicsForm(request.POST, instance=demographicsData)
+				except Demographics.DoesNotExist:
+					demographics_form = forms.demographicsForm(request.POST)
+
+			else:
+				basicfacilities_form = forms.BasicFacilitiesForm()            
+
+			#print basicfacilities_form
+			if not basicfacilities_form.is_valid():
+				messages.error(request, "There was a problem with the form. "
+							   "Please check the details.")
+				if "pk" in kwargs:
+					pk = kwargs.get('pk')
+					schoolData = school.objects.get(pk=pk)
+					kwargs["school_form"] = forms.BasicFacilitiesForm(instance=schoolData)
+					try:
+						BasicFacilitiesData = BasicFacilities.objects.get(school=schoolData)
+						kwargs["basicfacilities_form"] = forms.BasicFacilitiesForm(instance=demographicsData)
+					except BasicFacilities.DoesNotExist:
+						kwargs["basicfacilities_form"] = forms.BasicFacilitiesForm() 
+					return super(SchoolperiodicUpdate_View, self).get(request,
+													school_form=school_form, 
+													demographics_form = demographics_form,
+													basicfacilities_form= basicfacilities_form
+													)  
+
+			basicfacilities_form.save()
+			messages.success(request, "BasicFacilities details saved!")
+			return redirect("fieldstaff:school_list")
+
+
+		if 'save_learning_environment' in request.POST:
+			print 'save_learning_environment'
+
+			if "pk" in kwargs:
+				pk = kwargs.get('pk')
+				schoolData = school.objects.get(pk=pk)
+				school_form = forms.schoolForm(instance=schoolData)
+				try:
+					LearningEnvironmentData = LearningEnvironment.objects.get(school=schoolData)
+					LearningEnvironment_form = forms.LearningEnvironmentForm(request.POST, instance=LearningEnvironmentData)
+				except BasicFacilities.DoesNotExist:
+					LearningEnvironment_form = forms.LearningEnvironmentForm(request.POST) 
+
+
+				try:
+					demographicsData = Demographics.objects.get(school=schoolData)
+					demographics_form = forms.LearningEnvironmentForm(request.POST, instance=demographicsData)
+				except Demographics.DoesNotExist:
+					demographics_form = forms.LearningEnvironmentForm(request.POST)
+
+			else:
+				LearningEnvironment_form = forms.LearningEnvironmentForm()            
+
+			#print basicfacilities_form
+			if not LearningEnvironment_form.is_valid():
+				messages.error(request, "There was a problem with the form. "
+							   "Please check the details.")
+				if "pk" in kwargs:
+					pk = kwargs.get('pk')
+					schoolData = school.objects.get(pk=pk)
+					kwargs["school_form"] = forms.LearningEnvironmentForm(instance=schoolData)
+					try:
+						LearningEnvironmentData = LearningEnvironment.objects.get(school=schoolData)
+						kwargs["LearningEnvironment_form"] = forms.LearningEnvironmentForm(instance=demographicsData)
+					except LearningEnvironment.DoesNotExist:
+						kwargs["LearningEnvironment_form"] = forms.LearningEnvironmentForm() 
+					return super(SchoolperiodicUpdate_View, self).get(request,
+													school_form=school_form, 
+													demographics_form = demographics_form,
+													basicfacilities_form= basicfacilities_form,
+													LearningEnvironment_form=LearningEnvironment_form
+													)  
+
+			LearningEnvironment_form.save()
+			messages.success(request, "LearningEnvironment details saved!")
+			return redirect("fieldstaff:school_list")
+
+
+		if 'save_safe_environment' in request.POST:
+			print 'save_safe_environment'
+
+			if "pk" in kwargs:
+				pk = kwargs.get('pk')
+				schoolData = school.objects.get(pk=pk)
+				school_form = forms.schoolForm(instance=schoolData)
+				try:
+					SafeEnvironmentData = SafeEnvironment.objects.get(school=schoolData)
+					SafeEnvironment_form = forms.SafeEnvironmentForm(request.POST, instance=SafeEnvironmentData)
+				except BasicFacilities.DoesNotExist:
+					SafeEnvironment_form = forms.SafeEnvironmentForm(request.POST) 
+
+				try:
+					LearningEnvironmentData = LearningEnvironment.objects.get(school=schoolData)
+					LearningEnvironment_form = forms.LearningEnvironmentForm(request.POST, instance=LearningEnvironmentData)
+				except BasicFacilities.DoesNotExist:
+					LearningEnvironment_form = forms.LearningEnvironmentForm(request.POST) 
+
+
+				try:
+					demographicsData = Demographics.objects.get(school=schoolData)
+					demographics_form = forms.SafeEnvironmentForm(request.POST, instance=demographicsData)
+				except Demographics.DoesNotExist:
+					demographics_form = forms.SafeEnvironmentForm(request.POST)
+
+			else:
+				SafeEnvironment_form = forms.SafeEnvironmentForm()            
+
+			#print basicfacilities_form
+			if not SafeEnvironment_form.is_valid():
+				messages.error(request, "There was a problem with the form. "
+							   "Please check the details.")
+				if "pk" in kwargs:
+					pk = kwargs.get('pk')
+					schoolData = school.objects.get(pk=pk)
+					kwargs["school_form"] = forms.SafeEnvironmentForm(instance=schoolData)
+					try:
+						SafeEnvironmentData = SafeEnvironment.objects.get(school=schoolData)
+						kwargs["SafeEnvironment_form"] = forms.SafeEnvironmentForm(instance=SafeEnvironmentData)
+					except LearningEnvironment.DoesNotExist:
+						kwargs["SafeEnvironment_form"] = forms.SafeEnvironmentForm() 
+					return super(SchoolperiodicUpdate_View, self).get(request,
+													school_form=school_form, 
+													demographics_form = demographics_form,
+													basicfacilities_form= basicfacilities_form,
+													LearningEnvironment_form=LearningEnvironment_form,
+													SafeEnvironment_form=SafeEnvironment_form
+													)  
+
+			LearningEnvironment_form.save()
+			messages.success(request, "LearningEnvironment details saved!")
 			return redirect("fieldstaff:school_list")
 
 
