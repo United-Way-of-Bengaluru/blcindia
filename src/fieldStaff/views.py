@@ -23,8 +23,8 @@ from django.views.generic import UpdateView
 from django.views.generic import TemplateView
 # from django.views.generic.edit import UpdateView
 from blcindia import settings
-from aanganwadi.models import school, Address, Type, Demographics, BasicFacilities, LearningEnvironment, SafeEnvironment,  CommunityEngagement
-from serializers import AddressSerializer, BasicFacilitiesSerializer
+from aanganwadi.models import school, Address, Type, Demographics, BasicFacilities, LearningEnvironment, SafeEnvironment,  CommunityEngagement, SchoolImages
+from serializers import AddressSerializer, BasicFacilitiesSerializer, LearningEnvironmentSerializer, SafeEnvironmentSerializer, CommunityEngagementSerializer, SchoolImagesSerializer 
 import forms
 
 
@@ -147,6 +147,7 @@ class SchoolperiodicUpdate_View(TemplateView):
 		user = self.request.user
 		if "pk" in kwargs:
 			pk = kwargs.get('pk')
+			kwargs['school_id'] = pk
 			schoolData = school.objects.get(pk=pk)
 			kwargs["school_form"] = forms.schoolForm(instance=schoolData)
 
@@ -158,28 +159,10 @@ class SchoolperiodicUpdate_View(TemplateView):
 				kwargs["demographics_form"] = forms.demographicsForm()
 
 			kwargs["basic_facilities_form"] = forms.BasicFacilitiesForm() 
-
-
-			# try:
-			# 	LearningEnvironmentData =LearningEnvironment.objects.filter(school=schoolData).first()
-			# 	kwargs["learning_environment_form"] = forms.LearningEnvironmentForm(instance=LearningEnvironmentData)
-			# except LearningEnvironment.DoesNotExist:
-			# 	print "LearningEnvironment not found"
-			# 	kwargs["learning_environment_form"] = forms.LearningEnvironmentForm()
-
-			# try:
-			# 	SafeEnvironmentData = SafeEnvironment.objects.filter(school=schoolData).first()
-			# 	kwargs["safe_environment_form"] = forms.SafeEnvironmentForm(instance=SafeEnvironmentData)
-			# except SafeEnvironment.DoesNotExist:
-			# 	print "SafeEnvironment not found"
-			# 	kwargs["safe_environment_form"] = forms.SafeEnvironmentForm()
-
-			# try:
-			# 	CommunityEngagementData = CommunityEngagement.objects.filter(school=schoolData).first()
-			# 	kwargs["community_engagement_form"] = forms.CommunityEngagementForm(instance=CommunityEngagementData)
-			# except CommunityEngagement.DoesNotExist:
-			# 	print "CommunityEngagement not found"
-			# 	kwargs["community_engagement_form"] = forms.CommunityEngagementForm()
+			kwargs["learning_environment_form"] = forms.LearningEnvironmentForm()
+			kwargs["safe_environment_form"] = forms.SafeEnvironmentForm()
+			kwargs["community_engagement_form"] = forms.CommunityEngagementForm()
+			kwargs["school_images_form"] = forms.SchoolImageForm()
 
 		else:
 			kwargs["school_form"] = forms.schoolForm()
@@ -187,7 +170,7 @@ class SchoolperiodicUpdate_View(TemplateView):
 			kwargs["basic_facilities_form"] = forms.basic_facilities_form()
 			kwargs["learning_environment_form"] = forms.LearningEnvironmentForm()
 			kwargs["safe_environment_form"] = forms.SafeEnvironmentForm()
-			kwargs["community_engagement_form"] = forms.CommunityEngagementForm()
+			kwargs["school_images_form"] = forms.SchoolImageForm()
 			
 		return super(SchoolperiodicUpdate_View, self).get(request, *args, **kwargs)
 
@@ -206,53 +189,20 @@ class SchoolperiodicUpdate_View(TemplateView):
 				except Demographics.DoesNotExist:
 					demographics_form = forms.demographicsForm()
 
-				try:
-					BasicFacilitiesData = BasicFacilities.objects.filter(school=schoolData).first()
-					basic_facilities_form = forms.BasicFacilitiesForm(instance=BasicFacilitiesData)
-				except BasicFacilities.DoesNotExist:
-					basic_facilities_form = forms.BasicFacilitiesForm() 
-
-				try:
-					LearningEnvironmentData = LearningEnvironment.objects.filter(school=schoolData).first()
-					LearningEnvironment_form = forms.LearningEnvironmentForm(instance=LearningEnvironmentData)
-				except LearningEnvironment.DoesNotExist:
-					LearningEnvironment_form = forms.LearningEnvironmentForm() 
-
-				try:
-					SafeEnvironmentData = SafeEnvironment.objects.filter(school=schoolData).first()
-					SafeEnvironment_form = forms.SafeEnvironmentForm(rinstance=SafeEnvironmentData)
-				except SafeEnvironment.DoesNotExist:
-					SafeEnvironment_form = forms.SafeEnvironmentForm() 
-
-
-				try:
-					CommunityEngagementData = CommunityEngagement.objects.filter(school=schoolData).first()
-					community_engagement_form = forms.CommunityEngagementForm(instance=CommunityEngagementData)
-				except CommunityEngagement.DoesNotExist:
-					community_engagement_form = forms.CommunityEngagementForm()
-
+				
 			else:
 				school_form = forms.schoolForm(request.POST)  
 
 
+			basic_facilities_form = forms.BasicFacilitiesForm() 
+			LearningEnvironment_form = forms.LearningEnvironmentForm() 
+			SafeEnvironment_form = forms.SafeEnvironmentForm() 
+			community_engagement_form = forms.CommunityEngagementForm()
+			school_images_form = forms.SchoolImageForm()
 
 			if not school_form.is_valid():
 				messages.error(request, "There was a problem with the form. "
-							   "Please check the details.")
-				if "pk" in kwargs:
-					pk = kwargs.get('pk')
-					schoolData = school.objects.get(pk=pk)
-					kwargs["school_form"] = forms.schoolForm(instance=schoolData)
-
-					try:
-						demographicsData = Demographics.objects.get(school=schoolData)
-						demographics_form = forms.demographicsForm(instance=demographicsData)
-					except Demographics.DoesNotExist:
-						demographics_form = forms.demographicsForm()
-
-				else:
-					kwargs["school_form"] = forms.schoolForm() 
-					demographics_form = forms.demographicsForm()           
+							   "Please check the details.")           
 				return super(SchoolperiodicUpdate_View, self).get(request,
 													school_form=school_form, 
 													demographics_form = demographics_form,
@@ -278,33 +228,14 @@ class SchoolperiodicUpdate_View(TemplateView):
 				except Demographics.DoesNotExist:
 					demographics_form = forms.demographicsForm(request.POST) 
 
-				try:
-					BasicFacilitiesData = BasicFacilities.objects.filter(school=schoolData).first()
-					basic_facilities_form = forms.BasicFacilitiesForm(instance=BasicFacilitiesData)
-				except BasicFacilities.DoesNotExist:
-					basic_facilities_form = forms.BasicFacilitiesForm() 
-
-				try:
-					LearningEnvironmentData = LearningEnvironment.objects.filter(school=schoolData).first()
-					LearningEnvironment_form = forms.LearningEnvironmentForm(instance=LearningEnvironmentData)
-				except LearningEnvironment.DoesNotExist:
-					LearningEnvironment_form = forms.LearningEnvironmentForm() 
-
-				try:
-					SafeEnvironmentData = SafeEnvironment.objects.filter(school=schoolData).first()
-					SafeEnvironment_form = forms.SafeEnvironmentForm(rinstance=SafeEnvironmentData)
-				except SafeEnvironment.DoesNotExist:
-					SafeEnvironment_form = forms.SafeEnvironmentForm() 
-
-
-				try:
-					CommunityEngagementData = CommunityEngagement.objects.filter(school=schoolData).first()
-					community_engagement_form = forms.CommunityEngagementForm(instance=CommunityEngagementData)
-				except CommunityEngagement.DoesNotExist:
-					community_engagement_form = forms.CommunityEngagementForm()
-
 			else:
-				demographics_form = forms.demographicsForm()            
+				demographics_form = forms.demographicsForm()  
+
+			basic_facilities_form = forms.BasicFacilitiesForm() 
+			LearningEnvironment_form = forms.LearningEnvironmentForm() 
+			SafeEnvironment_form = forms.SafeEnvironmentForm() 
+			community_engagement_form = forms.CommunityEngagementForm() 
+			school_images_form = forms.SchoolImageForm()         
 
 			print demographics_form
 
@@ -334,56 +265,30 @@ class SchoolperiodicUpdate_View(TemplateView):
 				schoolData = school.objects.get(pk=pk)
 				school_form = forms.schoolForm(instance=schoolData)
 
-				try:
-					BasicFacilitiesData = BasicFacilities.objects.filter(school=schoolData).first()
-					basic_facilities_form = forms.BasicFacilitiesForm(request.POST, instance=BasicFacilitiesData)
-				except BasicFacilities.DoesNotExist:
-					print "request.POST"
-					basic_facilities_form = forms.BasicFacilitiesForm(request.POST) 
-					print basic_facilities_form
-
+				basic_facilities_form = forms.BasicFacilitiesForm(request.POST) 
+				
 				try:
 					demographicsData = Demographics.objects.get(school=schoolData)
 					demographics_form = forms.demographicsForm(instance=demographicsData)
 				except Demographics.DoesNotExist:
 					demographics_form = forms.demographicsForm()
 
-				try:
-					LearningEnvironmentData = LearningEnvironment.objects.filter(school=schoolData).first()
-					LearningEnvironment_form = forms.LearningEnvironmentForm(instance=LearningEnvironmentData)
-				except LearningEnvironment.DoesNotExist:
-					LearningEnvironment_form = forms.LearningEnvironmentForm() 
-
-				try:
-					SafeEnvironmentData = SafeEnvironment.objects.filter(school=schoolData).first()
-					SafeEnvironment_form = forms.SafeEnvironmentForm(rinstance=SafeEnvironmentData)
-				except SafeEnvironment.DoesNotExist:
-					SafeEnvironment_form = forms.SafeEnvironmentForm() 
-
-				try:
-					CommunityEngagementData = CommunityEngagement.objects.filter(school=schoolData).first()
-					community_engagement_form = forms.CommunityEngagementForm(instance=CommunityEngagementData)
-				except CommunityEngagement.DoesNotExist:
-					community_engagement_form = forms.CommunityEngagementForm()				
-
+		
 			else:
 				basic_facilities_form = forms.BasicFacilitiesForm()            
+
+
+			LearningEnvironment_form = forms.LearningEnvironmentForm() 
+			SafeEnvironment_form = forms.SafeEnvironmentForm() 
+			community_engagement_form = forms.CommunityEngagementForm()
+			school_images_form = forms.SchoolImageForm()
 
 			print basic_facilities_form
 			if not basic_facilities_form.is_valid():
 				messages.error(request, "There was a problem with the form. "
 							   "Please check the details.")
-				if "pk" in kwargs:
-					pk = kwargs.get('pk')
-					schoolData = school.objects.get(pk=pk)
-					kwargs["school_form"] = forms.BasicFacilitiesForm(instance=schoolData)
-					try:
-						BasicFacilitiesData = BasicFacilities.objects.filter(school=schoolData).first()
-						kwargs["basic_facilities_form"] = forms.BasicFacilitiesForm(instance=BasicFacilitiesData)
-					except BasicFacilities.DoesNotExist:
-						kwargs["basic_facilities_form"] = forms.BasicFacilitiesForm() 
-
-					return super(SchoolperiodicUpdate_View, self).get(request,
+				
+				return super(SchoolperiodicUpdate_View, self).get(request,
 													school_form=school_form, 
 													demographics_form = demographics_form,
 													basic_facilities_form= basic_facilities_form,
@@ -404,11 +309,8 @@ class SchoolperiodicUpdate_View(TemplateView):
 				pk = kwargs.get('pk')
 				schoolData = school.objects.get(pk=pk)
 				school_form = forms.schoolForm(instance=schoolData)
-				try:
-					LearningEnvironmentData = LearningEnvironment.objects.filter(school=schoolData).first()
-					LearningEnvironment_form = forms.LearningEnvironmentForm(request.POST, instance=LearningEnvironmentData)
-				except BasicFacilities.DoesNotExist:
-					LearningEnvironment_form = forms.LearningEnvironmentForm(request.POST) 
+				
+				LearningEnvironment_form = forms.LearningEnvironmentForm(request.POST) 
 
 
 				try:
@@ -417,23 +319,10 @@ class SchoolperiodicUpdate_View(TemplateView):
 				except Demographics.DoesNotExist:
 					demographics_form = forms.demographicsForm()
 
-				try:
-					SafeEnvironmentData = SafeEnvironment.objects.filter(school=schoolData).first()
-					SafeEnvironment_form = forms.SafeEnvironmentForm(instance=SafeEnvironmentData)
-				except SafeEnvironment.DoesNotExist:
-					SafeEnvironment_form = forms.SafeEnvironmentForm() 
-
-				try:
-					BasicFacilitiesData = BasicFacilities.objects.filter(school=schoolData).first()
-					basic_facilities_form = forms.BasicFacilitiesForm(instance=BasicFacilitiesData)
-				except BasicFacilities.DoesNotExist:
-					basic_facilities_form = forms.BasicFacilitiesForm()
-
-				try:
-					CommunityEngagementData = CommunityEngagement.objects.filter(school=schoolData).first()
-					community_engagement_form = forms.CommunityEngagementForm(instance=CommunityEngagementData)
-				except CommunityEngagement.DoesNotExist:
-					community_engagement_form = forms.CommunityEngagementForm()
+				SafeEnvironment_form = forms.SafeEnvironmentForm() 
+				basic_facilities_form = forms.BasicFacilitiesForm()
+				community_engagement_form = forms.CommunityEngagementForm()
+				school_images_form = forms.SchoolImageForm()
 
 			else:
 				LearningEnvironment_form = forms.LearningEnvironmentForm()            
@@ -563,9 +452,10 @@ class AddBasicFacilites(viewsets.ModelViewSet):
 	"""
 	serializer_class = BasicFacilitiesSerializer
 
-	def list(self, request):
+	def list(self, request, school_id=None):
 		if request.method == 'GET':
-			queryset = BasicFacilities.objects.filter(school=2).all()
+
+			queryset = BasicFacilities.objects.filter(school=school_id).all()
 			serializer = BasicFacilitiesSerializer(queryset, many=True)
 			return Response(serializer.data)
 	
@@ -576,3 +466,88 @@ class AddBasicFacilites(viewsets.ModelViewSet):
 				serializer.save()
 				return Response(serializer.data)
 			return Response(serializer.errors)
+
+
+class AddLearningEnvironment(viewsets.ModelViewSet):
+	"""
+	A viewset for viewing and editing user instances.
+	"""
+	serializer_class = LearningEnvironmentSerializer
+
+	def list(self, request, school_id=None):
+		if request.method == 'GET':
+			queryset = LearningEnvironment.objects.filter(school=school_id).all()
+			serializer = LearningEnvironmentSerializer(queryset, many=True)
+			return Response(serializer.data)
+	
+	def add(self, request, school_id=None):
+		if request.method == 'POST':
+			serializer = LearningEnvironmentSerializer(data=request.data)
+			if serializer.is_valid():
+				serializer.save()
+				return Response(serializer.data)
+			return Response(serializer.errors)
+
+class AddSafeEnvironment(viewsets.ModelViewSet):
+	"""
+	A viewset for viewing and editing user instances.
+	"""
+	serializer_class = SafeEnvironmentSerializer
+
+	def list(self, request, school_id=None):
+		if request.method == 'GET':
+			queryset = SafeEnvironment.objects.filter(school=school_id).all()
+			serializer = SafeEnvironmentSerializer(queryset, many=True)
+			return Response(serializer.data)
+	
+	def add(self, request, school_id=None):
+		if request.method == 'POST':
+			serializer = SafeEnvironmentSerializer(data=request.data)
+			if serializer.is_valid():
+				serializer.save()
+				return Response(serializer.data)
+			return Response(serializer.errors)
+
+class AddCommunityEngagement(viewsets.ModelViewSet):
+	"""
+	A viewset for viewing and editing user instances.
+	"""
+	serializer_class = LearningEnvironmentSerializer
+
+	def list(self, request, school_id=None):
+		if request.method == 'GET':
+			queryset = CommunityEngagement.objects.filter(school=school_id).all()
+			serializer = CommunityEngagementSerializer(queryset, many=True)
+			return Response(serializer.data)
+	
+	def add(self, request, school_id=None):
+		if request.method == 'POST':
+			serializer = CommunityEngagementSerializer(data=request.data)
+			if serializer.is_valid():
+				serializer.save()
+				return Response(serializer.data)
+			return Response(serializer.errors)
+
+
+class AddSchoolImages(viewsets.ModelViewSet):
+	"""
+	A viewset for viewing and editing user instances.
+	"""
+	serializer_class = SchoolImagesSerializer
+
+	def list(self, request, school_id=None):
+		if request.method == 'GET':
+			queryset = SchoolImages.objects.filter(school=school_id).all()
+			serializer = SchoolImagesSerializer(queryset, many=True)
+			return Response(serializer.data)
+	
+	def add(self, request, school_id=None):
+		if request.method == 'POST':
+			serializer = SchoolImagesSerializer(data=request.data)
+			if serializer.is_valid():
+				serializer.save()
+				return Response(serializer.data)
+			return Response(serializer.errors)
+
+
+			

@@ -326,7 +326,10 @@ class BasicFacilitiesSerializer(serializers.ModelSerializer):
 		model = BasicFacilities
 		fields = '__all__'
 
-
+class LearningEnvironmentSerializer(serializers.ModelSerializer):
+	class Meta:
+		model = LearningEnvironment
+		fields = '__all__'
 
 class SafeEnvironmentSerializer(serializers.ModelSerializer):
 	class Meta:
@@ -336,6 +339,11 @@ class SafeEnvironmentSerializer(serializers.ModelSerializer):
 class CommunityEngagementSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = CommunityEngagement
+		fields = '__all__'
+
+class SchoolImagesSerializer(serializers.ModelSerializer):
+	class Meta:
+		model = SchoolImages
 		fields = '__all__'
 
 

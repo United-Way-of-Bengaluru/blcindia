@@ -4,7 +4,7 @@ from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Div, Submit, HTML, Button, Row, Field
 from crispy_forms.bootstrap import AppendedText, PrependedText, FormActions, FieldWithButtons, StrictButton
 from django.contrib.auth import get_user_model
-from aanganwadi.models import school, Demographics, BasicFacilities, LearningEnvironment, SafeEnvironment, CommunityEngagement, Address
+from aanganwadi.models import school, Demographics, BasicFacilities, LearningEnvironment, SafeEnvironment, CommunityEngagement, Address, SchoolImages
 from mapwidgets.widgets import GooglePointFieldWidget
 
 User = get_user_model()
@@ -109,7 +109,6 @@ class LearningEnvironmentForm(forms.ModelForm):
             Field('library_kits_required', wrapper_class="inputParentClass"),
             Field('sports_material_available', wrapper_class="inputParentClass"),
             Field('others_requirements', wrapper_class="inputParentClass"),
-            Submit('save_learning_environment', 'Save', css_class="btn-success"),
             )
 
     class Meta:
@@ -182,7 +181,6 @@ class SafeEnvironmentForm(forms.ModelForm):
             Field('toilet_doors_condition', wrapper_class="inputParentClass"),
             Field('mural_art_available', wrapper_class="inputParentClass"),
             Field('mural_art_required', wrapper_class="inputParentClass"),
-            Submit('save_safe_environment', 'Save', css_class="btn-success"),
             )
 
     class Meta:
@@ -214,7 +212,6 @@ class CommunityEngagementForm(forms.ModelForm):
             Field('arrangements_for_the_children_with_specialneeds_requirements', wrapper_class="inputParentClass"),
             Field('pregnant_mothers_in_population', wrapper_class="inputParentClass"),
             Field('lactating_mothers_in_population', wrapper_class="inputParentClass"),
-            Submit('save_community_engagement', 'Save', css_class="btn-success"),
             )
 
     class Meta:
@@ -222,6 +219,20 @@ class CommunityEngagementForm(forms.ModelForm):
         fields = ['school','mothers_committee_formed', 'no_of_meetings_conducted_in_last_three_months', 'meetings_documented_in_register',
          'mothers_committee_feedback', 'bal_vikas_samiti_formed', 'bal_vikas_samiti_feedback', 'meetings_documented', 'arrangements_for_the_children_with_specialneeds_feedback',
          'arrangements_for_the_children_with_specialneeds_requirements', 'pregnant_mothers_in_population', 'lactating_mothers_in_population']
+
+class SchoolImageForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(SchoolImageForm, self).__init__()
+        self.helper = FormHelper()
+        self.helper.form_tag = False
+        self.helper.layout = Layout(
+            Field('image', wrapper_class="inputAddressClass"),
+            )
+
+    class Meta:
+        model = SchoolImages
+        fields = ['image']
+        
 
         
 class AddressForm(forms.ModelForm):
@@ -246,3 +257,6 @@ class AddressForm(forms.ModelForm):
         widgets = {
             'location': GooglePointFieldWidget
         }
+
+
+        
