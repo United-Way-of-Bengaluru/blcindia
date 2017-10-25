@@ -459,7 +459,7 @@ class AddBasicFacilites(viewsets.ModelViewSet):
 			serializer = BasicFacilitiesSerializer(queryset, many=True)
 			return Response(serializer.data)
 	
-	def add(self, request):
+	def add(self, request, school_id=None):
 		if request.method == 'POST':
 			serializer = BasicFacilitiesSerializer(data=request.data)
 			if serializer.is_valid():
