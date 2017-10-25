@@ -34,7 +34,6 @@ class SchoolSerializerAll(serializers.ModelSerializer):
 	type = serializers.SerializerMethodField()
 	num_boys = serializers.SerializerMethodField()
 	num_girls = serializers.SerializerMethodField()
-	images = serializers.SerializerMethodField()
 
 
 	def address_full(self, obj):
@@ -70,13 +69,6 @@ class SchoolSerializerAll(serializers.ModelSerializer):
 			# return district
 		else:
 			return {}
-
-	def get_images(self, obj):
-		image = SchoolImages.objects.filter(school=obj).values('image').all()
-		if image is not None:
-			return image['image']
-		else:
-			return None
 
 	def get_num_boys(self, obj):
 		boys = Demographics.objects.filter(school=obj).values('total_boys').first()
@@ -159,7 +151,7 @@ class SchoolSerializerAll(serializers.ModelSerializer):
 	class Meta:
 		model = school
 		# fields = ('id','name','address_full', 'properties', 'type', 'geometry','boundary')
-		fields = ('geometry','type','properties', 'num_boys', 'num_girls', 'images')
+		fields = ('geometry','type','properties', 'num_boys', 'num_girls')
 
 
 
