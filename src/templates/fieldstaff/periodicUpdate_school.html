@@ -3,6 +3,11 @@
 {% load crispy_forms_tags %}
 {% block content %}
 
+<style type="text/css">
+  .hidden{
+    display: none;
+  }
+</style>
 
     <div class="ui-content-body">
 
@@ -60,7 +65,7 @@
                                   
 
                                 <form method="post" id="basicfacilitiesform" onsubmit="return false">
-
+                                  <input type="hidden" name="school" value="{{ school_id }}">
                                   {% crispy basic_facilities_form %}
                                     <div class="clearfix"></div>
                                   <button type="button" class="btn btn-success" onclick="save_basicfacilities()" id="save_basicfacilitiesbtn">Save</button>
@@ -74,7 +79,7 @@
                                   
                                     
                                   <form method="post" id="learningEnvironment_form" onsubmit="return false">
-
+                                      <input type="hidden" name="school" value="{{ school_id }}">
                                       {% crispy learning_environment_form %}
                                     <div class="clearfix"></div>
                                     <button type="button" class="btn btn-success" onclick="save_learningEnvironment()" id="save_learningEnvironmentbtn">Save</button>
@@ -83,7 +88,7 @@
                               </div>
                               <div class="tab-pane fade" id="pills-safe_environment" role="tabpanel" aria-labelledby="pills-safe_environment-tab">
                                   <form method="post" id="safe_environment_form" onsubmit="return false">
-
+                                      <input type="hidden" name="school" value="{{ school_id }}">
                                       {% crispy safe_environment_form %}
                                     <div class="clearfix"></div>
                                     <button type="button" class="btn btn-success" onclick="save_safe_environment()" id="save_safe_environmentbtn">Save</button>
@@ -93,7 +98,7 @@
                               </div>
                               <div class="tab-pane fade" id="pills-community_engagement" role="tabpanel" aria-labelledby="pills-community_engagement-tab">
                                  <form method="post" id="community_engagement_form" onsubmit="return false">
-
+                                    <input type="hidden" name="school" value="{{ school_id }}">
                                       {% crispy community_engagement_form %}
                                     <div class="clearfix"></div>
                                     <button type="button" class="btn btn-success" onclick="save_community_engagement()" id="save_community_engagementbtn">Save</button>
@@ -104,7 +109,7 @@
 
                               <div class="tab-pane fade" id="pills-school_images" role="tabpanel" aria-labelledby="pills-school_images-tab">
                                  <form method="post" id="school_images_form" onsubmit="return false" enctype="multipart/form-data">
-
+                                    <input type="hidden" name="school" value="{{ school_id }}">
                                       {% crispy school_images_form %}
                                     <div class="clearfix"></div>
                                     <button type="button" class="btn btn-success" onclick="save_school_images()" id="save_school_imagesbtn">Save</button>

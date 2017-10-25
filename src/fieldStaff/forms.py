@@ -44,7 +44,7 @@ class demographicsForm(forms.ModelForm):
         self.helper = FormHelper()
         self.helper.form_tag = False
         self.helper.layout = Layout(
-            Field('school', wrapper_class="inputParentClass"),
+            Field('school', wrapper_class="inputParentClass hidden"),
             Field('male_teachers', wrapper_class="inputParentClass"),
             Field('female_teachers', wrapper_class="inputParentClass"),
             Field('total_boys', wrapper_class="inputParentClass"),
@@ -68,7 +68,7 @@ class BasicFacilitiesForm(forms.ModelForm):
         self.helper = FormHelper()
         self.helper.form_tag = False
         self.helper.layout = Layout(
-            Field('school', wrapper_class="inputParentClass"),
+            
             Field('electricity_available', wrapper_class="inputParentClass"),
             Field('cleanliness', wrapper_class="inputParentClass"),
             Field('cleanliness_description', wrapper_class="inputParentClass"),
@@ -96,7 +96,7 @@ class LearningEnvironmentForm(forms.ModelForm):
         self.helper = FormHelper()
         self.helper.form_tag = False
         self.helper.layout = Layout(
-            Field('school', wrapper_class="inputParentClass"),
+            
             Field('learning_and_playing_materials_available', wrapper_class="inputParentClass"),
             Field('learning_and_playing_materials_required', wrapper_class="inputParentClass"),
             Field('charts_available', wrapper_class="inputParentClass"),
@@ -123,7 +123,7 @@ class SafeEnvironmentForm(forms.ModelForm):
         self.helper = FormHelper()
         self.helper.form_tag = False
         self.helper.layout = Layout(
-            Field('school', wrapper_class="inputParentClass"),
+            
             Field('shelves_in_kitchen', wrapper_class="inputParentClass"),
             Field('shelves_required_in_kitchen', wrapper_class="inputParentClass"),
             Field('shelves_in_store_room', wrapper_class="inputParentClass"),
@@ -200,7 +200,7 @@ class CommunityEngagementForm(forms.ModelForm):
         self.helper = FormHelper()
         self.helper.form_tag = False
         self.helper.layout = Layout(
-            Field('school', wrapper_class="inputParentClass"),
+            
             Field('mothers_committee_formed', wrapper_class="inputParentClass"),
             Field('no_of_meetings_conducted_in_last_three_months', wrapper_class="inputParentClass"),
             Field('meetings_documented_in_register', wrapper_class="inputParentClass"),
@@ -226,12 +226,13 @@ class SchoolImageForm(forms.ModelForm):
         self.helper = FormHelper()
         self.helper.form_tag = False
         self.helper.layout = Layout(
+            
             Field('image', wrapper_class="inputAddressClass"),
             )
 
     class Meta:
         model = SchoolImages
-        fields = ['image']
+        fields = ['school','image']
         
 
         
