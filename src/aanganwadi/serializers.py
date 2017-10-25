@@ -73,7 +73,7 @@ class SchoolSerializerAll(serializers.ModelSerializer):
 
 	def get_images(self, obj):
 		image = SchoolImages.objects.filter(school=obj).values('image').all()
-		if boys is not None:
+		if image is not None:
 			return image['image']
 		else:
 			return None
