@@ -112,7 +112,7 @@ console.log(1)
                 success: function(html){
                   //$("#results").append(html);
                   $("#save_basicfacilitiesbtn").html('Save')
-                $("#basicfacilitiesform").clear()
+                document.getElementById("basicfacilitiesform").reset();
                   get_basicfacilites();
                 }
               });
