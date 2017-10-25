@@ -70,6 +70,7 @@ class SchoolSerializerAll(serializers.ModelSerializer):
 		else:
 			return {}
 
+
 	def get_num_boys(self, obj):
 		boys = Demographics.objects.filter(school=obj).values('total_boys').first()
 		if boys is not None:
@@ -167,6 +168,7 @@ class SchoolSerializer(serializers.ModelSerializer):
 	num_girls = serializers.SerializerMethodField()
 	meeting_reports = serializers.SerializerMethodField()
 	geometry = serializers.SerializerMethodField()
+	images = serializers.SerializerMethodField()
 
 	def get_num_boys(self, obj):
 		boys = Demographics.objects.filter(school=obj).values('total_boys').first()
@@ -251,6 +253,13 @@ class SchoolSerializer(serializers.ModelSerializer):
 		else:
 			return ''
 
+	def get_images(self, obj):
+		imagesQueryset = SchoolImages.objects.filter(school=obj).all()
+		imagesData=[]
+		if imagesQueryset is not None:
+			for image in imagesQueryset:
+				imagesData.append(image['image'])
+		return imagesData
 
 	"""
 		"id": 29569,
@@ -284,7 +293,7 @@ class SchoolSerializer(serializers.ModelSerializer):
 
 	class Meta:
 		model = school
-		fields = ('id','name','cat','address_full','landmark','identifiers','district','type', 'num_boys', 'num_girls', 'basic_facilities', 'meeting_reports', 'geometry')
+		fields = ('id','name','cat','images','address_full','landmark','identifiers','district','type', 'num_boys', 'num_girls', 'basic_facilities', 'meeting_reports', 'geometry')
 
 class SchoolSerializerDemographics(serializers.ModelSerializer):
 
