@@ -2,14 +2,30 @@ from django.shortcuts import get_object_or_404
 from rest_framework import generics
 from rest_framework import serializers
 
-from aanganwadi.models import school, Address, District, Demographics, BasicFacilities, CommunityEngagement, SafeEnvironment, \
-    LearningEnvironment, SchoolImages
+from aanganwadi.models import school, Address, District, BasicFacilities, CommunityEngagement, SafeEnvironment, \
+	LearningEnvironment, SchoolImages
+
+from aanganwadi.choices import ( YESNO, AREA, SCHOOL_CATEGORY, SCHOOL_MANAGEMENT , SCHOOL_TYPES,DISTRICT_STATUS, MEDIUM, MDM_STATUS, KITCHENSHED_STATUS,
+	BOUNDARY_WALL, BUILDING_STATUS, DRINKING_WATER, PAINT_TYPE_CHOICES, YESNO_TYPE_CHOICES, condition_TYPE_CHOICES)
 
 
 # class AddressSerializer(serializers.ModelSerializer):
 #     class Meta:
 #         model = Address
 #         fields = ('landmark')
+
+
+
+class ChoicesField(serializers.Field):
+	def __init__(self, choices, **kwargs):
+		self._choices = choices
+		super(ChoicesField, self).__init__(**kwargs)
+
+	def to_representation(self, obj):
+		return self._choices[obj]
+
+	def to_internal_value(self, data):
+		return getattr(self._choices, data)
 
 
 def meeting_reports(self, obj):
@@ -78,14 +94,14 @@ class SchoolSerializerAll(serializers.ModelSerializer):
 			return {}
 
 	def get_num_boys(self, obj):
-		boys = Demographics.objects.filter(school=obj).values('total_boys').first()
+		boys = school.objects.filter(school=obj).values('total_boys').first()
 		if boys is not None:
 			return boys['total_boys']
 		else:
 			return None
 
 	def get_num_girls(self, obj):
-		girls = Demographics.objects.filter(school=obj).values('total_girls').first()
+		girls = school.objects.filter(school=obj).values('total_girls').first()
 		if girls is not None:
 			return girls['total_girls']
 		else:
@@ -176,7 +192,7 @@ class SchoolSerializer(serializers.ModelSerializer):
 	geometry = serializers.SerializerMethodField()
 
 	def get_num_boys(self, obj):
-		boys = Demographics.objects.filter(school=obj).values('total_boys').first()
+		boys = school.objects.filter(school=obj).values('total_boys').first()
 		if boys is not None:
 			return boys['total_boys']
 		else:
@@ -192,7 +208,7 @@ class SchoolSerializer(serializers.ModelSerializer):
 			return {}
 
 	def get_num_girls(self, obj):
-		girls = Demographics.objects.filter(school=obj).values('total_girls').first()
+		girls = school.objects.filter(school=obj).values('total_girls').first()
 		if girls is not None:
 			return girls['total_girls']
 		else:
@@ -318,13 +334,34 @@ class SchoolSerializerDemographics(serializers.ModelSerializer):
 
 
 	class Meta:
-		model = Demographics
+		model = school
 		fields = ('id','total_boys','total_girls')
 
 class BasicFacilitiesSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = BasicFacilities
 		fields = '__all__'
+	#gender = serializers.SerializerMethodField()
+	#school = serializers.IntegerField()
+	# electricity_available = ChoicesField(choices=YESNO)
+	# cleanliness = ChoicesField(choices=YESNO_TYPE_CHOICES)
+	# cleanliness_description = serializers.CharField(max_length=200)
+	# pest_control_done_in_last_one_year = ChoicesField(choices=YESNO_TYPE_CHOICES)
+	# pest_control_required = ChoicesField(choices=YESNO_TYPE_CHOICES)
+	# drinking_water = ChoicesField(choices=DRINKING_WATER)
+	# drinking_water_filter = ChoicesField(choices=YESNO)
+	# drinking_water_filter_available = serializers.IntegerField()
+	# drinking_water_filter_required = serializers.IntegerField()
+	# electric_bulbs = serializers.IntegerField()
+	# electric_bulbs_required = serializers.IntegerField()
+	# electric_fans_available = serializers.IntegerField()
+	# electric_fans_required = serializers.IntegerField()
+
+	# class Meta:
+	# 	model = BasicFacilities
+	# 	fields = ('electricity_available', 'cleanliness', 'cleanliness_description', 'pest_control_done_in_last_one_year',
+	# 		'pest_control_required', 'drinking_water', 'drinking_water_filter', 'drinking_water_filter_available', 'drinking_water_filter_required', 
+	# 		'electric_bulbs', 'electric_bulbs_required', 'electric_fans_available', 'electric_fans_required')
 
 class LearningEnvironmentSerializer(serializers.ModelSerializer):
 	class Meta:
@@ -375,7 +412,7 @@ class BasicInfrastructureSerializer(serializers.ModelSerializer):
 	num_girls = serializers.SerializerMethodField()
 	facilities = serializers.SerializerMethodField()
 	school_images = serializers.SerializerMethodField()
-    # toilet_data = serializers.SerializerMethodField()
+	# toilet_data = serializers.SerializerMethodField()
 	# community_involvement = serializers.SerializerMethodField()
 	# basic_infrastructure = serializers.SerializerMethodField()
 	# learning_environment = serializers.SerializerMethodField()
@@ -383,14 +420,14 @@ class BasicInfrastructureSerializer(serializers.ModelSerializer):
 
 
 	def get_num_boys(self, obj):
-		boys = Demographics.objects.filter(school=obj).values('total_boys').first()
+		boys = school.objects.filter(school=obj).values('total_boys').first()
 		if boys is not None:
 			return boys['total_boys']
 		else:
 			return ''
 
 	def get_num_girls(self, obj):
-		girls = Demographics.objects.filter(school=obj).values('total_girls').first()
+		girls = school.objects.filter(school=obj).values('total_girls').first()
 		if girls is not None:
 			return girls['total_girls']
 		else:
@@ -439,7 +476,7 @@ class BasicInfrastructureSerializer(serializers.ModelSerializer):
 
 	def get_facilities(self, obj):
 
-		toilet = SafeEnvironment.objects.filter(school=obj).values('toilet_available','toilet_functioning','shelter_in_toilets').first()		
+		toilet = SafeEnvironment.objects.filter(school=obj).values('toilet_available','toilet_functioning','shelter_in_toilets').first()        
 		basicInfrastructure = SafeEnvironment.objects.filter(school=obj).values('need_walls_repair','need_flooring_in_building','dustbin_available','need_ceiling_repair').first()
 		communityInvolvement = CommunityEngagement.objects.filter(school=obj).values('mothers_committee_formed','bal_vikas_samiti_formed').first()
 		learningEnvironment = LearningEnvironment.objects.filter(school=obj).values('learning_and_playing_materials_available','charts_available','story_books_available','drawing_and_art_materials_available','library_kits_available','sports_material_available').first()
@@ -450,7 +487,7 @@ class BasicInfrastructureSerializer(serializers.ModelSerializer):
 		'Community Involvement': communityInvolvement,
 		'Learning Environment': learningEnvironment,
 		'Nutrition and Hygiene': nutritionHygiene,
-		'Toilet Facilities': toilet,		
+		'Toilet Facilities': toilet,        
 		}
 		return dict
 
@@ -460,7 +497,7 @@ class BasicInfrastructureSerializer(serializers.ModelSerializer):
 			return schoolImages
 		else:
 			return ''
-    
+	
 	class Meta:
 		model = school
 		fields = ('name','num_boys','num_girls','basic_facilities', 'facilities', 'school_images')

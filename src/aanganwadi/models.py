@@ -103,9 +103,13 @@ class school(models.Model):
     supervisor_number = models.CharField(max_length=50, null=True, blank=True)
     cdpo_name = models.CharField(max_length=50, blank=True)
     cdpo_number = models.IntegerField(null=True, blank=True)
-
-    def demographics(self):
-        return Demographics.objects.filter('school_id', self.id)
+    male_teachers = models.IntegerField(null=True, blank=True)
+    female_teachers = models.IntegerField(null=True, blank=True)
+    total_boys = models.IntegerField(blank=True, null=True, verbose_name='0-3 Yrs Childrens')
+    total_girls = models.IntegerField(blank=True, null=True, verbose_name='3-6 Yrs Childrens')
+    household_covering_the_catchment_area = models.IntegerField(null=True, blank=True)
+    total_population_under_center = models.IntegerField(null=True, blank=True)
+    total_childrens_in_population = models.IntegerField(null=True, blank=True)
 
     def get_basic_facilities(self):
         return "Hi"
@@ -117,27 +121,6 @@ class school(models.Model):
     def community(self):
         return CommunityEngagement.objects.filter('school_id', self.id)
 
-    def __unicode__(self):
-        return self.name
-
-    class Meta:
-        verbose_name= 'Aanganwadi'
-
-
-class Demographics(models.Model):
-    school= models.ForeignKey('school')
-    male_teachers = models.IntegerField(null=True, blank=True)
-    female_teachers = models.IntegerField(null=True, blank=True)
-    total_boys = models.IntegerField(blank=True, null=True, verbose_name='0-3 Yrs Childrens')
-    total_girls = models.IntegerField(blank=True, null=True, verbose_name='3-6 Yrs Childrens')
-    household_covering_the_catchment_area = models.IntegerField(null=True, blank=True)
-    total_population_under_center = models.IntegerField(null=True, blank=True)
-    total_childrens_in_population = models.IntegerField(null=True, blank=True)
-
-
-    #objects = models.GeoManager()
-
-    #To Do  - Will have to update this in model itself
     @property
     def num_boys(self):
         return self.total_boys
@@ -145,6 +128,29 @@ class Demographics(models.Model):
     @property
     def num_girls(self):
         return self.total_girls
+
+    def __unicode__(self):
+        return self.name
+
+    class Meta:
+        verbose_name= 'Aanganwadi'
+
+
+# class Demographics(models.Model):
+#     school= models.ForeignKey('school')
+#     male_teachers = models.IntegerField(null=True, blank=True)
+#     female_teachers = models.IntegerField(null=True, blank=True)
+#     total_boys = models.IntegerField(blank=True, null=True, verbose_name='0-3 Yrs Childrens')
+#     total_girls = models.IntegerField(blank=True, null=True, verbose_name='3-6 Yrs Childrens')
+#     household_covering_the_catchment_area = models.IntegerField(null=True, blank=True)
+#     total_population_under_center = models.IntegerField(null=True, blank=True)
+#     total_childrens_in_population = models.IntegerField(null=True, blank=True)
+
+
+    #objects = models.GeoManager()
+
+    #To Do  - Will have to update this in model itself
+    
 
 
 class BasicFacilities(models.Model):

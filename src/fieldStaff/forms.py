@@ -4,7 +4,7 @@ from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Div, Submit, HTML, Button, Row, Field
 from crispy_forms.bootstrap import AppendedText, PrependedText, FormActions, FieldWithButtons, StrictButton
 from django.contrib.auth import get_user_model
-from aanganwadi.models import school, Demographics, BasicFacilities, LearningEnvironment, SafeEnvironment, CommunityEngagement, Address, SchoolImages
+from aanganwadi.models import school, BasicFacilities, LearningEnvironment, SafeEnvironment, CommunityEngagement, Address, SchoolImages
 from mapwidgets.widgets import GooglePointFieldWidget
 
 User = get_user_model()
@@ -22,6 +22,13 @@ class schoolForm(forms.ModelForm):
             Field('type', wrapper_class="schoolParentClass"),
             Field('rural_urban', wrapper_class="schoolParentClass"),
             Field('building_status', wrapper_class="schoolParentClass"),
+            Field('male_teachers', wrapper_class="inputParentClass"),
+            Field('female_teachers', wrapper_class="inputParentClass"),
+            Field('total_boys', wrapper_class="inputParentClass"),
+            Field('total_girls', wrapper_class="inputParentClass"),
+            Field('household_covering_the_catchment_area', wrapper_class="inputParentClass"),
+            Field('total_population_under_center', wrapper_class="inputParentClass"),
+            Field('total_childrens_in_population', wrapper_class="inputParentClass"),
             Field('worker_name', wrapper_class="schoolParentClass"),
             Field('worker_number', wrapper_class="schoolParentClass"),
             Field('helper_name', wrapper_class="schoolParentClass"),
@@ -30,35 +37,37 @@ class schoolForm(forms.ModelForm):
             Field('supervisor_number', wrapper_class="schoolParentClass"),
             Field('cdpo_name', wrapper_class="schoolParentClass"),
             Field('cdpo_number', wrapper_class="schoolParentClass"),
+
             Submit('save_school_info', 'Save School', css_class=" clearfix btn-success"),
             )
 
     class Meta:
         model = school
-        fields = ['name', 'address', 'type', 'rural_urban', 'building_status', 'worker_name', 'worker_number', 'helper_name', 'helper_number', 'supervisor_name', 'supervisor_number', 'cdpo_name', 'cdpo_number']
+        fields = ['name', 'address', 'type', 'rural_urban', 'building_status',  'male_teachers', 'female_teachers', 'total_boys', 'total_girls', 'household_covering_the_catchment_area', 
+        'total_population_under_center', 'total_childrens_in_population', 'worker_name', 'worker_number', 'helper_name', 'helper_number', 'supervisor_name', 'supervisor_number', 'cdpo_name', 'cdpo_number']
 
 
-class demographicsForm(forms.ModelForm):
-    def __init__(self, *args, **kwargs):
-        super(demographicsForm, self).__init__(*args, **kwargs)
-        self.helper = FormHelper()
-        self.helper.form_tag = False
-        self.helper.layout = Layout(
-            Field('school', wrapper_class="inputParentClass hidden"),
-            Field('male_teachers', wrapper_class="inputParentClass"),
-            Field('female_teachers', wrapper_class="inputParentClass"),
-            Field('total_boys', wrapper_class="inputParentClass"),
-            Field('total_girls', wrapper_class="inputParentClass"),
-            Field('household_covering_the_catchment_area', wrapper_class="inputParentClass"),
-            Field('total_population_under_center', wrapper_class="inputParentClass"),
-            Field('total_childrens_in_population', wrapper_class="inputParentClass"),
-            Submit('save_demographics', 'Save', css_class="btn-success"),
-            )
+# class demographicsForm(forms.ModelForm):
+#     def __init__(self, *args, **kwargs):
+#         super(demographicsForm, self).__init__(*args, **kwargs)
+#         self.helper = FormHelper()
+#         self.helper.form_tag = False
+#         self.helper.layout = Layout(
+#             Field('school', wrapper_class="inputParentClass hidden"),
+#             Field('male_teachers', wrapper_class="inputParentClass"),
+#             Field('female_teachers', wrapper_class="inputParentClass"),
+#             Field('total_boys', wrapper_class="inputParentClass"),
+#             Field('total_girls', wrapper_class="inputParentClass"),
+#             Field('household_covering_the_catchment_area', wrapper_class="inputParentClass"),
+#             Field('total_population_under_center', wrapper_class="inputParentClass"),
+#             Field('total_childrens_in_population', wrapper_class="inputParentClass"),
+#             Submit('save_demographics', 'Save', css_class="btn-success"),
+#             )
 
-    class Meta:
-        model = Demographics
-        fields = ['school', 'male_teachers', 'female_teachers', 'total_boys', 'total_girls', 'household_covering_the_catchment_area', 
-        'total_population_under_center', 'total_childrens_in_population']
+    # class Meta:
+    #     model = Demographics
+    #     fields = ['school', 'male_teachers', 'female_teachers', 'total_boys', 'total_girls', 'household_covering_the_catchment_area', 
+    #     'total_population_under_center', 'total_childrens_in_population']
 
 
 class BasicFacilitiesForm(forms.ModelForm):

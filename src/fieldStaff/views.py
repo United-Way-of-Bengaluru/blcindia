@@ -23,7 +23,7 @@ from django.views.generic import UpdateView
 from django.views.generic import TemplateView
 # from django.views.generic.edit import UpdateView
 from blcindia import settings
-from aanganwadi.models import school, Address, Type, Demographics, BasicFacilities, LearningEnvironment, SafeEnvironment,  CommunityEngagement, SchoolImages
+from aanganwadi.models import school, Address, Type, BasicFacilities, LearningEnvironment, SafeEnvironment,  CommunityEngagement, SchoolImages
 from serializers import AddressSerializer, BasicFacilitiesSerializer, LearningEnvironmentSerializer, SafeEnvironmentSerializer, CommunityEngagementSerializer, SchoolImagesSerializer 
 import forms
 
@@ -151,12 +151,12 @@ class SchoolperiodicUpdate_View(TemplateView):
 			schoolData = school.objects.get(pk=pk)
 			kwargs["school_form"] = forms.schoolForm(instance=schoolData)
 
-			try:
-				demographicsData = Demographics.objects.get(school=schoolData)
-				kwargs["demographics_form"] = forms.demographicsForm(instance=demographicsData)
-			except Demographics.DoesNotExist:
-				print "Demographics not found"
-				kwargs["demographics_form"] = forms.demographicsForm()
+			# try:
+			# 	demographicsData = school.objects.get(school=schoolData)
+			# 	kwargs["demographics_form"] = forms.demographicsForm(instance=demographicsData)
+			# except Demographics.DoesNotExist:
+			# 	print "Demographics not found"
+			# 	kwargs["demographics_form"] = forms.demographicsForm()
 
 			kwargs["basic_facilities_form"] = forms.BasicFacilitiesForm() 
 			kwargs["learning_environment_form"] = forms.LearningEnvironmentForm()
@@ -166,7 +166,7 @@ class SchoolperiodicUpdate_View(TemplateView):
 
 		else:
 			kwargs["school_form"] = forms.schoolForm()
-			kwargs["demographics_form"] = forms.demographicsForm()
+			#kwargs["demographics_form"] = forms.demographicsForm()
 			kwargs["basic_facilities_form"] = forms.basic_facilities_form()
 			kwargs["learning_environment_form"] = forms.LearningEnvironmentForm()
 			kwargs["safe_environment_form"] = forms.SafeEnvironmentForm()
@@ -178,16 +178,17 @@ class SchoolperiodicUpdate_View(TemplateView):
 		user = self.request.user
 
 		if 'save_school_info' in request.POST:
+			print request.POST
 			if "pk" in kwargs:
 				pk = kwargs.get('pk')
 				schoolData = school.objects.get(pk=pk)
 				school_form = forms.schoolForm(request.POST, instance=schoolData)
 
-				try:
-					demographicsData = Demographics.objects.get(school=schoolData)
-					demographics_form = forms.demographicsForm(instance=demographicsData)
-				except Demographics.DoesNotExist:
-					demographics_form = forms.demographicsForm()
+				# try:
+				# 	demographicsData = Demographics.objects.get(school=schoolData)
+				# 	demographics_form = forms.demographicsForm(instance=demographicsData)
+				# except Demographics.DoesNotExist:
+				# 	demographics_form = forms.demographicsForm()
 
 				
 			else:
@@ -205,7 +206,7 @@ class SchoolperiodicUpdate_View(TemplateView):
 							   "Please check the details.")           
 				return super(SchoolperiodicUpdate_View, self).get(request,
 													school_form=school_form, 
-													demographics_form = demographics_form,
+													#demographics_form = demographics_form,
 													basic_facilities_form= basic_facilities_form,
 													learning_environment_form=LearningEnvironment_form,
 													safe_environment_form=SafeEnvironment_form,
@@ -215,45 +216,45 @@ class SchoolperiodicUpdate_View(TemplateView):
 			messages.success(request, "School details saved!")
 			return redirect("fieldstaff:school_list")
 
-		if 'save_demographics' in request.POST:
-			print 'save_demographics'
+		# if 'save_demographics' in request.POST:
+		# 	print 'save_demographics'
 
-			if "pk" in kwargs:
-				pk = kwargs.get('pk')
-				schoolData = school.objects.get(pk=pk)
-				school_form = forms.schoolForm(instance=schoolData)
-				try:
-					demographicsData = Demographics.objects.get(school=schoolData)
-					demographics_form = forms.demographicsForm(request.POST, instance=demographicsData)
-				except Demographics.DoesNotExist:
-					demographics_form = forms.demographicsForm(request.POST) 
+		# 	if "pk" in kwargs:
+		# 		pk = kwargs.get('pk')
+		# 		schoolData = school.objects.get(pk=pk)
+		# 		school_form = forms.schoolForm(instance=schoolData)
+		# 		try:
+		# 			demographicsData = Demographics.objects.get(school=schoolData)
+		# 			demographics_form = forms.demographicsForm(request.POST, instance=demographicsData)
+		# 		except Demographics.DoesNotExist:
+		# 			demographics_form = forms.demographicsForm(request.POST) 
 
-			else:
-				demographics_form = forms.demographicsForm()  
+		# 	else:
+		# 		demographics_form = forms.demographicsForm()  
 
-			basic_facilities_form = forms.BasicFacilitiesForm() 
-			LearningEnvironment_form = forms.LearningEnvironmentForm() 
-			SafeEnvironment_form = forms.SafeEnvironmentForm() 
-			community_engagement_form = forms.CommunityEngagementForm() 
-			school_images_form = forms.SchoolImageForm()         
+		# 	basic_facilities_form = forms.BasicFacilitiesForm() 
+		# 	LearningEnvironment_form = forms.LearningEnvironmentForm() 
+		# 	SafeEnvironment_form = forms.SafeEnvironmentForm() 
+		# 	community_engagement_form = forms.CommunityEngagementForm() 
+		# 	school_images_form = forms.SchoolImageForm()         
 
-			print demographics_form
+		# 	print demographics_form
 
-			if not demographics_form.is_valid():
-				messages.error(request, "There was a problem with the form. "
-							   "Please check the details.")				
-				return super(SchoolperiodicUpdate_View, self).get(request,
-												school_form=school_form, 
-												demographics_form = demographics_form,
-												basic_facilities_form= basic_facilities_form,
-												learning_environment_form=LearningEnvironment_form,
-												safe_environment_form=SafeEnvironment_form,
-												community_engagement_form=community_engagement_form
-												)  
+		# 	if not demographics_form.is_valid():
+		# 		messages.error(request, "There was a problem with the form. "
+		# 					   "Please check the details.")				
+		# 		return super(SchoolperiodicUpdate_View, self).get(request,
+		# 										school_form=school_form, 
+		# 										demographics_form = demographics_form,
+		# 										basic_facilities_form= basic_facilities_form,
+		# 										learning_environment_form=LearningEnvironment_form,
+		# 										safe_environment_form=SafeEnvironment_form,
+		# 										community_engagement_form=community_engagement_form
+		# 										)  
 
-			demographics_form.save()
-			messages.success(request, "Demographics details saved!")
-			return redirect("fieldstaff:school_list")
+		# 	demographics_form.save()
+		# 	messages.success(request, "Demographics details saved!")
+		# 	return redirect("fieldstaff:school_list")
 
 
 

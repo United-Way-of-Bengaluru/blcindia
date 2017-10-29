@@ -2,7 +2,7 @@ from django.shortcuts import get_object_or_404
 from rest_framework import generics
 from rest_framework import serializers
 
-from aanganwadi.models import school, Address, District, Demographics, BasicFacilities, CommunityEngagement, SafeEnvironment, \
+from aanganwadi.models import school, Address, District, BasicFacilities, CommunityEngagement, SafeEnvironment, \
     LearningEnvironment, SchoolImages
 
 
@@ -72,14 +72,14 @@ class SchoolSerializerAll(serializers.ModelSerializer):
 
 
 	def get_num_boys(self, obj):
-		boys = Demographics.objects.filter(school=obj).values('total_boys').first()
+		boys = school.objects.filter(school=obj).values('total_boys').first()
 		if boys is not None:
 			return boys['total_boys']
 		else:
 			return None
 
 	def get_num_girls(self, obj):
-		girls = Demographics.objects.filter(school=obj).values('total_girls').first()
+		girls = school.objects.filter(school=obj).values('total_girls').first()
 		if girls is not None:
 			return girls['total_girls']
 		else:
@@ -171,7 +171,7 @@ class SchoolSerializer(serializers.ModelSerializer):
 	images = serializers.SerializerMethodField()
 
 	def get_num_boys(self, obj):
-		boys = Demographics.objects.filter(school=obj).values('total_boys').first()
+		boys = school.objects.filter(school=obj).values('total_boys').first()
 		if boys is not None:
 			return boys['total_boys']
 		else:
@@ -187,7 +187,7 @@ class SchoolSerializer(serializers.ModelSerializer):
 			return {}
 
 	def get_num_girls(self, obj):
-		girls = Demographics.objects.filter(school=obj).values('total_girls').first()
+		girls = school.objects.filter(school=obj).values('total_girls').first()
 		if girls is not None:
 			return girls['total_girls']
 		else:
@@ -320,7 +320,7 @@ class SchoolSerializerDemographics(serializers.ModelSerializer):
 
 
 	class Meta:
-		model = Demographics
+		model = school
 		fields = ('id','total_boys','total_girls')
 
 class BasicFacilitiesSerializer(serializers.ModelSerializer):
@@ -377,14 +377,14 @@ class BasicInfrastructureSerializer(serializers.ModelSerializer):
 
 
 	def get_num_boys(self, obj):
-		boys = Demographics.objects.filter(school=obj).values('total_boys').first()
+		boys = school.objects.filter(school=obj).values('total_boys').first()
 		if boys is not None:
 			return boys['total_boys']
 		else:
 			return ''
 
 	def get_num_girls(self, obj):
-		girls = Demographics.objects.filter(school=obj).values('total_girls').first()
+		girls = school.objects.filter(school=obj).values('total_girls').first()
 		if girls is not None:
 			return girls['total_girls']
 		else:

@@ -11,7 +11,7 @@ from rest_framework.response import Response
 from rest_framework.exceptions import APIException
 
 from blcindia.views import StaticPageView
-from aanganwadi.models import school, Boundary,Address, AcademicYear, Demographics, SafeEnvironment, BasicFacilities
+from aanganwadi.models import school, Boundary,Address, AcademicYear, SafeEnvironment, BasicFacilities
 from aanganwadi.serializers import SchoolSerializer, SchoolSerializerAll, SchoolSerializerDemographics, \
     SchoolSerializerInfrastructure, BasicFacilitiesSerializer, BasicInfrastructureSerializer
 from django.core.urlresolvers import reverse
@@ -110,7 +110,7 @@ class SchoolsData(viewsets.ModelViewSet):
             return Response(serializer.data)
 
 class SchoolsDataDemographics(viewsets.ModelViewSet):
-    queryset = Demographics.objects.all()
+    queryset = school.objects.all()
     def retrieve(self, request, school_id=None):
 
         # queryset = Demographics.objects.all()
@@ -120,7 +120,7 @@ class SchoolsDataDemographics(viewsets.ModelViewSet):
 
         school_data = school.objects.filter(id=school_id).values('name').first()
 
-        demographicsdata = Demographics.objects.filter(school=school_id).values('total_boys','total_girls','id').first()
+        demographicsdata = school.objects.filter(school=school_id).values('total_boys','total_girls','id').first()
 
         if school_data is not None:
             school_name = school_data['name']
