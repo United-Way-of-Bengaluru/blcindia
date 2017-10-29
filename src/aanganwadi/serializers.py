@@ -72,16 +72,16 @@ class SchoolSerializerAll(serializers.ModelSerializer):
 
 
 	def get_num_boys(self, obj):
-		boys = school.objects.filter(school=obj).values('total_boys').first()
+		boys = obj.total_boys
 		if boys is not None:
-			return boys['total_boys']
+			return boys
 		else:
 			return None
 
 	def get_num_girls(self, obj):
-		girls = school.objects.filter(school=obj).values('total_girls').first()
+		girls = obj.total_girls
 		if girls is not None:
-			return girls['total_girls']
+			return girls
 		else:
 			return None
 
@@ -170,13 +170,7 @@ class SchoolSerializer(serializers.ModelSerializer):
 	geometry = serializers.SerializerMethodField()
 	images = serializers.SerializerMethodField()
 
-	def get_num_boys(self, obj):
-		boys = school.objects.filter(school=obj).values('total_boys').first()
-		if boys is not None:
-			return boys['total_boys']
-		else:
-			return None
-
+	
 	def get_geometry(self, obj):
 		if obj.address:
 			dict ={
@@ -186,12 +180,21 @@ class SchoolSerializer(serializers.ModelSerializer):
 		else:
 			return {}
 
-	def get_num_girls(self, obj):
-		girls = school.objects.filter(school=obj).values('total_girls').first()
-		if girls is not None:
-			return girls['total_girls']
+	
+	def get_num_boys(self, obj):
+		boys = obj.total_boys
+		if boys is not None:
+			return boys
 		else:
 			return None
+
+	def get_num_girls(self, obj):
+		girls = obj.total_girls
+		if girls is not None:
+			return girls
+		else:
+			return None
+
 
 	def get_meeting_reports(self, obj):
 		return meeting_reports(self,obj)
@@ -377,18 +380,18 @@ class BasicInfrastructureSerializer(serializers.ModelSerializer):
 
 
 	def get_num_boys(self, obj):
-		boys = school.objects.filter(school=obj).values('total_boys').first()
+		boys = obj.total_boys
 		if boys is not None:
-			return boys['total_boys']
+			return boys
 		else:
-			return ''
+			return None
 
 	def get_num_girls(self, obj):
-		girls = school.objects.filter(school=obj).values('total_girls').first()
+		girls = obj.total_girls
 		if girls is not None:
-			return girls['total_girls']
+			return girls
 		else:
-			return ''
+			return None
 
 	def get_basic_facilities(self, obj):
 		basic = BasicFacilities.objects.filter(school=obj).values('electricity_available').first()
