@@ -216,6 +216,31 @@ class SchoolperiodicUpdate_View(TemplateView):
 			messages.success(request, "School details saved!")
 			return redirect("fieldstaff:school_list")
 
+
+		# if 'save_school_images' in request.POST:
+		# 	print "Line 221"
+		# 	school_images_form = forms.SchoolImageForm(request.POST)
+		# 	if school_images_form.is_valid():
+		# 		school_images_form.save()
+		# 		messages.success(request, "School Images saved!")
+		# 		return redirect("fieldstaff:school_list")
+		# 	else:
+		# 		messages.error(request, "There was a problem with the form. "
+		# 					   "Please check the details.")
+		# 		school_form = forms.schoolForm() 
+		# 		basic_facilities_form = forms.BasicFacilitiesForm() 
+		# 		LearningEnvironment_form = forms.LearningEnvironmentForm() 
+		# 		SafeEnvironment_form = forms.SafeEnvironmentForm() 
+		# 		community_engagement_form = forms.CommunityEngagementForm()
+
+		# 		return super(SchoolperiodicUpdate_View, self).get(request,
+		# 											school_form=school_form, 
+		# 											#demographics_form = demographics_form,
+		# 											basic_facilities_form= basic_facilities_form,
+		# 											learning_environment_form=LearningEnvironment_form,
+		# 											safe_environment_form=SafeEnvironment_form,
+		# 											community_engagement_form=community_engagement_form)
+
 		# if 'save_demographics' in request.POST:
 		# 	print 'save_demographics'
 

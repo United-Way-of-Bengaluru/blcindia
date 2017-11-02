@@ -269,6 +269,7 @@ class CommunityEngagement(models.Model):
 class SchoolImages(models.Model):
     school = models.ForeignKey('school')
     image = models.FileField(upload_to='schoolImages')
+    image_tag = models.CharField(max_length=100, blank=True)
 
     def school_image(self):
         if self.image:
