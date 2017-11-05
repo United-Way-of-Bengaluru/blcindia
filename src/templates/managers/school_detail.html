@@ -1,0 +1,90 @@
+{% extends 'fieldstaff/base.html' %}
+{%  load static %}
+{% block content %}
+
+
+
+                    <div class="ui-container">
+                        <div class="row">
+                            <div class="col-sm-6 col-md-4">
+                                <section class="panel">
+                                    <header class="panel-heading panel-border">
+                                        Appointments
+
+                                        <span class="tools pull-right">
+                                            <a class="refresh-box fa fa-repeat" href="javascript:;"></a>
+                                            <a class="collapse-box fa fa-chevron-down" href="javascript:;"></a>
+                                            <a class="close-box fa fa-times" href="javascript:;"></a>
+                                        </span>
+                                    </header>
+                                    <div class="panel-body">
+                                        sssssssssssssss {{ school.name }}
+                                         <br>{{ school.address }}
+                                                <br>{{ school.type }}
+                                                <br>{{ school.rural_urban }}
+                                                <br>{{ school.building_status }}
+                                                <br>{{ school.worker_name }}
+                                                <br>{{ school.worker_number }}
+                                                <br>{{ school.helper_name }}
+                                                <br>{{ school.helper_number }}
+                                                <br>{{ school.supervisor_name }}
+                                                <br>{{ school.supervisor_number }}
+                                                <br>{{ school.cdpo_name }}
+                                                <br>{{ school.cdpo_number }}
+
+                                    </div>
+
+
+
+                                    <!-- Modal -->
+                                        <div id="apptModal" class="modal fade" role="dialog">
+                                                  <div class="modal-dialog">
+
+                                                    <!-- Modal content-->
+                                                    <div class="modal-content">
+                                                      <div class="modal-header">
+                                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                        <h4 class="modal-title">Appointmnt Followup</h4>
+                                                      </div>
+                                                      <div class="modal-body">
+
+                                                      <div id="id_message">
+                                                        {{ form.errors }}
+                                                    </div>
+                                                        <div id="id_form">
+                                                          <form method="post" id="appointmentFrm" name="appointmentFrm" class="form1">
+                                                              {% csrf_token %}
+                                                              {% for field in form.visible_fields  %}
+                                                                <div class="form-group">
+                                                                {{ field.errors }}
+                                                                {{ field.label_tag }} {{ field }}
+                                                                </div>
+                                                                  {% endfor %}
+                                                          <input type="hidden" name="appointment_id">
+                                                              <button id="submitbtn" class="btn pull-right" style="margin: 0px;" name="submit" type="submit">Submit</button>
+                                                          </form>
+                                                      </div>
+
+
+
+                                                      <div class="modal-footer">
+{#                                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>#}
+                                                      </div>
+                                                    </div>
+
+                                                  </div>
+                                                </div>
+                                                </div>
+
+                                </section>
+
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+{% endblock %}

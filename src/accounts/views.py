@@ -77,3 +77,6 @@ class PasswordResetDoneView(authviews.PasswordResetDoneView):
 class PasswordResetConfirmView(authviews.PasswordResetConfirmAndLoginView):
     template_name = 'accounts/password-reset-confirm.html'
     form_class = forms.SetPasswordForm
+
+
+

@@ -81,6 +81,7 @@ INSTALLED_APPS = (
     'accounts',
     'profiles',
     'fieldStaff',
+    'managers',
     'aanganwadi',
     
     'compressor',

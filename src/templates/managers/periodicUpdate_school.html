@@ -1,0 +1,147 @@
+{% extends 'fieldstaff/base.html' %}
+{%  load static %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+<style type="text/css">
+  .hidden{
+    display: none;
+  }
+  .form-control{
+    width: auto !important
+  }
+</style>
+
+    <div class="ui-content-body">
+
+        <div class="ui-container">
+
+            <div class="row">
+
+
+                    <div class="panel">
+                        <header class="panel-heading">
+                            Aanganwadi Details
+
+
+                        </header>
+                        <div class="panel-body">
+
+
+                            <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+                             <li class="nav-item">
+                                <a class="nav-link" id="pills-school_info-tab" data-toggle="pill" href="#pills-school_info" role="tab" aria-controls="pills-school_info" aria-selected="true">Aanganwadi Info</a>
+                              </li>
+                              <!-- <li class="nav-item">
+                                <a class="nav-link active" id="pills-Demographics-tab" data-toggle="pill" href="#pills-Demographics" role="tab" aria-controls="pills-Demographics" aria-selected="true">Demographics</a>
+                              </li> -->
+                              <li class="nav-item">
+                                <a class="nav-link active" id="pills-basic_facilities-tab" data-toggle="pill" href="#pills-basic_facilities" role="tab" aria-controls="pills-basic_facilities" aria-selected="false">Safe Environment</a>
+                              </li>
+                              <li class="nav-item">
+                                <a class="nav-link" id="pills-learning_environment-tab" data-toggle="pill" href="#pills-learning_environment" role="tab" aria-controls="pills-learning_environment" aria-selected="false">Learning Environment</a>
+                              </li>
+                              <!-- <li class="nav-item">
+                                <a class="nav-link" id="pills-safe_environment-tab" data-toggle="pill" href="#pills-safe_environment" role="tab" aria-controls="pills-safe_environment" aria-selected="false">Safe Environment</a>
+                              </li> -->
+                              <li class="nav-item">
+                                <a class="nav-link" id="pills-community_engagement-tab" data-toggle="pill" href="#pills-community_engagement" role="tab" aria-controls="pills-community_engagement" aria-selected="false">Community Engagement</a>
+                              </li>
+                              <li class="nav-item">
+                                <a class="nav-link" id="pills-school_images-tab" data-toggle="pill" href="#pills-school_images" role="tab" aria-controls="pills-school_images" aria-selected="false">Aanganwadi Images</a>
+                              </li>
+
+                            </ul>
+
+
+
+
+                <div class="col-md-12">
+                            <div class="tab-content" id="pills-tabContent">
+                            <div class="tab-pane fade" id="pills-school_info" role="tabpanel" aria-labelledby="pills-school_info-tab">
+                                  <form method="post">
+                                    {% crispy school_form %}
+                                </form>
+                              </div>
+                              
+                              <div class="tab-pane fade active in" id="pills-basic_facilities" role="tabpanel" aria-labelledby="pills-basic_facilities-tab">
+                                  
+
+                                <form method="post" id="basicfacilitiesform" onsubmit="return false">
+                                  <input type="hidden" name="school" value="{{ school_id }}">
+                                  {% crispy basic_facilities_form %}
+
+                                  {% crispy safe_environment_form %}
+                                    <div class="clearfix"></div>
+                                  <button type="button" class="btn btn-success" onclick="save_basicfacilities()" id="save_basicfacilitiesbtn">Save</button>
+
+                                </form>
+                                {% include "fieldstaff/forms/basic_facilities.html" %}
+
+                                {% include "fieldstaff/forms/safe_environment.html" %}
+
+
+                              </div>
+                              <div class="tab-pane fade" id="pills-learning_environment" role="tabpanel" aria-labelledby="pills-learning_environment-tab">
+                                  
+                                    
+                                  <form method="post" id="learningEnvironment_form" onsubmit="return false">
+                                      <input type="hidden" name="school" value="{{ school_id }}">
+                                      {% crispy learning_environment_form %}
+                                    <div class="clearfix"></div>
+                                    <button type="button" class="btn btn-success" onclick="save_learningEnvironment()" id="save_learningEnvironmentbtn">Save</button>
+                                  </form>
+                                {% include "fieldstaff/forms/learning_environment.html" %}
+                              </div>
+                              <!-- <div class="tab-pane fade" id="pills-safe_environment" role="tabpanel" aria-labelledby="pills-safe_environment-tab">
+                                  <form method="post" id="safe_environment_form" onsubmit="return false">
+                                      <input type="hidden" name="school" value="{{ school_id }}">
+                                      {% crispy safe_environment_form %}
+                                    <div class="clearfix"></div>
+                                    <button type="button" class="btn btn-success" onclick="save_safe_environment()" id="save_safe_environmentbtn">Save</button>
+                                  </form>
+                                {# include "fieldstaff/forms/safe_environment.html" #}
+
+                              </div> -->
+                              <div class="tab-pane fade" id="pills-community_engagement" role="tabpanel" aria-labelledby="pills-community_engagement-tab">
+                                 <form method="post" id="community_engagement_form" onsubmit="return false">
+                                    <input type="hidden" name="school" value="{{ school_id }}">
+                                      {% crispy community_engagement_form %}
+                                    <div class="clearfix"></div>
+                                    <button type="button" class="btn btn-success" onclick="save_community_engagement()" id="save_community_engagementbtn">Save</button>
+                                  </form>
+                                {% include "fieldstaff/forms/community_engagement.html" %}
+                               
+                              </div>
+
+                              <div class="tab-pane fade" id="pills-school_images" role="tabpanel" aria-labelledby="pills-school_images-tab">
+                                 <form method="post" id="school_images_form" onsubmit="return false" enctype="multipart/form-data">
+                                    <input type="hidden" name="school" value="{{ school_id }}">
+                                      {% crispy school_images_form %}
+                                    <div class="clearfix"></div>
+                                    <button type="button" class="btn btn-success" onclick="save_school_images()" id="save_school_imagesbtn">Save</button>
+                                  </form>
+                                {% include "fieldstaff/forms/school_images.html" %}
+                               
+                              </div>
+                            </div>
+
+                            </div>
+                    </div>
+                </div>
+
+               
+                
+
+                
+
+
+                </div>
+            </div>
+        </div>
+
+
+       
+    </div>
+{% endblock %}
+

@@ -21,13 +21,18 @@ from django.views.generic import DetailView
 from django.views.generic import ListView
 from django.views.generic import UpdateView
 from django.views.generic import TemplateView
+from django.contrib.auth import logout
 # from django.views.generic.edit import UpdateView
 from blcindia import settings
 from aanganwadi.models import school, Address, Type, BasicFacilities, LearningEnvironment, SafeEnvironment,  CommunityEngagement, SchoolImages
 from serializers import AddressSerializer, BasicFacilitiesSerializer, LearningEnvironmentSerializer, SafeEnvironmentSerializer, CommunityEngagementSerializer, SchoolImagesSerializer 
 import forms
+from profiles.models import	Profile
 
-
+def usercheck(request):
+    user = request.user
+    data = Profile.objects.filter(user=user.id).first()
+    return data.user_type
 
 @method_decorator(login_required, name='dispatch')
 class SchoolListView(ListView):
@@ -35,6 +40,10 @@ class SchoolListView(ListView):
 	template_name = 'fieldstaff/school_list.html'
 
 	def get_context_data(self, **kwargs):
+		# user = usercheck(self.request)
+		# if user_type != "fieldstaff":
+		# 	logout(self.request)
+		# 	return redirect("home")
 		context = super(SchoolListView, self).get_context_data(**kwargs)
 		return context
 

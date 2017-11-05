@@ -1,0 +1,131 @@
+{% extends 'managers/base.html' %}
+{%  load static %}
+{% block content %}
+
+
+
+                    <div class="ui-container">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <section class="panel">
+                                    <header class="panel-heading panel-border">
+                                        Aaganwadi List
+
+
+                                        <span class="tools pull-right">
+                                            <a class="refresh-box fa fa-repeat" href="javascript:;"></a>
+                                            <a class="collapse-box fa fa-chevron-down" href="javascript:;"></a>
+                                            <a class="close-box fa fa-times" href="javascript:;"></a>
+                                        </span>
+                                    </header>
+                                    <div class="panel-body">
+                                        <table class="table responsive-data-table table-striped">
+                                            <thead>
+                                            <tr>
+                                                <th>Name</th>
+
+                                                <th>Address</th>
+                                                <th>School Type</th>
+                                                <th>Rural/Urban</th>
+                                                <th>Building Status</th>
+                                                <th>Worker Name</th>
+                                                <th>Worker Number</th>
+                                                <th>Helper Name</th>
+                                                <th>Helper Number</th>
+                                                <th>Supervisor Name</th>
+                                                <th>Supervisor number</th>
+                                                <th>CDPO Name</th>
+                                                <th>CDPO Number</th>
+                                                <th>Status</th>
+                                                <th>Action</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+
+                                            {% for school in object_list %}
+                                            <tr>
+                                                <td>
+                                                    <a href="{% url 'fieldstaff:periodicUpdate_school' school.pk %}" class="schoolName">
+                                                        {{ school.name }}
+                                                    </a>
+                                                </td>
+                                                <td>{{ school.address }}</td>
+                                                <td>{{ school.type }}</td>
+                                                <td>{{ school.rural_urban }}</td>
+                                                <td>{{ school.building_status }}</td>
+                                                <td>{{ school.worker_name }}</td>
+                                                <td>{{ school.worker_number }}</td>
+                                                <td>{{ school.helper_name }}</td>
+                                                <td>{{ school.helper_number }}</td>
+                                                <td>{{ school.supervisor_name }}</td>
+                                                <td>{{ school.supervisor_number }}</td>
+                                                <td>{{ school.cdpo_name }}</td>
+                                                <td>{{ school.cdpo_number }}</td>
+
+                                                <td> </td>
+                                               <td><a href="{% url 'fieldstaff:edit_school' school.pk %}" class="appointment btn btn-sm btn-info btn-block">Edit</a> </tdadd_school
+
+                                            </tr>
+                                            {% endfor %}
+
+
+
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+
+
+                                    <!-- Modal -->
+                                        <div id="apptModal" class="modal fade" role="dialog">
+                                                  <div class="modal-dialog">
+
+                                                    <!-- Modal content-->
+                                                    <div class="modal-content">
+                                                      <div class="modal-header">
+                                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                        <h4 class="modal-title">Appointmnt Followup</h4>
+                                                      </div>
+                                                      <div class="modal-body">
+
+                                                      <div id="id_message">
+                                                        {{ form.errors }}
+                                                    </div>
+                                                        <div id="id_form">
+                                                          <form method="post" id="appointmentFrm" name="appointmentFrm" class="form1">
+                                                              {% csrf_token %}
+                                                              {% for field in form.visible_fields  %}
+                                                                <div class="form-group">
+                                                                {{ field.errors }}
+                                                                {{ field.label_tag }} {{ field }}
+                                                                </div>
+                                                                  {% endfor %}
+                                                          <input type="hidden" name="appointment_id">
+                                                              <button id="submitbtn" class="btn pull-right" style="margin: 0px;" name="submit" type="submit">Submit</button>
+                                                          </form>
+                                                      </div>
+
+
+
+                                                      <div class="modal-footer">
+{#                                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>#}
+                                                      </div>
+                                                    </div>
+
+                                                  </div>
+                                                </div>
+                                                </div>
+
+                                </section>
+
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+{% endblock %}

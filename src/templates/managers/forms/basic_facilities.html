@@ -1,0 +1,124 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="clearfix">&nbsp;</div>
+<div class="clearfix">&nbsp;</div>
+<h2>Basic Facilites Data:</h2>
+<div class="clearfix">&nbsp;</div>
+
+                                <div  style="display: block">
+                                  <table class="table table-responsive table-stripped">
+                                    <thead>
+                                      <tr>
+                                      <th>electricity_available</th>
+                                      <th>cleanliness</th>
+                                      <th>pest_control_done_in_last_one_year</th>
+                                      <th>pest_control_required</th>
+                                      <th>drinking_water</th>
+                                      <th>drinking_water_filter_available / required</th>
+                                      <th>electric_bulbs available/required</th>
+                                      <th>electric_fans_available/required</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody id="display_basicfacilites">
+                                      
+                                    </tbody>
+                                    
+
+                                  </table>
+                                </div>
+
+
+
+       
+
+<script type="text/javascript">
+
+  $(document).ready(function(){
+  console.log("Test")
+  get_basicfacilites();
+})
+
+function get_basicfacilites(){
+console.log(1)
+    $.ajax({
+                url: "{% url 'fieldstaff:AddBasicFacilites' school_id %}",
+                cache: false,
+                success: function(html){
+                  console.log(html);
+                  basic_facilities_html = "";
+                  
+                  $.each(html, function(index, value){
+                    console.log(value, index)
+                      basic_facilities_html += "<tr>";
+                  
+                      basic_facilities_html += '<th>'+html[index]['electricity_available']+'</th>'
+                      basic_facilities_html += '<th>'+html[index]['cleanliness']+'</th>'
+                      basic_facilities_html += '<th>'+html[index]['pest_control_done_in_last_one_year']+'</th>'
+                      basic_facilities_html += '<th>'+html[index]['pest_control_required']+'</th>'
+                      basic_facilities_html += '<th>'+html[index]['drinking_water']+'-'
+                      basic_facilities_html += ''+html[index]['drinking_water_filter']+'</th>'
+                      basic_facilities_html += '<th>'+html[index]['drinking_water_filter_available']+' / '
+                      basic_facilities_html += ''+html[index]['drinking_water_filter_required']+'</th>'
+                      basic_facilities_html += '<th>'+html[index]['electric_bulbs']+' / '
+                      basic_facilities_html += ''+html[index]['electric_bulbs_required']+'</th>'
+                      basic_facilities_html += '<th>'+html[index]['electric_fans_available']+' / '
+                      basic_facilities_html += ''+html[index]['electric_fans_required']+'</th>'
+                      basic_facilities_html += "</tr>";
+                            
+                  });
+
+                  $("#display_basicfacilites").html(basic_facilities_html);
+                }
+              });
+}
+
+    function save_basicfacilities(){
+              $("#save_basicfacilitiesbtn").html('<i class="fa fa-spin fa-spinner"></i> Saving')
+              formData = $("#basicfacilitiesform").serialize();
+              console.log(formData)
+              $.ajax({
+                url: "{% url 'fieldstaff:AddBasicFacilites' school_id %}",
+                cache: false,
+                method: 'post',
+                data: formData,
+                success: function(html){
+                  //$("#results").append(html);
+                  $("#save_basicfacilitiesbtn").html('Save')
+                document.getElementById("basicfacilitiesform").reset();
+                  get_basicfacilites();
+                  get_safe_environment();
+                }
+              });
+
+            }
+          
+
+</script>

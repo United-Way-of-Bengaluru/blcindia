@@ -1,0 +1,146 @@
+{% extends 'dashboard/base.html' %}
+{%  load static %}
+{% block content %}
+
+
+
+<div class="ui-content-body">
+
+                    <div class="ui-container">
+                        <div class="row">
+                            <div class="col-sm-12 ">
+                                <section class="panel">
+                                    <header class="panel-heading panel-border">
+                                        Appointments
+                                        <span class="tools pull-right">
+                                            <a class="refresh-box fa fa-repeat" href="javascript:;"></a>
+                                            <a class="collapse-box fa fa-chevron-down" href="javascript:;"></a>
+                                            <a class="close-box fa fa-times" href="javascript:;"></a>
+                                        </span>
+                                    </header>
+                                    <div class="panel-body">
+                                        <table class="table responsive-data-table table-striped">
+                                            <thead>
+                                            <tr>
+                                                <th>Name</th>
+{#                                                <th>Surname</th>#}
+                                                <th>City</th>
+                                                <th>Mail</th>
+                                                <th>Phone</th>
+                                                <th>Place</th>
+{#                                                <th>Ragion Sociale</th>#}
+{#                                                <th>Problem</th>#}
+{#                                                <th>Interested In Package</th>#}
+                                                <th>Package_details</th>
+{#                                                <th>Describe Need</th>#}
+                                                <th>Timing</th>
+                                                <th>Budget In Mind</th>
+                                                <th>Type of Appointment</th>
+                                                <th>Weekly Contacted</th>
+{#                                                <th>Time Slot</th>#}
+                                                <th>Detail</th>
+                                                <th>Status</th>
+                                                <th>Action</th>
+
+
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            {% for appt in appt_list %}
+
+
+
+
+                                            <tr>
+                                                <td>{{ appt.name }}</td>
+{#                                                <td>{{ appt.surname }}</td>#}
+                                                <td>{{ appt.city }}</td>
+{#                                                <td>{{ appt.province }}</td>#}
+                                                <td>{{ appt.mail }}</td>
+                                                <td>{{ appt.phone }}</td>
+                                                <td>{{ appt.place }}</td>
+{#                                                <td>{{ appt.ragion_sociale }}</td>#}
+{#                                                <td>{{ appt.problem }}</td>#}
+{#                                                <td>{{ appt.interested_in_package }}</td>#}
+                                                <td>{{ appt.package_details }}</td>
+{#                                                <td>{{ appt.describe_need }}</td>#}
+                                                <td>{{ appt.timing }}</td>
+                                                <td>{{ appt.budget_in_mind }}</td>
+                                                <td>{{ appt.type_of_appointment }}</td>
+                                                <td>{{ appt.weekly_contacted }}</td>
+{#                                                <td>{{ appt.time_slot }}</td>#}
+
+                                                <td><a href="/dashboard/appointment_detail/{{ appt.pk }}"  appointment_id="{{ appt.pk }}" >Followup</a></td>
+
+                                                <td>
+                                                    {% if forloop.counter == 1 %}
+                                                    <span class="label label-danger label-mini">New</span>
+
+                                                    <span class="label label-warning label-mini">Progress</span>
+                                                    {% else %}
+                                                    <span class="label label-success label-mini">Closed</span>
+                                                    {% endif %}
+                                                </td>
+                                                <td><a href="#"  appointment_id="{{ appt.pk }}" data-toggle="modal" data-target="#apptModal" class="appointment btn btn-sm btn-info btn-block">Comment</a></td>
+
+                                                <!-- Modal -->
+                                                <div id="apptModal" class="modal fade" role="dialog">
+                                                  <div class="modal-dialog">
+
+                                                    <!-- Modal content-->
+                                                    <div class="modal-content">
+                                                      <div class="modal-header">
+                                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                        <h4 class="modal-title">Appointmnt Followup</h4>
+                                                      </div>
+                                                      <div class="modal-body">
+                                                        <p>Appointmnt Followup.</p>
+                                                      <div class="col-sm-6 col-sm-offset-3 form-area">
+                                                      <div id="id_message">
+                                                        {{ form.errors }}
+                                                    </div>
+                                                        <div id="id_form">
+                                                          <form method="post" id="appointmentFrm" name="appointmentFrm">
+                                                              {% csrf_token %}
+                                                              {% for field in form.visible_fields  %}
+                                                                <div class="form-group">
+                                                                {{ field.errors }}
+                                                                {{ field.label_tag }} {{ field }}
+                                                                </div>
+                                                                  {% endfor %}
+                                                          <input type="hidden" name="appointment_id">
+                                                              <button id="submitbtn" class="btn pull-right" style="margin: 0px;" name="submit" type="submit">Submit</button>
+                                                          </form>
+                                                      </div>
+                                                      </div>
+
+{#                                                          <form>#}
+{#                                                              <textarea name="comment">comment</textarea>#}
+{#                                                              Communication Mode<select><option>Phone</option><option>Mail</option></select>#}
+{##}
+{#                                                          </form>#}
+                                                      </div>
+                                                      <div class="modal-footer">
+{#                                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>#}
+                                                      </div>
+                                                    </div>
+
+                                                  </div>
+                                                </div>
+                                            </tr>
+
+                                            {% endfor %}
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </section>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+{% endblock %}
