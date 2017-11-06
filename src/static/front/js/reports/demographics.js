@@ -72,6 +72,14 @@
                     "no_drinking_water_filter": klpData['no_drinking_water_filter'],
                     "drinking_water_filter_notdefined": klpData['drinking_water_filter_notdefined'],
                 }
+            },
+            "learningEnvironment":{
+                "learning_and_playing_materials_required": klpData['learning_and_playing_materials_required'],
+                "charts_required": klpData['charts_required'],
+                "story_books_required": klpData['story_books_required'],
+                "drawing_and_art_materials_required": klpData['drawing_and_art_materials_required'],
+                "library_kits_required": klpData['library_kits_required'],
+                "sports_material_required": klpData['sports_material_required']
             }
         };
 
@@ -87,6 +95,8 @@
         var tplTopSummary = swig.compile($('#tpl-topSummary').html());
         var tplReportDate = swig.compile($('#tpl-reportDate').html());
         var tplCategory = swig.compile($('#tpl-Category').html());
+        var tpllearningEnvironment = swig.compile($('#tpl-learningEnvironment').html());
+        
         
         var now = new Date();
         var today = {'date' : moment(now).format("MMMM D, YYYY")};
@@ -98,6 +108,9 @@
 
         var categoryprofileHTML = tplCategory({"data":summaryData})
         $('#category-profile').html(categoryprofileHTML)
+
+        var learningEnvironmentHTML = tpllearningEnvironment({"data":summaryData})
+        $('#learning-Environment').html(learningEnvironmentHTML)
     }
 
     /*

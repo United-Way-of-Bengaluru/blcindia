@@ -35,6 +35,7 @@ class SchoolSerializerAll(serializers.ModelSerializer):
 	num_boys = serializers.SerializerMethodField()
 	num_girls = serializers.SerializerMethodField()
 	basicfacilities = serializers.SerializerMethodField()
+	learningEnvironment = serializers.SerializerMethodField()
 
 
 	def address_full(self, obj):
@@ -96,6 +97,27 @@ class SchoolSerializerAll(serializers.ModelSerializer):
 			"cleanliness": basicfacilities.cleanliness, 
 			"pest_control_done_in_last_one_year": basicfacilities.pest_control_done_in_last_one_year
 		}
+		return dict
+
+	def get_learningEnvironment(self, obj):
+		learningEnvironmentData = LearningEnvironment.objects.filter(school=obj).first()
+		if learningEnvironmentData is not None:
+			dict = {
+				"learning_and_playing_materials_available": learningEnvironmentData.learning_and_playing_materials_available, 
+				"learning_and_playing_materials_required": learningEnvironmentData.learning_and_playing_materials_required,
+				"charts_available": learningEnvironmentData.charts_available, 
+				"charts_required": learningEnvironmentData.charts_required, 
+				"story_books_available": learningEnvironmentData.story_books_available,
+				"story_books_required": learningEnvironmentData.story_books_required,
+				"drawing_and_art_materials_available": learningEnvironmentData.drawing_and_art_materials_available,
+				"drawing_and_art_materials_required": learningEnvironmentData.drawing_and_art_materials_required,
+				"library_kits_available": learningEnvironmentData.library_kits_available,
+				"library_kits_required": learningEnvironmentData.library_kits_required,
+				"sports_material_available": learningEnvironmentData.sports_material_available,
+				"sports_material_required": learningEnvironmentData.sports_material_required,
+			}
+		else:
+			dict = {}
 		return dict
 
 
@@ -162,7 +184,7 @@ class SchoolSerializerAll(serializers.ModelSerializer):
 	class Meta:
 		model = school
 		# fields = ('id','name','address_full', 'properties', 'type', 'geometry','boundary')
-		fields = ('geometry','type','properties', 'num_boys', 'num_girls', 'basicfacilities')
+		fields = ('geometry','type','properties', 'num_boys', 'num_girls', 'basicfacilities', 'learningEnvironment')
 
 
 

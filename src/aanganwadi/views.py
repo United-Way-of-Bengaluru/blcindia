@@ -249,6 +249,20 @@ class BoundarySummaryReport(viewsets.ModelViewSet):
         self.reportInfo['no_drinking_water_filter'] = 0
 
 
+        # self.reportInfo['learning_and_playing_materials_available'] = 0
+        self.reportInfo['learning_and_playing_materials_required'] = 0
+        # self.reportInfo['charts_available'] = 0
+        self.reportInfo['charts_required'] = 0
+        # self.reportInfo['story_books_available'] = 0
+        self.reportInfo['story_books_required'] = 0
+        # self.reportInfo['drawing_and_art_materials_available'] = 0
+        self.reportInfo['drawing_and_art_materials_required'] = 0
+        # self.reportInfo['library_kits_available'] = 0
+        self.reportInfo['library_kits_required'] = 0
+        # self.reportInfo['sports_material_available'] = 0
+        self.reportInfo['sports_material_required'] = 0
+
+
         self.reportInfo['report_info'] = {'name': 'Report'}
         print serializer.data
         for item in serializer.data:
@@ -258,6 +272,8 @@ class BoundarySummaryReport(viewsets.ModelViewSet):
                 self.reportInfo["gender"]["boys"] += int(item["num_boys"])
                 self.reportInfo["gender"]["girls"] += int(item["num_girls"])
                 self.reportInfo["student_count"] += (int(item["num_boys"]) + int(item["num_girls"]))
+
+
                 if 'basicfacilities' in item:
 
                     if 'electricity_available' in item['basicfacilities']:
@@ -304,9 +320,164 @@ class BoundarySummaryReport(viewsets.ModelViewSet):
                             self.reportInfo['drinking_water_filter_notdefined'] += 1
                     else:
                         self.reportInfo['drinking_water_filter_notdefined'] += 1
-                        
+
 
                 else:
                     self.reportInfo['electricity_notdefined'] += 1
+                    self.reportInfo['cleanliness_notdefined'] += 1
+                    self.reportInfo['pest_control_done_in_last_one_year_notdefined'] += 1
+                    self.reportInfo['drinking_water_filter_notdefined'] += 1
+
+
+
+                if 'learningEnvironment' in item:
+
+                    # if 'learning_and_playing_materials_available' in item['learningEnvironment']:
+                    #     if item['learningEnvironment']['learning_and_playing_materials_available'] is not None:
+                    #         if item['learningEnvironment']['learning_and_playing_materials_available'] == True:
+                    #             self.reportInfo['learning_and_playing_materials_available'] += 1
+                    #         else:
+                    #             self.reportInfo['no_learning_and_playing_materials_available'] += 1
+                    #     else:
+                    #         self.reportInfo['learning_and_playing_materials_available_notdefined'] += 1
+                    # else:
+                    #     self.reportInfo['learning_and_playing_materials_available_notdefined'] += 1
+
+
+                    if 'learning_and_playing_materials_required' in item['learningEnvironment']:
+                        if item['learningEnvironment']['learning_and_playing_materials_required'] is not None:
+                            if item['learningEnvironment']['learning_and_playing_materials_required'] == True:
+                                self.reportInfo['learning_and_playing_materials_required'] += 1
+                    #         else:
+                    #             # self.reportInfo['no_learning_and_playing_materials_required'] += 1
+                    #     else:
+                    #         # self.reportInfo['learning_and_playing_materials_required_notdefined'] += 1
+                    # else:
+                        # self.reportInfo['learning_and_playing_materials_required_notdefined'] += 1
+
+
+                    # if 'charts_available' in item['learningEnvironment']:
+                    #     if item['learningEnvironment']['charts_available'] is not None:
+                    #         if item['learningEnvironment']['charts_available'] == True:
+                    #             self.reportInfo['charts_available'] += 1
+                    #         else:
+                    #             self.reportInfo['no_charts_available'] += 1
+                    #     else:
+                    #         self.reportInfo['charts_available_notdefined'] += 1
+                    # else:
+                    #     self.reportInfo['charts_available_notdefined'] += 1
+
+
+                    if 'charts_required' in item['learningEnvironment']:
+                        if item['learningEnvironment']['charts_required'] is not None:
+                            if item['learningEnvironment']['charts_required'] == True:
+                                self.reportInfo['charts_required'] += 1
+                            # else:
+                            #     self.reportInfo['no_charts_required'] += 1
+                    #     else:
+                    #         self.reportInfo['charts_required_notdefined'] += 1
+                    # else:
+                    #     self.reportInfo['charts_required_notdefined'] += 1
+
+
+                    # if 'story_books_available' in item['learningEnvironment']:
+                    #     if item['learningEnvironment']['story_books_available'] is not None:
+                    #         if item['learningEnvironment']['story_books_available'] == True:
+                    #             self.reportInfo['story_books_available'] += 1
+                    #         else:
+                    #             self.reportInfo['no_story_books_available'] += 1
+                    #     else:
+                    #         self.reportInfo['story_books_available_notdefined'] += 1
+                    # else:
+                    #     self.reportInfo['story_books_available_notdefined'] += 1
+
+
+                    if 'story_books_required' in item['learningEnvironment']:
+                        if item['learningEnvironment']['story_books_required'] is not None:
+                            if item['learningEnvironment']['story_books_required'] == True:
+                                self.reportInfo['story_books_required'] += 1
+                    #         else:
+                    #             self.reportInfo['no_story_books_required'] += 1
+                    #     else:
+                    #         self.reportInfo['story_books_required_notdefined'] += 1
+                    # else:
+                    #     self.reportInfo['story_books_required_notdefined'] += 1
+
+
+                    # if 'drawing_and_art_materials_available' in item['learningEnvironment']:
+                    #     if item['learningEnvironment']['drawing_and_art_materials_available'] is not None:
+                    #         if item['learningEnvironment']['drawing_and_art_materials_available'] == True:
+                    #             self.reportInfo['drawing_and_art_materials_available'] += 1
+                    #         else:
+                    #             self.reportInfo['no_drawing_and_art_materials_available'] += 1
+                    #     else:
+                    #         self.reportInfo['drawing_and_art_materials_available_notdefined'] += 1
+                    # else:
+                    #     self.reportInfo['drawing_and_art_materials_available_notdefined'] += 1
+
+
+
+                    if 'drawing_and_art_materials_required' in item['learningEnvironment']:
+                        if item['learningEnvironment']['drawing_and_art_materials_required'] is not None:
+                            if item['learningEnvironment']['drawing_and_art_materials_required'] == True:
+                                self.reportInfo['drawing_and_art_materials_required'] += 1
+                    #         else:
+                    #             self.reportInfo['no_drawing_and_art_materials_required'] += 1
+                    #     else:
+                    #         self.reportInfo['drawing_and_art_materials_required_notdefined'] += 1
+                    # else:
+                    #     self.reportInfo['drawing_and_art_materials_required_notdefined'] += 1
+
+
+
+                    # if 'library_kits_available' in item['learningEnvironment']:
+                    #     if item['learningEnvironment']['library_kits_available'] is not None:
+                    #         if item['learningEnvironment']['library_kits_available'] == True:
+                    #             self.reportInfo['library_kits_available'] += 1
+                    #         else:
+                    #             self.reportInfo['no_library_kits_available'] += 1
+                    #     else:
+                    #         self.reportInfo['library_kits_available_notdefined'] += 1
+                    # else:
+                    #     self.reportInfo['library_kits_available_notdefined'] += 1
+
+
+                    if 'library_kits_required' in item['learningEnvironment']:
+                        if item['learningEnvironment']['library_kits_required'] is not None:
+                            if item['learningEnvironment']['library_kits_required'] == True:
+                                self.reportInfo['library_kits_required'] += 1
+                    #         else:
+                    #             self.reportInfo['no_library_kits_required'] += 1
+                    #     else:
+                    #         self.reportInfo['library_kits_required_notdefined'] += 1
+                    # else:
+                    #     self.reportInfo['library_kits_required_notdefined'] += 1
+
+
+
+                    # if 'sports_material_available' in item['learningEnvironment']:
+                    #     if item['learningEnvironment']['sports_material_available'] is not None:
+                    #         if item['learningEnvironment']['sports_material_available'] == True:
+                    #             self.reportInfo['sports_material_available'] += 1
+                    #         else:
+                    #             self.reportInfo['no_sports_material_available'] += 1
+                    #     else:
+                    #         self.reportInfo['sports_material_available_notdefined'] += 1
+                    # else:
+                    #     self.reportInfo['sports_material_available_notdefined'] += 1
+
+                    if 'sports_material_required' in item['learningEnvironment']:
+                        if item['learningEnvironment']['sports_material_required'] is not None:
+                            if item['learningEnvironment']['sports_material_required'] == True:
+                                self.reportInfo['sports_material_required'] += 1
+                    #         else:
+                    #             self.reportInfo['no_sports_material_required'] += 1
+                    #     else:
+                    #         self.reportInfo['sports_material_required_notdefined'] += 1
+                    # else:
+                    #     self.reportInfo['sports_material_required_notdefined'] += 1
+
+
+
 
         return Response(self.reportInfo)
