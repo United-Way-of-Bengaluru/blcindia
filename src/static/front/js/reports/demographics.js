@@ -50,7 +50,29 @@
             "gender" : klpData["gender"],
             "student_total": klpData["student_count"],
             "ptr" : klpData["ptr"],
-            "school_perc" : klpData["school_perc"]
+            "school_perc" : klpData["school_perc"],
+            "basicfacilties" : {
+                "electricity": {
+                    "electricity_available": klpData['electricity_available'],
+                    "electricity_notavailable": klpData['electricity_notavailable'],
+                    "electricity_notdefined": klpData['electricity_notdefined'],
+                },
+                "cleanliness":{
+                    "cleanliness": klpData['cleanliness'],
+                    "no_cleanliness": klpData['no_cleanliness'],
+                    "cleanliness_notdefined": klpData['cleanliness_notdefined'],
+                },
+                "pest_control_done_in_last_one_year":{
+                    "pest_control_done_in_last_one_year": klpData['pest_control_done_in_last_one_year'],
+                    "no_pest_control_done_in_last_one_year": klpData['no_pest_control_done_in_last_one_year'],
+                    "pest_control_done_in_last_one_year_notdefined": klpData['pest_control_done_in_last_one_year_notdefined'],
+                },
+                "drinking_water_filter":{
+                    "drinking_water_filter": klpData['drinking_water_filter'],
+                    "no_drinking_water_filter": klpData['no_drinking_water_filter'],
+                    "drinking_water_filter_notdefined": klpData['drinking_water_filter_notdefined'],
+                }
+            }
         };
 
         summaryData['girl_perc'] = Math.round(( summaryData["gender"]["girls"]/summaryData["student_total"] )* 100);
@@ -64,6 +86,7 @@
     function renderSummary() {
         var tplTopSummary = swig.compile($('#tpl-topSummary').html());
         var tplReportDate = swig.compile($('#tpl-reportDate').html());
+        var tplCategory = swig.compile($('#tpl-Category').html());
         
         var now = new Date();
         var today = {'date' : moment(now).format("MMMM D, YYYY")};
@@ -72,6 +95,9 @@
         
         var topSummaryHTML = tplTopSummary({"data":summaryData});
         $('#top-summary').html(topSummaryHTML);
+
+        var categoryprofileHTML = tplCategory({"data":summaryData})
+        $('#category-profile').html(categoryprofileHTML)
     }
 
     /*

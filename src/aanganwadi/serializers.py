@@ -34,6 +34,7 @@ class SchoolSerializerAll(serializers.ModelSerializer):
 	type = serializers.SerializerMethodField()
 	num_boys = serializers.SerializerMethodField()
 	num_girls = serializers.SerializerMethodField()
+	basicfacilities = serializers.SerializerMethodField()
 
 
 	def address_full(self, obj):
@@ -87,6 +88,15 @@ class SchoolSerializerAll(serializers.ModelSerializer):
 
 	def get_type(self, obj):
 		return "Feature"
+
+	def get_basicfacilities(self, obj):
+		basicfacilities = BasicFacilities.objects.filter(school=obj).first()
+		dict = {
+			"electricity_available": basicfacilities.electricity_available, 
+			"cleanliness": basicfacilities.cleanliness, 
+			"pest_control_done_in_last_one_year": basicfacilities.pest_control_done_in_last_one_year
+		}
+		return dict
 
 
 
@@ -152,7 +162,7 @@ class SchoolSerializerAll(serializers.ModelSerializer):
 	class Meta:
 		model = school
 		# fields = ('id','name','address_full', 'properties', 'type', 'geometry','boundary')
-		fields = ('geometry','type','properties', 'num_boys', 'num_girls')
+		fields = ('geometry','type','properties', 'num_boys', 'num_girls', 'basicfacilities')
 
 
 

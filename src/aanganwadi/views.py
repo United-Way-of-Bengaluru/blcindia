@@ -232,7 +232,25 @@ class BoundarySummaryReport(viewsets.ModelViewSet):
                                      "girls": 0}
         self.reportInfo["student_count"] = 0
         self.reportInfo["school_count"] = 0
+        self.reportInfo['electricity_available'] = 0
+        self.reportInfo['electricity_notdefined'] = 0
+        self.reportInfo['electricity_notavailable'] = 0
+
+        self.reportInfo['cleanliness'] = 0
+        self.reportInfo['cleanliness_notdefined'] = 0
+        self.reportInfo['no_cleanliness'] = 0
+
+        self.reportInfo['pest_control_done_in_last_one_year'] = 0
+        self.reportInfo['pest_control_done_in_last_one_year_notdefined'] = 0
+        self.reportInfo['no_pest_control_done_in_last_one_year'] = 0
+
+        self.reportInfo['drinking_water_filter'] = 0
+        self.reportInfo['drinking_water_filter_notdefined'] = 0
+        self.reportInfo['no_drinking_water_filter'] = 0
+
+
         self.reportInfo['report_info'] = {'name': 'Report'}
+        print serializer.data
         for item in serializer.data:
 	    print item
             self.reportInfo["school_count"] += 1
@@ -240,4 +258,55 @@ class BoundarySummaryReport(viewsets.ModelViewSet):
                 self.reportInfo["gender"]["boys"] += int(item["num_boys"])
                 self.reportInfo["gender"]["girls"] += int(item["num_girls"])
                 self.reportInfo["student_count"] += (int(item["num_boys"]) + int(item["num_girls"]))
+                if 'basicfacilities' in item:
+
+                    if 'electricity_available' in item['basicfacilities']:
+                        if item['basicfacilities']['electricity_available'] is not None:
+                            if item['basicfacilities']['electricity_available'] == True:
+                                self.reportInfo['electricity_available'] += 1
+                            else:
+                                self.reportInfo['electricity_notavailable'] += 1
+                        else:
+                            self.reportInfo['electricity_notdefined'] += 1
+                    else:
+                        self.reportInfo['electricity_notdefined'] += 1
+
+                    if 'cleanliness' in item['basicfacilities']:
+                        if item['basicfacilities']['cleanliness'] is not None:
+                            if item['basicfacilities']['cleanliness'] == True:
+                                self.reportInfo['cleanliness'] += 1
+                            else:
+                                self.reportInfo['no_cleanliness'] += 1
+                        else:
+                            self.reportInfo['cleanliness_notdefined'] += 1
+                    else:
+                        self.reportInfo['cleanliness_notdefined'] += 1
+
+                    if 'pest_control_done_in_last_one_year' in item['basicfacilities']:
+                        if item['basicfacilities']['pest_control_done_in_last_one_year'] is not None:
+                            if item['basicfacilities']['pest_control_done_in_last_one_year'] == True:
+                                self.reportInfo['pest_control_done_in_last_one_year'] += 1
+                            else:
+                                self.reportInfo['no_pest_control_done_in_last_one_year'] += 1
+                        else:
+                            self.reportInfo['pest_control_done_in_last_one_year_notdefined'] += 1
+                    else:
+                        self.reportInfo['pest_control_done_in_last_one_year_notdefined'] += 1
+
+
+                    if 'drinking_water_filter' in item['basicfacilities']:
+                        if item['basicfacilities']['drinking_water_filter'] is not None:
+                            if item['basicfacilities']['drinking_water_filter'] == True:
+                                self.reportInfo['drinking_water_filter'] += 1
+                            else:
+                                self.reportInfo['no_drinking_water_filter'] += 1
+                        else:
+                            self.reportInfo['drinking_water_filter_notdefined'] += 1
+                    else:
+                        self.reportInfo['drinking_water_filter_notdefined'] += 1
+                        
+
+                else:
+                    self.reportInfo['electricity_notdefined'] += 1
+
         return Response(self.reportInfo)
