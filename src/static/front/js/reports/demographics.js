@@ -80,6 +80,14 @@
                 "drawing_and_art_materials_required": klpData['drawing_and_art_materials_required'],
                 "library_kits_required": klpData['library_kits_required'],
                 "sports_material_required": klpData['sports_material_required']
+            },
+            "community_engagement":{
+                "mothers_committee_formed":klpData['mothers_committee_formed'],
+                "no_mothers_committee_formed":klpData['no_mothers_committee_formed'],
+                "mothers_committee_formed_notdefined":klpData['mothers_committee_formed_notdefined'],
+                "bal_vikas_samiti_formed":klpData['bal_vikas_samiti_formed'],
+                "no_bal_vikas_samiti_formed":klpData['no_bal_vikas_samiti_formed'],
+                "bal_vikas_samiti_formed_notdefined":klpData['bal_vikas_samiti_formed_notdefined'],
             }
         };
 
@@ -96,6 +104,8 @@
         var tplReportDate = swig.compile($('#tpl-reportDate').html());
         var tplCategory = swig.compile($('#tpl-Category').html());
         var tpllearningEnvironment = swig.compile($('#tpl-learningEnvironment').html());
+        var tplcommunityEngagement = swig.compile($('#tpl-communityEngagement').html());
+
         
         
         var now = new Date();
@@ -111,6 +121,9 @@
 
         var learningEnvironmentHTML = tpllearningEnvironment({"data":summaryData})
         $('#learning-Environment').html(learningEnvironmentHTML)
+
+        var communityEngagementHTML = tplcommunityEngagement({"data":summaryData})
+        $('#community-Engagement').html(communityEngagementHTML)
     }
 
     /*

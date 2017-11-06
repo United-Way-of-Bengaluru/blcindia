@@ -262,6 +262,15 @@ class BoundarySummaryReport(viewsets.ModelViewSet):
         # self.reportInfo['sports_material_available'] = 0
         self.reportInfo['sports_material_required'] = 0
 
+        self.reportInfo['mothers_committee_formed'] = 0
+        self.reportInfo['no_mothers_committee_formed'] = 0
+        self.reportInfo['mothers_committee_formed_notdefined'] = 0
+       
+        self.reportInfo['bal_vikas_samiti_formed'] = 0
+        self.reportInfo['no_bal_vikas_samiti_formed'] = 0
+        self.reportInfo['bal_vikas_samiti_formed_notdefined'] = 0
+        
+
 
         self.reportInfo['report_info'] = {'name': 'Report'}
         print serializer.data
@@ -478,6 +487,29 @@ class BoundarySummaryReport(viewsets.ModelViewSet):
                     #     self.reportInfo['sports_material_required_notdefined'] += 1
 
 
+                if 'community_engagement' in item:
+                    if 'mothers_committee_formed' in item['community_engagement']:
+                        if item['community_engagement']['mothers_committee_formed'] is not None:
+                            if item['community_engagement']['mothers_committee_formed'] == True:
+                                self.reportInfo['mothers_committee_formed'] += 1
+                            else:
+                                self.reportInfo['no_mothers_committee_formed'] += 1
+                        else:
+                            self.reportInfo['mothers_committee_formed_notdefined'] += 1
+                    else:
+                        self.reportInfo['mothers_committee_formed_notdefined'] += 1
+
+
+                    if 'bal_vikas_samiti_formed' in item['community_engagement']:
+                        if item['community_engagement']['bal_vikas_samiti_formed'] is not None:
+                            if item['community_engagement']['bal_vikas_samiti_formed'] == True:
+                                self.reportInfo['bal_vikas_samiti_formed'] += 1
+                            else:
+                                self.reportInfo['no_bal_vikas_samiti_formed'] += 1
+                        else:
+                            self.reportInfo['bal_vikas_samiti_formed_notdefined'] += 1
+                    else:
+                        self.reportInfo['bal_vikas_samiti_formed_notdefined'] += 1
 
 
         return Response(self.reportInfo)

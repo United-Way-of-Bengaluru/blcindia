@@ -36,6 +36,7 @@ class SchoolSerializerAll(serializers.ModelSerializer):
 	num_girls = serializers.SerializerMethodField()
 	basicfacilities = serializers.SerializerMethodField()
 	learningEnvironment = serializers.SerializerMethodField()
+	community_engagement = serializers.SerializerMethodField()
 
 
 	def address_full(self, obj):
@@ -121,6 +122,17 @@ class SchoolSerializerAll(serializers.ModelSerializer):
 		return dict
 
 
+	def get_community_engagement(self, obj):
+		communityengagementData = CommunityEngagement.objects.filter(school=obj).first()
+		if communityengagementData is not None:
+			dict = {
+				"mothers_committee_formed": CommunityEngagement.mothers_committee_formed, 
+				"bal_vikas_samiti_formed": CommunityEngagement.bal_vikas_samiti_formed, 
+			}
+		else:
+			dict ={}
+		return dict
+
 
 
 	def get_properties(self, obj):
@@ -184,7 +196,7 @@ class SchoolSerializerAll(serializers.ModelSerializer):
 	class Meta:
 		model = school
 		# fields = ('id','name','address_full', 'properties', 'type', 'geometry','boundary')
-		fields = ('geometry','type','properties', 'num_boys', 'num_girls', 'basicfacilities', 'learningEnvironment')
+		fields = ('geometry','type','properties', 'num_boys', 'num_girls', 'basicfacilities', 'learningEnvironment', 'community_engagement')
 
 
 
