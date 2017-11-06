@@ -50,7 +50,45 @@
             "gender" : klpData["gender"],
             "student_total": klpData["student_count"],
             "ptr" : klpData["ptr"],
-            "school_perc" : klpData["school_perc"]
+            "school_perc" : klpData["school_perc"],
+            "basicfacilties" : {
+                "electricity": {
+                    "electricity_available": klpData['electricity_available'],
+                    "electricity_notavailable": klpData['electricity_notavailable'],
+                    "electricity_notdefined": klpData['electricity_notdefined'],
+                },
+                "cleanliness":{
+                    "cleanliness": klpData['cleanliness'],
+                    "no_cleanliness": klpData['no_cleanliness'],
+                    "cleanliness_notdefined": klpData['cleanliness_notdefined'],
+                },
+                "pest_control_done_in_last_one_year":{
+                    "pest_control_done_in_last_one_year": klpData['pest_control_done_in_last_one_year'],
+                    "no_pest_control_done_in_last_one_year": klpData['no_pest_control_done_in_last_one_year'],
+                    "pest_control_done_in_last_one_year_notdefined": klpData['pest_control_done_in_last_one_year_notdefined'],
+                },
+                "drinking_water_filter":{
+                    "drinking_water_filter": klpData['drinking_water_filter'],
+                    "no_drinking_water_filter": klpData['no_drinking_water_filter'],
+                    "drinking_water_filter_notdefined": klpData['drinking_water_filter_notdefined'],
+                }
+            },
+            "learningEnvironment":{
+                "learning_and_playing_materials_required": klpData['learning_and_playing_materials_required'],
+                "charts_required": klpData['charts_required'],
+                "story_books_required": klpData['story_books_required'],
+                "drawing_and_art_materials_required": klpData['drawing_and_art_materials_required'],
+                "library_kits_required": klpData['library_kits_required'],
+                "sports_material_required": klpData['sports_material_required']
+            },
+            "community_engagement":{
+                "mothers_committee_formed":klpData['mothers_committee_formed'],
+                "no_mothers_committee_formed":klpData['no_mothers_committee_formed'],
+                "mothers_committee_formed_notdefined":klpData['mothers_committee_formed_notdefined'],
+                "bal_vikas_samiti_formed":klpData['bal_vikas_samiti_formed'],
+                "no_bal_vikas_samiti_formed":klpData['no_bal_vikas_samiti_formed'],
+                "bal_vikas_samiti_formed_notdefined":klpData['bal_vikas_samiti_formed_notdefined'],
+            }
         };
 
         summaryData['girl_perc'] = Math.round(( summaryData["gender"]["girls"]/summaryData["student_total"] )* 100);
@@ -64,6 +102,11 @@
     function renderSummary() {
         var tplTopSummary = swig.compile($('#tpl-topSummary').html());
         var tplReportDate = swig.compile($('#tpl-reportDate').html());
+        var tplCategory = swig.compile($('#tpl-Category').html());
+        var tpllearningEnvironment = swig.compile($('#tpl-learningEnvironment').html());
+        var tplcommunityEngagement = swig.compile($('#tpl-communityEngagement').html());
+
+        
         
         var now = new Date();
         var today = {'date' : moment(now).format("MMMM D, YYYY")};
@@ -72,6 +115,15 @@
         
         var topSummaryHTML = tplTopSummary({"data":summaryData});
         $('#top-summary').html(topSummaryHTML);
+
+        var categoryprofileHTML = tplCategory({"data":summaryData})
+        $('#category-profile').html(categoryprofileHTML)
+
+        var learningEnvironmentHTML = tpllearningEnvironment({"data":summaryData})
+        $('#learning-Environment').html(learningEnvironmentHTML)
+
+        var communityEngagementHTML = tplcommunityEngagement({"data":summaryData})
+        $('#community-Engagement').html(communityEngagementHTML)
     }
 
     /*

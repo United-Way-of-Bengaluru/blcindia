@@ -1,0 +1,99 @@
+
+
+
+<div class="clearfix">&nbsp;</div>
+<div class="clearfix">&nbsp;</div>
+<h2>Community Engagement Data:</h2>
+<div class="clearfix">&nbsp;</div>
+
+<div  style="display: block">
+  <table class="table table-responsive table-stripped">
+    <thead>
+      <tr>
+      <th>Mothers Committee</th>
+      <th>meetings in last 3 months</th>
+      <th>meetings documented</th>
+      <th>mothers committee feedback</th>
+      <th>bal-vikas samiti</th>
+      <th>bal-vikas samiti feedback</th>
+      <th>meetings_documented</th>
+      <th>children with specialneeds feedback</th>
+      <th>children with specialneeds requirements</th>
+      <th>pregnant mothers in population</th>
+      <th>lactating mothers</th>
+      
+    </tr>
+    </thead>
+    <tbody id="display_community_engagement">
+      
+    </tbody>
+    
+
+  </table>
+</div>
+
+
+
+       
+
+<script type="text/javascript">
+
+  $(document).ready(function(){
+  console.log("Test")
+  get_community_engagement();
+})
+
+function get_community_engagement(){
+	console.log(1)
+    $.ajax({
+                url: "{% url 'fieldstaff:AddCommunityEngagement' school_id %}?format=json",
+                cache: false,
+                success: function(html){
+                  console.log(html);
+                  community_engagement_html = "";
+                  
+                  $.each(html, function(index, value){
+                    console.log(value, index)
+                      community_engagement_html += "<tr>";
+                  
+                      community_engagement_html += '<th>'+html[index]['mothers_committee_formed']+' </th> '
+                      community_engagement_html += '<th>'+html[index]['no_of_meetings_conducted_in_last_three_months']+' </th> '
+                      community_engagement_html += '<th>'+html[index]['meetings_documented_in_register']+'</th>'
+                      community_engagement_html += '<th>'+html[index]['mothers_committee_feedback']+'</th>'
+                      community_engagement_html += '<th>'+html[index]['bal_vikas_samiti_formed']+'</th>'
+                      community_engagement_html += '<th>'+html[index]['bal_vikas_samiti_feedback']+' </th> '
+                      community_engagement_html += '<th>'+html[index]['meetings_documented']+'</th>'
+                      community_engagement_html += '<th>'+html[index]['arrangements_for_the_children_with_specialneeds_feedback']+' / '
+                      community_engagement_html += '<th>'+html[index]['arrangements_for_the_children_with_specialneeds_requirements']+'</th>'
+                      community_engagement_html += '<th>'+html[index]['pregnant_mothers_in_population']+' </th> '
+                      community_engagement_html += '<th>'+html[index]['lactating_mothers_in_population']+'</th>'
+                      community_engagement_html += "</tr>";
+                            
+                  });
+
+                  $("#display_community_engagement").html(community_engagement_html);
+                }
+              });
+}
+
+    function save_community_engagement(){
+              $("#save_community_engagementbtn").html('<i class="fa fa-spin fa-spinner"></i> Saving')
+              formData = $("#community_engagement_form").serialize();
+              console.log(formData)
+              $.ajax({
+                url: "{% url 'fieldstaff:AddCommunityEngagement' school_id %}",
+                cache: false,
+                method: 'post',
+                data: formData,
+                success: function(html){
+                  //$("#results").append(html);
+                  $("#save_community_engagementbtn").html('Save');
+                  document.getElementById("community_engagement_form").reset();
+                  get_community_engagement();;
+                }
+              });
+
+            }
+          
+
+</script>

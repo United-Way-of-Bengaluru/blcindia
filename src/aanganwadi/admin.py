@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-from models import school, Boundary, Address, District, Type, Demographics, BasicFacilities, LearningEnvironment, SafeEnvironment, CommunityEngagement, \
+from models import school, Boundary, Address, District, Type, BasicFacilities, LearningEnvironment, SafeEnvironment, CommunityEngagement, \
     SchoolImages
 from mapwidgets.widgets import GooglePointFieldWidget
 from django.contrib import admin
@@ -20,9 +20,9 @@ class AddressAdmin(admin.ModelAdmin):
         models.PointField: {"widget": GooglePointFieldWidget}
     }
 
-class DemographicsInline(admin.TabularInline):
-    model = Demographics
-    can_delete = False
+# class DemographicsInline(admin.TabularInline):
+#     model = Demographics
+#     can_delete = False
 
 class BasicFacilitiesInline(admin.TabularInline):
     model = BasicFacilities
@@ -88,7 +88,7 @@ class CommunityEngagementInline(admin.TabularInline):
 #     #
 #
 class SchoolAdmin(admin.ModelAdmin):
-    inlines = (DemographicsInline,BasicFacilitiesInline,LearningEnvironmentInline,SafeEnvironmentInline,CommunityEngagementInline)
+    inlines = (BasicFacilitiesInline,LearningEnvironmentInline,SafeEnvironmentInline,CommunityEngagementInline)
 
 
 

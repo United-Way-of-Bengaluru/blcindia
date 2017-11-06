@@ -1,0 +1,96 @@
+
+
+
+<div class="clearfix">&nbsp;</div>
+<div class="clearfix">&nbsp;</div>
+<h2>Learning Environment Data:</h2>
+<div class="clearfix">&nbsp;</div>
+
+<div  style="display: block">
+  <table class="table table-responsive table-stripped">
+    <thead>
+      <tr>
+      <th>Learning materials available/ Required</th>
+      <th>Charts available / Required</th>
+      <th>Story books available/Required</th>
+      <th>Drawing and art materials available / Required</th>
+      <th>Library kits available/ Required</th>
+      <th>Sports material available</th>
+      <th>Other Requirement</th>
+    </tr>
+    </thead>
+    <tbody id="display_learningEnvironment">
+      
+    </tbody>
+    
+
+  </table>
+</div>
+
+
+
+       
+
+<script type="text/javascript">
+
+  $(document).ready(function(){
+  console.log("Test")
+  get_learningEnvironment();
+})
+
+function get_learningEnvironment(){
+	console.log(1)
+    $.ajax({
+                url: "{% url 'fieldstaff:AddLearningEnvironment' school_id %}?format=json",
+                cache: false,
+                success: function(html){
+                  console.log(html);
+                  learning_environemnt_html = "";
+                  
+                  $.each(html, function(index, value){
+                    console.log(value, index)
+                      learning_environemnt_html += "<tr>";
+                  
+                      learning_environemnt_html += '<th>'+html[index]['learning_and_playing_materials_available']+' / '
+                      learning_environemnt_html += ''+html[index]['learning_and_playing_materials_required']+'</th>'
+                      learning_environemnt_html += '<th>'+html[index]['charts_available']+' / '
+                      learning_environemnt_html += ''+html[index]['charts_required']+'</th>'
+                      learning_environemnt_html += '<th>'+html[index]['story_books_available']+'/'
+                      learning_environemnt_html += ''+html[index]['story_books_required']+'</th>'
+                      learning_environemnt_html += '<th>'+html[index]['drawing_and_art_materials_available']+' / '
+                      learning_environemnt_html += ''+html[index]['drawing_and_art_materials_required']+'</th>'
+                      learning_environemnt_html += '<th>'+html[index]['library_kits_available']+' / '
+                      learning_environemnt_html += ''+html[index]['library_kits_required']+'</th>'
+                      learning_environemnt_html += '<th>'+html[index]['sports_material_available']+' / '
+                      learning_environemnt_html += ''+html[index]['sports_material_required']+'</th>'
+                      learning_environemnt_html += ''+html[index]['others_requirements']+'</th>'
+                      learning_environemnt_html += "</tr>";
+                            
+                  });
+
+                  $("#display_learningEnvironment").html(learning_environemnt_html);
+                }
+              });
+}
+
+    function save_learningEnvironment(){
+              $("#save_learningEnvironmentbtn").html('<i class="fa fa-spin fa-spinner"></i> Saving')
+              formData = $("#learningEnvironment_form").serialize();
+              console.log(formData)
+              $.ajax({
+                url: "{% url 'fieldstaff:AddLearningEnvironment' school_id %}",
+                cache: false,
+                method: 'post',
+                data: formData,
+                success: function(html){
+                  //$("#results").append(html);
+                  $("#save_learningEnvironmentbtn").html('Save');
+                  document.getElementById("learningEnvironment_form").reset();
+                  get_learningEnvironment();;
+                }
+              });
+
+            }
+          
+
+</script>

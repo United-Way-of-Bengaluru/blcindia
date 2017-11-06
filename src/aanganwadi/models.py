@@ -103,9 +103,13 @@ class school(models.Model):
     supervisor_number = models.CharField(max_length=50, null=True, blank=True)
     cdpo_name = models.CharField(max_length=50, blank=True)
     cdpo_number = models.IntegerField(null=True, blank=True)
-
-    def demographics(self):
-        return Demographics.objects.filter('school_id', self.id)
+    male_teachers = models.IntegerField(null=True, blank=True)
+    female_teachers = models.IntegerField(null=True, blank=True)
+    total_boys = models.IntegerField(blank=True, null=True, verbose_name='0-3 Yrs Childrens')
+    total_girls = models.IntegerField(blank=True, null=True, verbose_name='3-6 Yrs Childrens')
+    household_covering_the_catchment_area = models.IntegerField(null=True, blank=True)
+    total_population_under_center = models.IntegerField(null=True, blank=True)
+    total_childrens_in_population = models.IntegerField(null=True, blank=True)
 
     def get_basic_facilities(self):
         return "Hi"
@@ -117,24 +121,6 @@ class school(models.Model):
     def community(self):
         return CommunityEngagement.objects.filter('school_id', self.id)
 
-    def __unicode__(self):
-        return self.name
-
-
-class Demographics(models.Model):
-    school= models.OneToOneField('school')
-    male_teachers = models.IntegerField(null=True, blank=True)
-    female_teachers = models.IntegerField(null=True, blank=True)
-    total_boys = models.IntegerField(blank=True, null=True, verbose_name='0-3 Yrs Childrens')
-    total_girls = models.IntegerField(blank=True, null=True, verbose_name='3-6 Yrs Childrens')
-    household_covering_the_catchment_area = models.IntegerField(null=True, blank=True)
-    total_population_under_center = models.IntegerField(null=True, blank=True)
-    total_childrens_in_population = models.IntegerField(null=True, blank=True)
-
-
-    #objects = models.GeoManager()
-
-    #To Do  - Will have to update this in model itself
     @property
     def num_boys(self):
         return self.total_boys
@@ -143,9 +129,32 @@ class Demographics(models.Model):
     def num_girls(self):
         return self.total_girls
 
+    def __unicode__(self):
+        return self.name
+
+    class Meta:
+        verbose_name= 'Aanganwadi'
+
+
+# class Demographics(models.Model):
+#     school= models.ForeignKey('school')
+#     male_teachers = models.IntegerField(null=True, blank=True)
+#     female_teachers = models.IntegerField(null=True, blank=True)
+#     total_boys = models.IntegerField(blank=True, null=True, verbose_name='0-3 Yrs Childrens')
+#     total_girls = models.IntegerField(blank=True, null=True, verbose_name='3-6 Yrs Childrens')
+#     household_covering_the_catchment_area = models.IntegerField(null=True, blank=True)
+#     total_population_under_center = models.IntegerField(null=True, blank=True)
+#     total_childrens_in_population = models.IntegerField(null=True, blank=True)
+
+
+    #objects = models.GeoManager()
+
+    #To Do  - Will have to update this in model itself
+    
+
 
 class BasicFacilities(models.Model):
-    school = models.OneToOneField('school')
+    school = models.ForeignKey('school')
     electricity_available = models.IntegerField(choices=YESNO, null=True, blank=True)
     cleanliness = models.IntegerField(choices=YESNO_TYPE_CHOICES, null=True, blank=True)
     cleanliness_description = models.CharField(max_length=200, blank=True)
@@ -153,7 +162,7 @@ class BasicFacilities(models.Model):
     pest_control_required = models.IntegerField(choices=YESNO_TYPE_CHOICES, null=True, blank=True)
     drinking_water = models.IntegerField(choices=DRINKING_WATER, null=True, blank=True)
     drinking_water_filter = models.IntegerField(choices=YESNO, null=True, blank=True)
-    no_of_drinking_water_filter = models.IntegerField(null=True, blank=True)
+    drinking_water_filter_available = models.IntegerField(null=True, blank=True)
     drinking_water_filter_required = models.IntegerField(null=True, blank=True)
     electric_bulbs = models.IntegerField(null=True, blank=True)
     electric_bulbs_required = models.IntegerField(null=True, blank=True)
@@ -162,7 +171,7 @@ class BasicFacilities(models.Model):
 
 
 class LearningEnvironment(models.Model):
-    school = models.OneToOneField('school')
+    school = models.ForeignKey('school')
     learning_and_playing_materials_available = models.IntegerField(choices=YESNO_TYPE_CHOICES, null=True, blank=True)
     learning_and_playing_materials_required = models.IntegerField(choices=YESNO_TYPE_CHOICES, null=True, blank=True)
     charts_available = models.IntegerField(choices=YESNO_TYPE_CHOICES, null=True, blank=True)
@@ -179,7 +188,7 @@ class LearningEnvironment(models.Model):
 
 
 class SafeEnvironment(models.Model):
-    school = models.OneToOneField('school')
+    school = models.ForeignKey('school')
     shelves_in_kitchen = models.IntegerField(null=True, blank=True)
     shelves_required_in_kitchen = models.IntegerField(null=True, blank=True)
     shelves_in_store_room = models.IntegerField(null=True, blank=True)
@@ -242,7 +251,7 @@ class SafeEnvironment(models.Model):
 
 
 class CommunityEngagement(models.Model):
-    school = models.OneToOneField('school')
+    school = models.ForeignKey('school')
     mothers_committee_formed = models.IntegerField(choices=YESNO_TYPE_CHOICES, null=True, blank=True)
     no_of_meetings_conducted_in_last_three_months = models.IntegerField(null=True, blank=True)
     meetings_documented_in_register = models.IntegerField(choices=YESNO_TYPE_CHOICES, null=True, blank=True)
@@ -258,8 +267,9 @@ class CommunityEngagement(models.Model):
 
 
 class SchoolImages(models.Model):
-    school = models.ForeignKey(school)
+    school = models.ForeignKey('school')
     image = models.FileField(upload_to='schoolImages')
+    image_tag = models.CharField(max_length=100, blank=True)
 
     def school_image(self):
         if self.image:

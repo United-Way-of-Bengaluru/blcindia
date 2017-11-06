@@ -38,7 +38,7 @@
         </div>
 
         <!-- inject:js -->
-        <script src="{% static "fieldstaff/dashboard/bower_components/jquery/dist/jquery.min.js" %}"></script>
+        
         <script src="{% static "fieldstaff/js/jquery.validate.js" %}"></script>
         <script src="{% static "fieldstaff/dashboard/bower_components/bootstrap/dist/js/bootstrap.min.js" %}"></script>
         <script src="{% static "fieldstaff/dashboard/bower_components/jquery.nicescroll/dist/jquery.nicescroll.min.js" %}"></script>
@@ -73,85 +73,93 @@
 
 
     <script>
-     $(document).ready(function(){
-         $('#appointmentFrm').validate({
-             rules: {
-                 appointment:{
-                     required:true
-                 },
-                 comment:{
-                     required:true
-                 },
-                 communication_mode:{
-                     required:true
-                 }
-             },
-             submitHandler: function (form) {
-                 $("#submitbtn").html("<span style='color:#ccc !important;'><i class='fa fa-spinner fa-spin'></i> Submitting...</span>");
-                 $.ajax({
-                    crossDomain: true,
-                    type: "POST",
-                    data: $("form").serialize(),
-                    success:function (data) {
-                        console.log('success');
 
-                        document.getElementById("appointmentFrm").reset();
-                         $('#id_form').hide();
-                         $('#id_message').html('');
-                         $('#id_message').show();
-                         $("#id_message").append("<div id='images' class='text-center' style='background:black'><img src='{% static "fieldstaff/images/logo.png" %}' style='width:50%'></div><div id= 'success-alert' class='alert alert-custm alert-dismissable'>" + data.message + "</div>");
-                         $("#submitbtn").html("Submit");
-                         myModalTimeout = setTimeout(function () {
-                             $('#id_form').show();
-                             $("#apptModal .modal-header").html('<h5 class="modal-title" id="orderModalLabel">You have selected package <span id="selected_plan"></span></h5>');
-                             $('#id_message').hide();
-                             $('#apptModal').modal('hide');
-                         }, 5000);
-                    },
-                    error:function (data) {
-                        console.log('error');
-                        $('#id_message').html('');
-                         $("#apptModal .modal-header").html('');
-                         $("#apptModal .modal-body").html();
-                         $("#submitbtn").html("Submit");
-                         myModalTimeout = setTimeout(function () {
-                             $('#id_form').show();
-                             $("#apptModal .modal-header").html('<h5 class="modal-title" id="orderModalLabel">Some error occurs</h5>');
-                             $('#id_message').hide();
-                             $('#apptModal').modal('hide');
-                         }, 5000);
-                    }
-                 })
-             }
-         });
+     // $(document).ready(function(){
 
 
+     //     $('#appointmentFrm').validate({
+     //         rules: {
+     //             appointment:{
+     //                 required:true
+     //             },
+     //             comment:{
+     //                 required:true
+     //             },
+     //             communication_mode:{
+     //                 required:true
+     //             }
+     //         },
+     //         submitHandler: function (form) {
+     //             $("#submitbtn").html("<span style='color:#ccc !important;'><i class='fa fa-spinner fa-spin'></i> Submitting...</span>");
+     //             $.ajax({
+     //                crossDomain: true,
+     //                type: "POST",
+     //                data: $("form").serialize(),
+     //                success:function (data) {
+     //                    console.log('success');
 
-        $(".appointment").each(function(index) {
-            console.log('each')
-            $(this).on("click", function(){
-                console.log('appointment_id')
-                var appointment_id = $(this).attr('appointment_id');
-                console.log(appointment_id)
-                $('select[name="appointment"]').val(appointment_id)
-            });
-        });
-     });
-
-     $('#id_appointment').parent('.form-group').hide();
+     //                    document.getElementById("appointmentFrm").reset();
+     //                     $('#id_form').hide();
+     //                     $('#id_message').html('');
+     //                     $('#id_message').show();
+     //                     $("#id_message").append("<div id='images' class='text-center' style='background:black'><img src='{% static "fieldstaff/images/logo.png" %}' style='width:50%'></div><div id= 'success-alert' class='alert alert-custm alert-dismissable'>" + data.message + "</div>");
+     //                     $("#submitbtn").html("Submit");
+     //                     myModalTimeout = setTimeout(function () {
+     //                         $('#id_form').show();
+     //                         $("#apptModal .modal-header").html('<h5 class="modal-title" id="orderModalLabel">You have selected package <span id="selected_plan"></span></h5>');
+     //                         $('#id_message').hide();
+     //                         $('#apptModal').modal('hide');
+     //                     }, 5000);
+     //                },
+     //                error:function (data) {
+     //                    console.log('error');
+     //                    $('#id_message').html('');
+     //                     $("#apptModal .modal-header").html('');
+     //                     $("#apptModal .modal-body").html();
+     //                     $("#submitbtn").html("Submit");
+     //                     myModalTimeout = setTimeout(function () {
+     //                         $('#id_form').show();
+     //                         $("#apptModal .modal-header").html('<h5 class="modal-title" id="orderModalLabel">Some error occurs</h5>');
+     //                         $('#id_message').hide();
+     //                         $('#apptModal').modal('hide');
+     //                     }, 5000);
+     //                }
+     //             })
+     //         }
+     //     });
 
 
 
+     //    $(".appointment").each(function(index) {
+     //        console.log('each')
+     //        $(this).on("click", function(){
+     //            console.log('appointment_id')
+     //            var appointment_id = $(this).attr('appointment_id');
+     //            console.log(appointment_id)
+     //            $('select[name="appointment"]').val(appointment_id)
+     //        });
+     //    });
+     // });
 
-{#        $('a').each(function () {#}
-{#            var apppointment = $(this).attr('apppointment_id').val();#}
-{#            alert(apppointment);#}
-{#        });#}
-{#        console.log( "ready!" );#}
+     // $('#id_appointment').parent('.form-group').hide();
+
+
+
+
+     //    $('a').each(function () {
+     //        var apppointment = $(this).attr('apppointment_id').val();
+     //        alert(apppointment);
+     //    });
+     //    console.log( "ready!" );
 
     </script>
         {% endblock %}
 
+<script type="text/javascript">
+        {% block script %}
+                    <!-- Script goes here -->
+        {% endblock %}
+</script>
 
 
 

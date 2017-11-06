@@ -66,8 +66,8 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = (
     'django.contrib.auth',
-    'django_admin_bootstrapped',
     'django.contrib.admin',
+    'django_admin_bootstrapped',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
@@ -76,12 +76,14 @@ INSTALLED_APPS = (
     'authtools',
     'crispy_forms',
     'easy_thumbnails',
+    'django.contrib.gis',
 
-    'aanganwadi',
-    'profiles',
     'accounts',
+    'profiles',
     'fieldStaff',
-
+    'managers',
+    'aanganwadi',
+    
     'compressor',
     'mapwidgets',
 
@@ -109,6 +111,17 @@ WSGI_APPLICATION = 'blcindia.wsgi.application'
 #     # os.environ
 #     'default': env.db(),
 # }
+
+
+MAP_WIDGETS = {
+    "GooglePointFieldWidget": (
+        ("zoom", 15),
+        ("mapCenterLocationName", "Bangalore"),
+        # ("GooglePlaceAutocompleteOptions", {'componentRestrictions': {'country': 'India'}}),
+        ("markerFitZoom", 12),
+    ),
+    "GOOGLE_MAP_API_KEY": "AIzaSyAsNjaVb3vQnwwBUCJFmmkR62jHrdO_oZs"
+}
 
 
 DATABASES = {

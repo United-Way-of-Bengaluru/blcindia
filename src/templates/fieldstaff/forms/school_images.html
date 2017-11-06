@@ -1,0 +1,79 @@
+
+
+
+<div class="clearfix">&nbsp;</div>
+<div class="clearfix">&nbsp;</div>
+<h2>Aanganwadi Images:</h2>
+<div class="clearfix">&nbsp;</div>
+
+<div  style="display: block">
+  <table class="table table-responsive table-stripped">
+    <thead>
+      <tr>
+      <th>Image</th>
+    </tr>
+    </thead>
+    <tbody id="display_school_images">
+      
+    </tbody>
+    
+
+  </table>
+</div>
+
+
+
+       
+
+<script type="text/javascript">
+
+  $(document).ready(function(){
+  console.log("Test")
+  get_school_images();
+})
+
+function get_school_images(){
+	console.log(1)
+    $.ajax({
+                url: "{% url 'fieldstaff:AddSchoolImages' school_id %}?format=json",
+                cache: false,
+                success: function(html){
+                  console.log(html);
+                  learning_environemnt_html = "";
+                  
+                  $.each(html, function(index, value){
+                    console.log(value, index)
+                      learning_environemnt_html += "<tr>";
+                  
+                      learning_environemnt_html += '<th><img src="'+html[index]['image']+'" style="height:100px" />/ '
+                      learning_environemnt_html += "</tr>";
+                            
+                  });
+
+                  $("#display_school_images").html(learning_environemnt_html);
+                }
+              });
+}
+
+    function save_school_images(){
+              $("#save_school_imagesbtn").html('<i class="fa fa-spin fa-spinner"></i> Saving')
+              formData = new FormData($("#school_images_form")[0]);
+              console.log(formData)
+              $.ajax({
+                url: "{% url 'fieldstaff:AddSchoolImages' school_id %}",
+                cache: false,
+                method: 'post',
+                data: formData,
+                processData: false,
+                success: function(html){
+                  //$("#results").append(html);
+                  $("#save_school_imagesbtn").html('Save');
+                  document.getElementById("school_images_form").reset();
+                  get_school_images();;
+                }
+              });
+
+            }
+          
+
+</script>

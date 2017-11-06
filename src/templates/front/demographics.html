@@ -1,17 +1,14 @@
 {% extends "front/base_static.html" %}
 
 {% load static %}
-{% load compress %}
 {% block css_extra %}
 {% endblock %}
 
 {% block endbody %}
-  {% compress js %}
       <script type="text/javascript" src="{% static 'front/js/lib/moment.js' %}"></script>
       <script type="text/javascript" src="{% static 'front/js/reports/demographics.js' %}"></script> 
       <script type="text/javascript" src="{% static 'front/js/reports/utils.js' %}"></script> 
       <script type="text/javascript" src="{% static 'front/js/reports/common.js' %}"></script> 
-  {% endcompress %}
 {% endblock %}
 {% block content %}
   <div class="container"><!--outer-->
@@ -31,6 +28,19 @@
         <hr/>
         <div id="category-profile"></div>
     </div><!-- category container-->
+
+    <div id="learningenvironment" class="container">
+        <div class="base-spacing-sm"></div>
+        <hr/>
+        <div id="learning-Environment"></div>
+    </div><!-- category container-->
+
+    <div id="communityEngagement" class="container">
+        <div class="base-spacing-sm"></div>
+        <hr/>
+        <div id="community-Engagement"></div>
+    </div><!-- category container-->
+
     <div id="language" class="container">
       <div class="base-spacing-sm"></div>
       <hr/>

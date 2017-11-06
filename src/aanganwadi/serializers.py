@@ -2,7 +2,7 @@ from django.shortcuts import get_object_or_404
 from rest_framework import generics
 from rest_framework import serializers
 
-from aanganwadi.models import school, Address, District, Demographics, BasicFacilities, CommunityEngagement, SafeEnvironment, \
+from aanganwadi.models import school, Address, District, BasicFacilities, CommunityEngagement, SafeEnvironment, \
     LearningEnvironment, SchoolImages
 
 
@@ -34,6 +34,9 @@ class SchoolSerializerAll(serializers.ModelSerializer):
 	type = serializers.SerializerMethodField()
 	num_boys = serializers.SerializerMethodField()
 	num_girls = serializers.SerializerMethodField()
+	basicfacilities = serializers.SerializerMethodField()
+	learningEnvironment = serializers.SerializerMethodField()
+	community_engagement = serializers.SerializerMethodField()
 
 
 	def address_full(self, obj):
@@ -70,23 +73,65 @@ class SchoolSerializerAll(serializers.ModelSerializer):
 		else:
 			return {}
 
+
 	def get_num_boys(self, obj):
-		boys = Demographics.objects.filter(school=obj).values('total_boys').first()
+		boys = obj.total_boys
 		if boys is not None:
-			return boys['total_boys']
+			return boys
 		else:
 			return None
 
 	def get_num_girls(self, obj):
-		girls = Demographics.objects.filter(school=obj).values('total_girls').first()
+		girls = obj.total_girls
 		if girls is not None:
-			return girls['total_girls']
+			return girls
 		else:
 			return None
 
 	def get_type(self, obj):
 		return "Feature"
 
+	def get_basicfacilities(self, obj):
+		basicfacilities = BasicFacilities.objects.filter(school=obj).first()
+		dict = {
+			"electricity_available": basicfacilities.electricity_available, 
+			"cleanliness": basicfacilities.cleanliness, 
+			"pest_control_done_in_last_one_year": basicfacilities.pest_control_done_in_last_one_year
+		}
+		return dict
+
+	def get_learningEnvironment(self, obj):
+		learningEnvironmentData = LearningEnvironment.objects.filter(school=obj).first()
+		if learningEnvironmentData is not None:
+			dict = {
+				"learning_and_playing_materials_available": learningEnvironmentData.learning_and_playing_materials_available, 
+				"learning_and_playing_materials_required": learningEnvironmentData.learning_and_playing_materials_required,
+				"charts_available": learningEnvironmentData.charts_available, 
+				"charts_required": learningEnvironmentData.charts_required, 
+				"story_books_available": learningEnvironmentData.story_books_available,
+				"story_books_required": learningEnvironmentData.story_books_required,
+				"drawing_and_art_materials_available": learningEnvironmentData.drawing_and_art_materials_available,
+				"drawing_and_art_materials_required": learningEnvironmentData.drawing_and_art_materials_required,
+				"library_kits_available": learningEnvironmentData.library_kits_available,
+				"library_kits_required": learningEnvironmentData.library_kits_required,
+				"sports_material_available": learningEnvironmentData.sports_material_available,
+				"sports_material_required": learningEnvironmentData.sports_material_required,
+			}
+		else:
+			dict = {}
+		return dict
+
+
+	def get_community_engagement(self, obj):
+		communityengagementData = CommunityEngagement.objects.filter(school=obj).first()
+		if communityengagementData is not None:
+			dict = {
+				"mothers_committee_formed": CommunityEngagement.mothers_committee_formed, 
+				"bal_vikas_samiti_formed": CommunityEngagement.bal_vikas_samiti_formed, 
+			}
+		else:
+			dict ={}
+		return dict
 
 
 
@@ -151,7 +196,7 @@ class SchoolSerializerAll(serializers.ModelSerializer):
 	class Meta:
 		model = school
 		# fields = ('id','name','address_full', 'properties', 'type', 'geometry','boundary')
-		fields = ('geometry','type','properties', 'num_boys', 'num_girls')
+		fields = ('geometry','type','properties', 'num_boys', 'num_girls', 'basicfacilities', 'learningEnvironment', 'community_engagement')
 
 
 
@@ -167,14 +212,9 @@ class SchoolSerializer(serializers.ModelSerializer):
 	num_girls = serializers.SerializerMethodField()
 	meeting_reports = serializers.SerializerMethodField()
 	geometry = serializers.SerializerMethodField()
+	images = serializers.SerializerMethodField()
 
-	def get_num_boys(self, obj):
-		boys = Demographics.objects.filter(school=obj).values('total_boys').first()
-		if boys is not None:
-			return boys['total_boys']
-		else:
-			return None
-
+	
 	def get_geometry(self, obj):
 		if obj.address:
 			dict ={
@@ -184,12 +224,21 @@ class SchoolSerializer(serializers.ModelSerializer):
 		else:
 			return {}
 
-	def get_num_girls(self, obj):
-		girls = Demographics.objects.filter(school=obj).values('total_girls').first()
-		if girls is not None:
-			return girls['total_girls']
+	
+	def get_num_boys(self, obj):
+		boys = obj.total_boys
+		if boys is not None:
+			return boys
 		else:
 			return None
+
+	def get_num_girls(self, obj):
+		girls = obj.total_girls
+		if girls is not None:
+			return girls
+		else:
+			return None
+
 
 	def get_meeting_reports(self, obj):
 		return meeting_reports(self,obj)
@@ -251,6 +300,13 @@ class SchoolSerializer(serializers.ModelSerializer):
 		else:
 			return ''
 
+	def get_images(self, obj):
+		imagesQueryset = SchoolImages.objects.filter(school=obj).all()
+		imagesData=[]
+		if imagesQueryset is not None:
+			for image in imagesQueryset:
+				imagesData.append(image['image'])
+		return imagesData
 
 	"""
 		"id": 29569,
@@ -284,7 +340,7 @@ class SchoolSerializer(serializers.ModelSerializer):
 
 	class Meta:
 		model = school
-		fields = ('id','name','cat','address_full','landmark','identifiers','district','type', 'num_boys', 'num_girls', 'basic_facilities', 'meeting_reports', 'geometry')
+		fields = ('id','name','cat','images','address_full','landmark','identifiers','district','type', 'num_boys', 'num_girls', 'basic_facilities', 'meeting_reports', 'geometry')
 
 class SchoolSerializerDemographics(serializers.ModelSerializer):
 
@@ -311,7 +367,7 @@ class SchoolSerializerDemographics(serializers.ModelSerializer):
 
 
 	class Meta:
-		model = Demographics
+		model = school
 		fields = ('id','total_boys','total_girls')
 
 class BasicFacilitiesSerializer(serializers.ModelSerializer):
@@ -368,18 +424,18 @@ class BasicInfrastructureSerializer(serializers.ModelSerializer):
 
 
 	def get_num_boys(self, obj):
-		boys = Demographics.objects.filter(school=obj).values('total_boys').first()
+		boys = obj.total_boys
 		if boys is not None:
-			return boys['total_boys']
+			return boys
 		else:
-			return ''
+			return None
 
 	def get_num_girls(self, obj):
-		girls = Demographics.objects.filter(school=obj).values('total_girls').first()
+		girls = obj.total_girls
 		if girls is not None:
-			return girls['total_girls']
+			return girls
 		else:
-			return ''
+			return None
 
 	def get_basic_facilities(self, obj):
 		basic = BasicFacilities.objects.filter(school=obj).values('electricity_available').first()

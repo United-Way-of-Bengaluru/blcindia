@@ -1,13 +1,10 @@
-{% extends "front/base.html" %}
+INFORMATIONSch{% extends "front/base.html" %}
 {% load static %}
-{% load compress %}
 
 {% block page_title %}Search for Reports{% endblock %}
 {% block endbody %}
-    {% compress js %}
 		 	<script type="text/javascript" src="{% static 'front/js/reports/search.js' %}"></script>
 			<script type="text/javascript" src="{% static 'front/js/lib/moment.js' %}"></script>
-    {% endcompress %}
 {% endblock %}
 
 {% block subheader %}

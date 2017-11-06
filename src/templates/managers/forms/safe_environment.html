@@ -1,0 +1,91 @@
+
+<div class="clearfix">&nbsp;</div>
+<div class="clearfix">&nbsp;</div>
+<h2>Safe Environment Data:</h2>
+<div class="clearfix">&nbsp;</div>
+
+<div  style="display: block">
+  <table class="table table-responsive table-stripped">
+    <thead>
+      <tr>
+      <th>shelves in kitchen available/ Required</th>
+      <th>shelves_in_store_room available / Required</th>
+      <th>shelves_in_playing_area available/Required</th>
+      <th>building_paint / Need Painting</th>
+      <th>Require flooring</th>
+      <th>need_ceiling_repair</th>
+      <th>need_walls_repair</th>
+      <th>Windows COndition</th>
+    </tr>
+    </thead>
+    <tbody id="display_safe_environment">
+      
+    </tbody>
+    
+
+  </table>
+</div>
+
+
+<script type="text/javascript">
+
+  $(document).ready(function(){
+  console.log("Test")
+  get_safe_environment();
+})
+
+function get_safe_environment(){
+	console.log(1)
+    $.ajax({
+                url: "{% url 'fieldstaff:AddSafeEnvironment' school_id %}?format=json",
+                cache: false,
+                success: function(html){
+                  console.log(html);
+                  learning_environemnt_html = "";
+                  
+                  $.each(html, function(index, value){
+                    console.log(value, index)
+                      learning_environemnt_html += "<tr>";
+                  
+                      learning_environemnt_html += '<th>'+html[index]['shelves_in_kitchen']+' / '
+                      learning_environemnt_html += ''+html[index]['shelves_required_in_kitchen']+'</th>'
+                      learning_environemnt_html += '<th>'+html[index]['shelves_in_store_room']+' / '
+                      learning_environemnt_html += ''+html[index]['shelves_required_in_store_room']+'</th>'
+                      learning_environemnt_html += '<th>'+html[index]['shelves_in_playing_area']+'/'
+                      learning_environemnt_html += ''+html[index]['shelves_required_in_playing_area']+'</th>'
+                      learning_environemnt_html += '<th>'+html[index]['building_paint']+' / '
+                      learning_environemnt_html += ''+html[index]['need_painting_in_building']+'</th>'
+                      learning_environemnt_html += '<th>'+html[index]['need_flooring_in_building']+' <t/h> '
+                      learning_environemnt_html += '<th>'+html[index]['need_ceiling_repair']+'</th>'
+                      learning_environemnt_html += '<th>'+html[index]['need_walls_repair']+'</th>'
+                      learning_environemnt_html += '<th>'+html[index]['window_condition']+'</th>'
+                      learning_environemnt_html += "</tr>";
+                            
+                  });
+
+                  $("#display_safe_environment").html(learning_environemnt_html);
+                }
+              });
+}
+
+    function save_safe_environment(){
+              $("#save_safe_environmentbtn").html('<i class="fa fa-spin fa-spinner"></i> Saving')
+              formData = $("#safe_environment_form").serialize();
+              console.log(formData)
+              $.ajax({
+                url: "{% url 'fieldstaff:AddSafeEnvironment' school_id %}",
+                cache: false,
+                method: 'post',
+                data: formData,
+                success: function(html){
+                  //$("#results").append(html);
+                  $("#save_safe_environmentbtn").html('Save');
+                  document.getElementById("safe_environment_form").reset();
+                  get_safe_environment();;
+                }
+              });
+
+            }
+          
+
+</script>
